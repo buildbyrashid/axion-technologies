@@ -1,5 +1,5 @@
 import { SupabaseCategoryRepository } from '../database/repositories/SupabaseCategoryRepository'
-import { ICategoryRepository } from '../interfaces/ICategoryRepository'
+import { ICategoryRepository } from '../database/interfaces/ICategoryRepository'
 
 export class CategoryService {
   private categoryRepository: ICategoryRepository

@@ -1,5 +1,5 @@
 import { SupabaseContactRepository } from '../database/repositories/SupabaseContactRepository'
-import { IContactRepository } from '../interfaces/IContactRepository'
+import { IContactRepository } from '../database/interfaces/IContactRepository'
 
 export class ContactService {
   private contactRepository: IContactRepository

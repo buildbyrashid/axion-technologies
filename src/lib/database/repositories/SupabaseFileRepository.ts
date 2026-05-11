@@ -1,19 +1,13 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { getSupabaseClient } from '../../supabase'
 import { IFileRepository } from '../interfaces/IFileRepository'
 
 export class SupabaseFileRepository extends IFileRepository {
-  private supabase: SupabaseClient
+  private get supabase() {
+    return getSupabaseClient()
+  }
 
   constructor() {
     super()
-    const supabaseUrl = process.env.SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_KEY
-
-    if (!supabaseUrl || !supabaseKey) {
-      throw new Error('Missing Supabase environment variables')
-    }
-
-    this.supabase = createClient(supabaseUrl, supabaseKey)
   }
 
   async uploadFile(file: any, path: string) {
