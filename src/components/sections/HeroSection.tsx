@@ -30,40 +30,42 @@ export default function HeroSection() {
           </AnimatedBadge>
 
           <motion.h1
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white mb-8 leading-[1.1]"
+            className="text-5xl sm:text-7xl lg:text-8xl font-sora font-[800] text-white mb-8 leading-[1] tracking-tighter"
           >
-            Engineering <span className="">Advanced</span> Visual Solutions
+            Engineering <br />
+            <span className="text-accent">Advanced</span> <br />
+            Visual Solutions
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg sm:text-xl text-white/80 mb-12 max-w-xl leading-relaxed"
+            className="text-lg sm:text-xl text-white/80 mb-12 max-w-xl leading-[1.8] font-medium"
           >
             Global engineering excellence in LED display systems, interactive technologies,
             and integrated AV infrastructure for world-class environments.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-3 mt-8"
+            className="flex flex-col sm:flex-row gap-6 mt-8"
           >
             <Button 
               size="lg" 
-              className="rounded-full bg-gradient-to-r from-[rgb(2,23,82)] to-[rgb(6,160,237)] text-white border-none hover:opacity-90 transition-opacity h-12 w-full sm:w-auto px-8"
+              className="rounded-full bg-accent text-white border-none hover:bg-accent/90 transition-all duration-300 h-14 w-full sm:w-auto px-10 font-bold shadow-[0_0_20px_rgba(13,149,240,0.5)]"
             >
               Explore Products
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full border-2 border-white text-white hover:bg-white/10 transition-all duration-300 h-12 w-full sm:w-auto px-8 bg-transparent"
+              className="rounded-full border-white/20 text-white hover:bg-white hover:text-primary hover:border-transparent hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 h-14 w-full sm:w-auto px-10 bg-white/5 backdrop-blur-sm font-bold"
             >
               Contact Us
             </Button>

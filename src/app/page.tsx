@@ -1,7 +1,6 @@
 import HeroSection from "@/components/sections/HeroSection";
-import StatsBar from "@/components/sections/StatsBar";
 import LogoCarousel from "@/components/ui/LogoCarousel";
-import AboutSection from "@/components/sections/AboutSection";
+import TechnicalAuthority from "@/components/sections/TechnicalAuthority";
 import ProductsSection from "@/components/sections/ProductsSection";
 import ExpertiseSection from "@/components/sections/ExpertiseSection";
 import IndustriesSection from "@/components/sections/IndustriesSection";
@@ -12,9 +11,8 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <StatsBar />
       <LogoCarousel />
-      <AboutSection />
+      <TechnicalAuthority />
       <ProductsSection />
       <ExpertiseSection />
       <IndustriesSection />
