@@ -16,7 +16,8 @@ import {
   FaFacebookF, 
   FaTwitter, 
   FaLinkedinIn, 
-  FaInstagram 
+  FaInstagram,
+  FaWhatsapp
 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -36,12 +37,12 @@ function TopBar() {
     <div className="bg-[#021752] text-white py-2 px-6 sm:px-12 lg:px-20 hidden md:block">
       <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[13px] font-medium">
         <div className="flex items-center space-x-6">
-          <a href="mailto:solutions@axiontech.com" className="flex items-center hover:text-accent transition-colors">
+          <a href="mailto:sales@axiontechnology.com" className="flex items-center hover:text-accent transition-colors">
             <Mail className="h-3.5 w-3.5 mr-2 text-accent" />
-            Email: solutions@axiontech.com
+            Email: sales@axiontechnology.com
           </a>
           <a href="https://wa.me/85223456789" className="flex items-center hover:text-accent transition-colors">
-            <Phone className="h-3.5 w-3.5 mr-2 text-accent" />
+            <FaWhatsapp className="h-3.5 w-3.5 mr-2 text-accent" />
             Whatsapp: +852 2345 6789
           </a>
         </div>
