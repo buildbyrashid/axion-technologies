@@ -4,61 +4,57 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  ChevronRight, 
+  Mail, 
+  Phone, 
+  ChevronDown
+} from "lucide-react";
+import { 
+  FaFacebookF, 
+  FaTwitter, 
+  FaLinkedinIn, 
+  FaInstagram 
+} from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "About", href: "/about" },
-  { name: "Products", href: "/products" },
-  { name: "Solutions", href: "/solutions" },
-  { name: "Industries", href: "/industries" },
-  { name: "Contact", href: "/contact" },
+  { name: "About", href: "/about", hasDropdown: true },
+  { name: "Products", href: "/products", hasDropdown: true },
+  { name: "Solutions", href: "/solutions", hasDropdown: true },
+  { name: "Industries", href: "/industries", hasDropdown: false },
+  { name: "Support", href: "/support", hasDropdown: true },
+  { name: "Contact", href: "/contact", hasDropdown: false },
 ];
 
-function MagneticLink({ children, href, isActive }: { children: React.ReactNode; href: string; isActive: boolean }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const x = clientX - (left + width / 2);
-    const y = clientY - (top + height / 2);
-    setPosition({ x: x * 0.3, y: y * 0.3 });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
+function TopBar() {
   return (
-    <motion.div
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="relative"
-    >
-      <Link
-        href={href}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className={cn(
-          "px-6 py-2 text-sm font-bold transition-colors duration-300 font-sora tracking-wide relative block",
-          isActive ? "text-accent" : "text-white/90 hover:text-white"
-        )}
-      >
-        {children}
-        {isActive && (
-          <motion.div
-            layoutId="nav-underline"
-            className="absolute bottom-0 left-6 right-6 h-0.5 bg-accent rounded-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
-      </Link>
-    </motion.div>
+    <div className="bg-[#021752] text-white py-2 px-6 sm:px-12 lg:px-20 hidden md:block">
+      <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[13px] font-medium">
+        <div className="flex items-center space-x-6">
+          <a href="mailto:solutions@axiontech.com" className="flex items-center hover:text-accent transition-colors">
+            <Mail className="h-3.5 w-3.5 mr-2 text-accent" />
+            Email: solutions@axiontech.com
+          </a>
+          <a href="https://wa.me/85223456789" className="flex items-center hover:text-accent transition-colors">
+            <Phone className="h-3.5 w-3.5 mr-2 text-accent" />
+            Whatsapp: +852 2345 6789
+          </a>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mr-0 border-none pr-0">
+            <FaFacebookF className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
+            <FaTwitter className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
+            <FaLinkedinIn className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
+            <FaInstagram className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -68,21 +64,12 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Calculate scroll progress
-      const winHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      const totalDocScrollLength = docHeight - winHeight;
-      const progress = (currentScrollY / totalDocScrollLength) * 100;
-      setScrollProgress(progress);
-
-      // Determine visibility and scrolled state
-      if (currentScrollY > 50) {
+      
+      if (currentScrollY > 100) {
         setIsScrolled(true);
         if (currentScrollY > lastScrollY && !isMobileMenuOpen) {
           setIsVisible(false);
@@ -93,7 +80,6 @@ export default function Navbar() {
         setIsScrolled(false);
         setIsVisible(true);
       }
-
       setLastScrollY(currentScrollY);
     };
 
@@ -103,83 +89,137 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Scroll Indicator */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-1.5 pointer-events-none">
-        <motion.div
-          className="h-full bg-accent"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
-
-      <motion.nav
-        initial={{ y: 0 }}
-        animate={{
-          y: isVisible ? 0 : -120,
-        }}
-        transition={{
-          duration: 0.5,
-          ease: [0.16, 1, 0.3, 1]
-        }}
-        className="fixed top-0 left-0 right-0 z-50 pt-6 px-6"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className={cn(
-            "flex items-center justify-between w-full transition-all duration-500 rounded-full px-8 py-4 backdrop-blur-md border border-white/10",
-            isScrolled ? "bg-black/20 shadow-2xl" : "bg-transparent"
-          )}>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <AnimatePresence>
+          {!isScrolled && (
+            <motion.div
+              initial={{ height: "auto", opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <TopBar />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <nav 
+          className={cn(
+            "w-full transition-all duration-300 border-b",
+            isScrolled 
+              ? "bg-white py-3 border-slate-200 shadow-md" 
+              : "bg-black/20 backdrop-blur-md py-5 border-white/10"
+          )}
+        >
+          <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="relative z-50 flex-shrink-0">
-              <motion.div className="h-10 w-40 sm:w-56 relative">
+            <Link href="/" className="flex-shrink-0">
+              <div className="relative h-10 w-40 sm:h-12 sm:w-56">
                 <Image
-                  src="/images/company/logo-dark.png"
+                  src={isScrolled ? "/images/company/logo-light1.png" : "/images/company/logo-dark.png"}
                   alt="Axion Technology"
                   fill
-                  className="object-contain brightness-0 invert"
+                  className="object-contain transition-all duration-500"
                   priority
                 />
-              </motion.div>
+              </div>
             </Link>
 
-            {/* Desktop Nav */}
+            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link) => (
-                <MagneticLink 
-                  key={link.name} 
-                  href={link.href}
-                  isActive={pathname === link.href}
-                >
-                  {link.name}
-                </MagneticLink>
-              ))}
-              <div className="pl-4">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <div key={link.name} className="relative group px-4 py-2">
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "flex items-center text-[14px] font-bold tracking-wide transition-colors font-sora",
+                        isScrolled 
+                          ? (isActive ? "text-accent" : "text-slate-700 hover:text-accent")
+                          : (isActive ? "text-accent" : "text-white hover:text-accent")
+                      )}
+                    >
+                      {link.name}
+                      {link.hasDropdown && (
+                        <ChevronDown className="h-3.5 w-3.5 ml-1 opacity-50 group-hover:rotate-180 transition-transform" />
+                      )}
+                    </Link>
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-underline"
+                        className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent rounded-full"
+                      />
+                    )}
+                  </div>
+                );
+              })}
+
+              <div className="pl-6 flex items-center space-x-4">
+                <div className={cn(
+                  "h-8 w-px bg-slate-200 hidden xl:block",
+                  !isScrolled && "bg-white/20"
+                )} />
                 <Button
-                  className="rounded-full bg-accent text-white hover:bg-white hover:text-accent transition-all duration-300 px-6 font-bold shadow-[0_0_15px_rgba(13,149,240,0.3)] border border-transparent hover:border-accent"
+                  className={cn(
+                    "rounded-full px-8 py-6 font-bold text-[14px] transition-all",
+                    isScrolled
+                      ? "bg-accent text-white hover:bg-[#021752]"
+                      : "bg-white text-primary hover:bg-accent hover:text-white"
+                  )}
                 >
-                  Get a Quote
+                  Get a Quote Now
                 </Button>
               </div>
             </div>
 
-            {/* Mobile Toggle */}
+            {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden relative z-50 p-2 text-white"
+              className={cn(
+                "lg:hidden p-2 rounded-lg transition-colors",
+                isScrolled ? "text-slate-900 hover:bg-slate-100" : "text-white hover:bg-white/10"
+              )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </button>
           </div>
-        </div>
+        </nav>
+      </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              className="absolute top-full left-4 right-4 mt-2 bg-white/98 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden lg:hidden border border-white/20 pointer-events-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-[80%] max-w-sm bg-white z-[70] lg:hidden shadow-2xl flex flex-col"
             >
-              <div className="flex flex-col space-y-4 p-8">
+              <div className="p-6 flex items-center justify-between border-b">
+                <div className="relative h-8 w-32">
+                  <Image
+                    src="/images/company/logo-dark.png"
+                    alt="Axion Technology"
+                    fill
+                    className="object-contain brightness-0"
+                  />
+                </div>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-slate-500">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 space-y-2">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
@@ -188,30 +228,36 @@ export default function Navbar() {
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
-                        "flex items-center justify-between p-4 rounded-2xl text-lg font-bold transition-all duration-300",
-                        isActive 
-                          ? "bg-accent/5 text-accent" 
-                          : "text-primary hover:bg-slate-50 hover:text-accent"
+                        "flex items-center justify-between p-4 rounded-xl text-base font-bold transition-all",
+                        isActive ? "bg-accent/10 text-accent" : "text-slate-900 hover:bg-slate-50"
                       )}
                     >
                       {link.name}
-                      <ChevronRight className={cn(
-                        "h-5 w-5 transition-transform duration-300",
-                        isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
-                      )} />
+                      <ChevronRight className="h-5 w-5" />
                     </Link>
                   );
                 })}
-                <div className="pt-4">
-                  <Button className="w-full rounded-full h-14 bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20 text-lg font-bold">
-                    Get a Quote
-                  </Button>
+              </div>
+
+              <div className="p-6 border-t bg-slate-50 space-y-4">
+                <div className="space-y-3">
+                  <a href="mailto:solutions@axiontech.com" className="flex items-center text-sm text-slate-600">
+                    <Mail className="h-4 w-4 mr-3 text-accent" />
+                    solutions@axiontech.com
+                  </a>
+                  <a href="tel:+85223456789" className="flex items-center text-sm text-slate-600">
+                    <Phone className="h-4 w-4 mr-3 text-accent" />
+                    +852 2345 6789
+                  </a>
                 </div>
+                <Button className="w-full rounded-full h-14 bg-accent text-white font-bold text-lg">
+                  Get a Quote Now
+                </Button>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
