@@ -4,31 +4,39 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Menu, 
-  X, 
-  ChevronRight, 
-  Mail, 
-  Phone, 
+import {
+  Menu,
+  X,
+  ChevronRight,
+  Mail,
+  Phone,
   ChevronDown
 } from "lucide-react";
-import { 
-  FaFacebookF, 
-  FaTwitter, 
-  FaLinkedinIn, 
-  FaInstagram 
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaInstagram
 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import ProductDropdown from "./ProductDropdown";
 
 const navLinks = [
-  { name: "About", href: "/about", hasDropdown: true },
+  { name: "About", href: "/about", hasDropdown: false },
   { name: "Products", href: "/products", hasDropdown: true },
-  { name: "Solutions", href: "/solutions", hasDropdown: true },
+  { name: "Solutions", href: "/solutions", hasDropdown: false },
   { name: "Industries", href: "/industries", hasDropdown: false },
-  { name: "Support", href: "/support", hasDropdown: true },
+  { name: "Support", href: "/support", hasDropdown: false },
   { name: "Contact", href: "/contact", hasDropdown: false },
+];
+
+// ── Mobile product categories (mirrors ProductDropdown data) ──────────────────
+const mobileProductCategories = [
+  { name: "LED Display Systems", href: "/products/led-display-systems" },
+  { name: "LCD & Interactive", href: "/products/lcd-interactive-kiosks" },
+  { name: "Lighting & Power", href: "/products/lighting-systems" },
 ];
 
 function TopBar() {
@@ -58,17 +66,63 @@ function TopBar() {
   );
 }
 
+function NavLink({ link, isScrolled, pathname }: { link: any; isScrolled: boolean; pathname: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const isActive = pathname === link.href;
+
+  return (
+    <div
+      className="relative group px-4 py-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <Link
+        href={link.href}
+        className={cn(
+          "flex items-center text-[14px] font-bold tracking-wide transition-colors font-sora",
+          isScrolled
+            ? (isActive ? "text-accent" : "text-slate-700 hover:text-accent")
+            : (isActive ? "text-accent" : "text-white hover:text-accent")
+        )}
+      >
+        {link.name}
+        {link.hasDropdown && (
+          <ChevronDown className={cn(
+            "h-3.5 w-3.5 ml-1 opacity-50 transition-transform duration-300",
+            isHovered && "rotate-180"
+          )} />
+        )}
+      </Link>
+      {isActive && (
+        <motion.div
+          layoutId="nav-underline"
+          className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent rounded-full"
+        />
+      )}
+
+      <AnimatePresence>
+        {isHovered && link.name === "Products" && (
+          <ProductDropdown />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Navbar() {
+
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  // ── NEW: tracks whether the mobile Products submenu is open ──────────────
+  const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (currentScrollY > 100) {
         setIsScrolled(true);
         if (currentScrollY > lastScrollY && !isMobileMenuOpen) {
@@ -103,11 +157,11 @@ export default function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
-        <nav 
+        <nav
           className={cn(
             "w-full transition-all duration-300 border-b",
-            isScrolled 
-              ? "bg-white py-3 border-slate-200 shadow-md" 
+            isScrolled
+              ? "bg-white py-3 border-slate-200 shadow-md"
               : "bg-black/20 backdrop-blur-md py-5 border-white/10"
           )}
         >
@@ -125,35 +179,15 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <div key={link.name} className="relative group px-4 py-2">
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        "flex items-center text-[14px] font-bold tracking-wide transition-colors font-sora",
-                        isScrolled 
-                          ? (isActive ? "text-accent" : "text-slate-700 hover:text-accent")
-                          : (isActive ? "text-accent" : "text-white hover:text-accent")
-                      )}
-                    >
-                      {link.name}
-                      {link.hasDropdown && (
-                        <ChevronDown className="h-3.5 w-3.5 ml-1 opacity-50 group-hover:rotate-180 transition-transform" />
-                      )}
-                    </Link>
-                    {isActive && (
-                      <motion.div
-                        layoutId="nav-underline"
-                        className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent rounded-full"
-                      />
-                    )}
-                  </div>
-                );
-              })}
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  link={link}
+                  isScrolled={isScrolled}
+                  pathname={pathname}
+                />
+              ))}
 
               <div className="pl-6 flex items-center space-x-4">
                 <div className={cn(
@@ -222,18 +256,71 @@ export default function Navbar() {
               <div className="flex-1 overflow-y-auto p-6 space-y-2">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
+
+                  // ── Products: accordion with category sub-links ───────────
+                  if (link.hasDropdown) {
+                    return (
+                      <div key={link.name}>
+                        {/* Row: tap label → toggle submenu */}
+                        <button
+                          onClick={() => setIsMobileProductsOpen((prev) => !prev)}
+                          className={cn(
+                            "w-full flex items-center justify-between p-4 rounded-xl text-base font-bold transition-all",
+                            isActive ? "bg-accent/10 text-accent" : "text-slate-900 hover:bg-slate-50"
+                          )}
+                        >
+                          {link.name}
+                          <ChevronDown
+                            className={cn(
+                              "h-5 w-5 transition-transform duration-200",
+                              isMobileProductsOpen && "rotate-180"
+                            )}
+                          />
+                        </button>
+
+                        {/* Submenu — category list */}
+                        <AnimatePresence>
+                          {isMobileProductsOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden pl-3"
+                            >
+                              {mobileProductCategories.map((cat) => (
+                                <Link
+                                  key={cat.name}
+                                  href={cat.href}
+                                  onClick={() => {
+                                    setIsMobileProductsOpen(false);
+                                    setIsMobileMenuOpen(false);
+                                  }}
+                                  className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
+                                >
+                                  {cat.name}
+                                  <ChevronRight className="h-4 w-4 text-slate-400" />
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
+                  // ── All other links: unchanged behaviour ─────────────────
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
-                        "flex items-center justify-between p-4 rounded-xl text-base font-bold transition-all",
+                        "flex items-center p-4 rounded-xl text-base font-bold transition-all",
                         isActive ? "bg-accent/10 text-accent" : "text-slate-900 hover:bg-slate-50"
                       )}
                     >
                       {link.name}
-                      <ChevronRight className="h-5 w-5" />
                     </Link>
                   );
                 })}
