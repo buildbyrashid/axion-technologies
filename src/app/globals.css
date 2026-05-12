@@ -49,9 +49,9 @@
 }
 
 .section-padding {
-  @apply py-20 lg:py-28;
+  @apply py-16 md:py-20 lg:py-28;
 }
 
 .container-custom {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  @apply max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20;
 }

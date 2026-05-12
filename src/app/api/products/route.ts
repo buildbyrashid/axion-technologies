@@ -1,23 +1,35 @@
-import { ProductService } from '@/lib/services/ProductService'
+import { getSupabaseClient } from '@/lib/supabase'
 import { handleAPIError, createSuccessResponse } from '@/lib/utils/responseFormatter'
-
-const productService = new ProductService()
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const limitParam = searchParams.get('limit')
-    const options = {
-      featured: searchParams.get('featured') === 'true',
-      category: searchParams.get('category'),
-      limit: limitParam ? parseInt(limitParam) : undefined
+    const featured = searchParams.get('featured') === 'true'
+    const category = searchParams.get('category')
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 10
+
+    const supabase = getSupabaseClient()
+    let query = supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit)
+
+    if (featured) {
+      query = query.eq('is_featured', true)
     }
 
-    const products = await productService.getAllProducts(options)
+    if (category) {
+      query = query.eq('category_slug', category)
+    }
+
+    const { data: products, error } = await query
+
+    if (error) throw error
     
     return createSuccessResponse({
       products,
-      count: products.length
+      count: products?.length || 0
     })
   } catch (error) {
     console.error('Products API Error:', error)

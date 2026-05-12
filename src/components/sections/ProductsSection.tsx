@@ -73,7 +73,7 @@ export default function ProductsSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[300px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[280px] sm:auto-rows-[320px]">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -82,7 +82,7 @@ export default function ProductsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               className={cn(
-                "group relative overflow-hidden rounded-3xl bg-slate-900 flex flex-col justify-end p-8",
+                "group relative overflow-hidden rounded-3xl bg-slate-900 flex flex-col justify-end p-6 sm:p-8",
                 product.className
               )}
             >
@@ -104,20 +104,20 @@ export default function ProductsSection() {
                     </span>
                     <h3 className={cn(
                       "font-sora font-bold text-white tracking-tight leading-tight",
-                      index === 0 ? "text-3xl" : "text-xl"
+                      index === 0 ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
                     )}>
                       {product.title}
                     </h3>
                   </div>
                   <Link
                     href={`/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                    className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
                   >
-                    <ArrowUpRight className="h-5 w-5 text-white" />
+                    <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                   </Link>
                 </div>
                 {index === 0 && (
-                  <p className="text-white/60 text-sm max-w-md leading-relaxed mt-4 hidden sm:block">
+                  <p className="text-white/60 text-xs sm:text-sm max-w-md leading-relaxed mt-3 hidden sm:block line-clamp-2 lg:line-clamp-none">
                     {product.description}
                   </p>
                 )}

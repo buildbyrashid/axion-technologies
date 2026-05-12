@@ -50,10 +50,10 @@ export default function ExpertiseSection() {
   return (
     <section className="section-padding bg-white">
       <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1 grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-center">
+          <div className="order-2 lg:order-1 grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80"
                   alt="Engineering"
@@ -62,7 +62,7 @@ export default function ExpertiseSection() {
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </div>
-              <div className="relative h-48 rounded-2xl overflow-hidden">
+              <div className="relative h-36 sm:h-48 rounded-2xl overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80"
                   alt="Production"
@@ -72,8 +72,8 @@ export default function ExpertiseSection() {
                 />
               </div>
             </div>
-            <div className="space-y-4 pt-8">
-              <div className="relative h-48 rounded-2xl overflow-hidden">
+            <div className="space-y-3 sm:space-y-4 pt-6 sm:pt-8">
+              <div className="relative h-36 sm:h-48 rounded-2xl overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80"
                   alt="Quality Control"
@@ -82,7 +82,7 @@ export default function ExpertiseSection() {
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </div>
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+              <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80"
                   alt="Manufacturing"
