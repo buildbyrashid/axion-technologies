@@ -23,9 +23,9 @@ export default function HeroSection() {
         </video>
       </div>
 
-      <div className="relative z-20 w-full px-6 sm:pl-16 lg:pl-24">
-        <div className="max-w-3xl text-left">
-          <AnimatedBadge className="mb-6 border-white/20 bg-white/10 text-white">
+      <div className="relative z-20 w-full px-6 sm:px-12 lg:px-20 xl:px-24">
+        <div className="max-w-4xl text-left">
+          <AnimatedBadge className="mb-4 sm:mb-6 border-white/20 bg-white/10 text-white">
             Visual Technology Engineering
           </AnimatedBadge>
 
@@ -33,10 +33,10 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl sm:text-7xl lg:text-8xl font-sora font-[800] text-white mb-8 leading-[1] tracking-tighter"
+            className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-sora font-[800] text-white mb-6 sm:mb-8 leading-[1.1] tracking-tighter"
           >
-            Engineering <br />
-            <span className="text-accent">Advanced</span> <br />
+            Engineering <br className="hidden sm:block" />
+            <span className="text-accent">Advanced</span> <br className="hidden sm:block" />
             Visual Solutions
           </motion.h1>
 
@@ -44,7 +44,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg sm:text-xl text-white/80 mb-12 max-w-xl leading-[1.8] font-medium"
+            className="text-base sm:text-lg lg:text-xl text-white/80 mb-8 sm:mb-12 max-w-xl lg:max-w-2xl leading-[1.6] sm:leading-[1.8] font-medium"
           >
             Global engineering excellence in LED display systems, interactive technologies,
             and integrated AV infrastructure for world-class environments.
