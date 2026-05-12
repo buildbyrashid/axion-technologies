@@ -45,6 +45,7 @@ export default function Footer() {
                 src="/images/company/logo-light1.png"
                 alt="Axion Technology"
                 fill
+                sizes="(max-width: 768px) 160px, 256px"
                 className="object-contain"
               />
             </div>
