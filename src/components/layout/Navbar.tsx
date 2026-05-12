@@ -89,7 +89,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50">
+      <div className="fixed top-0 left-0 right-0 z-50" suppressHydrationWarning>
         <AnimatePresence>
           {!isScrolled && (
             <motion.div
@@ -119,6 +119,7 @@ export default function Navbar() {
                   src={isScrolled ? "/images/company/logo-light1.png" : "/images/company/logo-dark.png"}
                   alt="Axion Technology"
                   fill
+                  sizes="(max-width: 768px) 160px, 224px"
                   className="object-contain transition-all duration-500"
                   priority
                 />
