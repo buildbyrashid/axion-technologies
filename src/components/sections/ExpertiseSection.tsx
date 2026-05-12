@@ -113,7 +113,7 @@ export default function ExpertiseSection() {
                   className="flex space-x-4"
                 >
                   <div className="bg-slate-50 p-3 rounded-xl h-fit">
-                    <item.icon className="h-6 w-6 text-[rgb(2,23,82)]" />
+                    <item.icon className="h-6 w-6 text-accent" />
                   </div>
                   <div>
                     <h4 className="font-bold text-primary mb-1">{item.title}</h4>

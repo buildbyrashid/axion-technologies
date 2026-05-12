@@ -47,21 +47,21 @@ export default function ProductCard({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-[rgb(2,23,82)] text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full shadow-lg">
+          <span className="bg-accent text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full shadow-lg">
             {category}
           </span>
         </div>
       </div>
       <div className="p-6 lg:p-8">
-        <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-[rgb(2,23,82)] transition-colors">
+        <h3 className="text-xl font-sora font-bold text-primary mb-3 group-hover:text-accent transition-colors">
           {title}
         </h3>
         <p className="text-slate-500 text-sm leading-relaxed mb-6">
           {description}
         </p>
         <Link
-          href="/products"
-          className="inline-flex items-center text-[rgb(2,23,82)] font-bold text-sm group/link"
+          href={`/products/${title.toLowerCase().replace(/\s+/g, '-')}`}
+          className="inline-flex items-center text-accent font-bold text-sm group/link"
         >
           Explore More
           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />

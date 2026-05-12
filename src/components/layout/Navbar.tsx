@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +17,53 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
+function MagneticLink({ children, href, isActive }: { children: React.ReactNode; href: string; isActive: boolean }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const x = clientX - (left + width / 2);
+    const y = clientY - (top + height / 2);
+    setPosition({ x: x * 0.3, y: y * 0.3 });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.div
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+      className="relative"
+    >
+      <Link
+        href={href}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={cn(
+          "px-6 py-2 text-sm font-bold transition-colors duration-300 font-sora tracking-wide relative block",
+          isActive ? "text-accent" : "text-white/90 hover:text-white"
+        )}
+      >
+        {children}
+        {isActive && (
+          <motion.div
+            layoutId="nav-underline"
+            className="absolute bottom-0 left-6 right-6 h-0.5 bg-accent rounded-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+      </Link>
+    </motion.div>
+  );
+}
+
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -73,95 +120,54 @@ export default function Navbar() {
           duration: 0.5,
           ease: [0.16, 1, 0.3, 1]
         }}
-        className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
-        style={{ transformOrigin: "top" }}
+        className="fixed top-0 left-0 right-0 z-50 pt-6 px-6"
       >
-        {/* Navbar Background Gradient Strip - Improves readability on light hero areas */}
-        {!isScrolled && (
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none h-32" />
-        )}
-
-        <div className="container-custom flex justify-center pt-8 pointer-events-auto">
-          <motion.div
-            layout
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 30,
-              layout: { duration: 0.4 }
-            }}
-            className={cn(
-              "flex items-center justify-between w-full overflow-hidden transition-all duration-500",
-              isScrolled
-                ? "max-w-5xl bg-white/90 backdrop-blur-md shadow-xl rounded-full px-8 border border-white/40 py-2"
-                : "max-w-7xl px-4 bg-transparent border-transparent py-6"
-            )}
-            style={{
-              height: isScrolled ? "72px" : "112px"
-            }}
-          >
+        <div className="max-w-7xl mx-auto">
+          <div className={cn(
+            "flex items-center justify-between w-full transition-all duration-500 rounded-full px-8 py-4 backdrop-blur-md border border-white/10",
+            isScrolled ? "bg-black/20 shadow-2xl" : "bg-transparent"
+          )}>
             {/* Logo */}
             <Link href="/" className="relative z-50 flex-shrink-0">
-              <motion.div
-                layout
-                className={cn(
-                  "relative transition-all duration-300 h-10 w-48 sm:h-14 sm:w-72"
-                )}
-              >
+              <motion.div className="h-10 w-40 sm:w-56 relative">
                 <Image
-                  src={isScrolled ? "/images/company/logo-light1.png" : "/images/company/logo-dark.png"}
+                  src="/images/company/logo-dark.png"
                   alt="Axion Technology"
                   fill
-                  className={cn(
-                    "object-contain",
-                    !isScrolled && "drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
-                  )}
+                  className="object-contain brightness-0 invert"
                   priority
-                  sizes="(max-width: 768px) 100vw, 300px"
                 />
               </motion.div>
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
+                <MagneticLink 
+                  key={link.name} 
                   href={link.href}
-                  className={cn(
-                    "text-sm font-semibold transition-all hover:text-accent whitespace-nowrap",
-                    isScrolled
-                      ? "text-primary/70"
-                      : "text-white/90 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                  )}
+                  isActive={pathname === link.href}
                 >
                   {link.name}
-                </Link>
+                </MagneticLink>
               ))}
-              <Button
-                variant={isScrolled ? "default" : "accent"}
-                size="sm"
-                className={cn(
-                  "rounded-full px-6 transition-all duration-300",
-                  isScrolled ? "h-9 text-xs" : "h-11 shadow-lg"
-                )}
-              >
-                Get a Quote
-              </Button>
+              <div className="pl-4">
+                <Button
+                  className="rounded-full bg-accent text-white hover:bg-white hover:text-accent transition-all duration-300 px-6 font-bold shadow-[0_0_15px_rgba(13,149,240,0.3)] border border-transparent hover:border-accent"
+                >
+                  Get a Quote
+                </Button>
+              </div>
             </div>
 
             {/* Mobile Toggle */}
             <button
-              className="lg:hidden relative z-50 p-2"
+              className="lg:hidden relative z-50 p-2 text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6 text-primary" />
-              ) : (
-                <Menu className={cn("h-6 w-6", isScrolled ? "text-primary" : "text-white")} />
-              )}
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -174,19 +180,33 @@ export default function Navbar() {
               className="absolute top-full left-4 right-4 mt-2 bg-white/98 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden lg:hidden border border-white/20 pointer-events-auto"
             >
               <div className="flex flex-col space-y-4 p-8">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-bold text-primary hover:text-accent transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-                <Button className="w-full rounded-full h-12">
-                  Get a Quote
-                </Button>
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between p-4 rounded-2xl text-lg font-bold transition-all duration-300",
+                        isActive 
+                          ? "bg-accent/5 text-accent" 
+                          : "text-primary hover:bg-slate-50 hover:text-accent"
+                      )}
+                    >
+                      {link.name}
+                      <ChevronRight className={cn(
+                        "h-5 w-5 transition-transform duration-300",
+                        isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+                      )} />
+                    </Link>
+                  );
+                })}
+                <div className="pt-4">
+                  <Button className="w-full rounded-full h-14 bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20 text-lg font-bold">
+                    Get a Quote
+                  </Button>
+                </div>
               </div>
             </motion.div>
           )}

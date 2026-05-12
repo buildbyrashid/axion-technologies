@@ -57,9 +57,9 @@ export default function NetworkSection() {
           className="text-center mb-16 sm:mb-20"
         >
           <span className="inline-flex items-center gap-2 text-xs font-semibold
-                           tracking-widest uppercase text-blue-600 bg-blue-50
-                           border border-blue-100 px-4 py-2 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+                           tracking-widest uppercase text-accent bg-accent/10
+                           border border-accent/20 px-4 py-2 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             Global Operations
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">
@@ -74,7 +74,7 @@ export default function NetworkSection() {
 
             {/* Connecting line */}
             <div className="absolute top-[27px] left-[calc(16.67%)] 
-                            right-[calc(16.67%)] h-px bg-blue-600 z-0" />
+                            right-[calc(16.67%)] h-px bg-accent z-0" />
 
             {/* Nodes */}
             <div className="grid grid-cols-3 relative z-10">
@@ -93,22 +93,22 @@ export default function NetworkSection() {
                     className={cn(
                       "w-14 h-14 rounded-full flex items-center justify-center mb-4 border-2 transition-all",
                       loc.isHQ
-                        ? "bg-blue-900 border-blue-900"
-                        : "bg-white border-blue-800"
+                        ? "bg-accent border-accent"
+                        : "bg-white border-accent"
                     )}
                   >
                     <loc.icon
                       className={cn(
                         "w-6 h-6",
-                        loc.isHQ ? "text-white" : "text-blue-900"
+                        loc.isHQ ? "text-white" : "text-accent"
                       )}
                     />
                   </div>
 
                   {/* HQ Badge */}
                   {loc.badge && (
-                    <span className="text-xs font-semibold bg-blue-50 
-                                     text-blue-700 border border-blue-100 
+                    <span className="text-xs font-semibold bg-accent/10 
+                                     text-accent border border-accent/20 
                                      px-3 py-1 rounded-full mb-3">
                       {loc.badge}
                     </span>
@@ -120,7 +120,7 @@ export default function NetworkSection() {
                   </h3>
 
                   {/* Role */}
-                  <p className="text-xs font-semibold text-blue-600 
+                  <p className="text-xs font-semibold text-accent 
                                 uppercase tracking-wider mb-3">
                     {loc.role}
                   </p>
@@ -144,7 +144,7 @@ export default function NetworkSection() {
 
           {/* Vertical line */}
           <div className="absolute left-[27px] top-0 bottom-0 
-                          w-px bg-blue-600 z-0" />
+                          w-px bg-accent z-0" />
 
           <div className="flex flex-col gap-10 relative z-10">
             {locations.map((loc, i) => (
@@ -162,14 +162,14 @@ export default function NetworkSection() {
                   className={cn(
                     "w-14 h-14 rounded-full flex-shrink-0 flex items-center justify-center border-2",
                     loc.isHQ
-                      ? "bg-blue-600 border-blue-600"
-                      : "bg-white border-blue-600"
+                      ? "bg-accent border-accent"
+                      : "bg-white border-accent"
                   )}
                 >
                   <loc.icon
                     className={cn(
                       "w-6 h-6",
-                      loc.isHQ ? "text-white" : "text-blue-600"
+                      loc.isHQ ? "text-white" : "text-accent"
                     )}
                   />
                 </div>
@@ -177,8 +177,8 @@ export default function NetworkSection() {
                 {/* Content */}
                 <div className="pt-1">
                   {loc.badge && (
-                    <span className="text-xs font-semibold bg-blue-50
-                                     text-blue-700 border border-blue-100
+                    <span className="text-xs font-semibold bg-accent/10
+                                     text-accent border border-accent/20
                                      px-3 py-1 rounded-full mb-2 inline-block">
                       {loc.badge}
                     </span>
@@ -186,7 +186,7 @@ export default function NetworkSection() {
                   <h3 className="text-lg font-bold text-slate-900 mb-1">
                     {loc.city}
                   </h3>
-                  <p className="text-xs font-semibold text-blue-600 
+                  <p className="text-xs font-semibold text-accent 
                                 uppercase tracking-wider mb-2">
                     {loc.role}
                   </p>

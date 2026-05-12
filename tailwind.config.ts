@@ -26,7 +26,7 @@ const config: Config = {
           foreground: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#1E63EE", // Electric Blue
+          DEFAULT: "#0D95F0", // Updated Electric Blue
           foreground: "#FFFFFF",
         },
         slate: {
@@ -43,6 +43,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-plus-jakarta)", "sans-serif"],
+        sora: ["var(--font-sora)", "sans-serif"],
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
