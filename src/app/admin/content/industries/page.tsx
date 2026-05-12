@@ -2,11 +2,26 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Plus, Search, Edit2, Trash2, Loader2, Building2, Layout, Zap } from 'lucide-react'
+import { 
+  Plus, 
+  Search, 
+  Edit2, 
+  Trash2, 
+  Loader2, 
+  Building2, 
+  Layout, 
+  Zap,
+  Target,
+  ArrowUpRight,
+  Shield,
+  Activity,
+  Cpu
+} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
-import SlideOver from '@/components/admin/SlideOver'
-import FormField from '@/components/admin/FormField'
-import { MOCK_CATEGORIES } from '@/lib/mock-data' // Using categories as a proxy or I can add MOCK_INDUSTRIES
+import SpatialBadge from '@/components/ui/SpatialBadge'
+import SpatialDrawer from '@/components/ui/SpatialDrawer'
+import { cn } from '@/lib/utils'
 
 interface Industry {
   id: string
@@ -22,7 +37,7 @@ export default function IndustriesPage() {
   const supabase = createClient()
   const [industries, setIndustries] = useState<Industry[]>([])
   const [loading, setLoading] = useState(true)
-  const [isSlideOverOpen, setIsSlideOverOpen] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [editingIndustry, setEditingIndustry] = useState<Partial<Industry> | null>(null)
   const [saving, setSaving] = useState(false)
 
@@ -31,12 +46,12 @@ export default function IndustriesPage() {
   }, [])
 
   async function fetchIndustries() {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      // Mock some industry data
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (isDemo) {
       setIndustries([
-        { id: '1', name: 'Retail & Commercial', slug: 'retail', description: 'Transforming shopping experiences with high-impact displays.', icon_name: 'ShoppingBag', sort_order: 0, is_active: true },
-        { id: '2', name: 'Control Rooms', slug: 'control-rooms', description: 'Critical infrastructure visualization for 24/7 monitoring.', icon_name: 'Activity', sort_order: 1, is_active: true },
-        { id: '3', name: 'Sports & Stadiums', slug: 'sports', description: 'Immersive fan engagement with massive LED surfaces.', icon_name: 'Trophy', sort_order: 2, is_active: true },
+        { id: '1', name: 'Retail & Commercial', slug: 'retail', description: 'Transforming shopping experiences with high-impact holographic and interactive displays.', icon_name: 'ShoppingBag', sort_order: 0, is_active: true },
+        { id: '2', name: 'Control Rooms', slug: 'control-rooms', description: 'Mission-critical infrastructure visualization for 24/7 monitoring and security.', icon_name: 'Activity', sort_order: 1, is_active: true },
+        { id: '3', name: 'Sports & Stadiums', slug: 'sports', description: 'Immersive fan engagement with massive high-fidelity LED surfaces and spatial audio.', icon_name: 'Trophy', sort_order: 2, is_active: true },
       ] as any)
       setLoading(false)
       return
@@ -61,79 +76,152 @@ export default function IndustriesPage() {
       sort_order: editingIndustry?.sort_order ?? industries.length
     }
 
-    let res
-    if (editingIndustry?.id) {
-      res = await supabase.from('industries').update(data).eq('id', editingIndustry.id)
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!isDemo) {
+      let res
+      if (editingIndustry?.id) {
+        res = await supabase.from('industries').update(data).eq('id', editingIndustry.id)
+      } else {
+        res = await supabase.from('industries').insert([data])
+      }
+
+      if (res.error) {
+        toast.error('Save failed')
+        setSaving(false)
+        return
+      }
     } else {
-      res = await supabase.from('industries').insert([data])
+      // Demo fake save
+      if (editingIndustry?.id) {
+        setIndustries(industries.map(i => i.id === editingIndustry.id ? { ...i, ...data } as any : i))
+      } else {
+        setIndustries([...industries, { ...data, id: Math.random().toString() } as any])
+      }
     }
 
-    if (res.error) toast.error('Save failed')
-    else {
-      toast.success('Industry saved')
-      fetchIndustries()
-      setIsSlideOverOpen(false)
-    }
+    toast.success('Market Sector Synchronized')
+    if (!isDemo) fetchIndustries()
+    setIsDrawerOpen(false)
     setSaving(false)
   }
 
+  async function handleDelete(id: string) {
+    if (!confirm('Decommission this market sector?')) return
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!isDemo) {
+      await supabase.from('industries').delete().eq('id', id)
+      fetchIndustries()
+    } else {
+      setIndustries(industries.filter(i => i.id !== id))
+    }
+    toast.success('Sector Removed')
+  }
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-[#0A1628] font-sora tracking-tight">Industries</h1>
-          <p className="text-slate-400 text-sm font-medium mt-1">Manage industrial sectors and market vertical content</p>
+    <div className="space-y-12 pb-24">
+      {/* Premium Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="space-y-2">
+           <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
+                 <Target size={20} />
+              </div>
+              <SpatialBadge variant="blue" pulse>Market Verticals</SpatialBadge>
+           </div>
+           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter">Sector Portfolios</h1>
+           <p className="text-slate-500 text-lg font-medium max-w-xl">Configure specialized industrial sectors and enterprise solution clusters.</p>
         </div>
+        
         <button 
-          onClick={() => { setEditingIndustry(null); setIsSlideOverOpen(true) }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#0D95F0] hover:bg-[#0b82d4] text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-[#0D95F0]/20"
+          onClick={() => { setEditingIndustry(null); setIsDrawerOpen(true) }}
+          className="px-8 py-4 bg-[#0A1628] text-white rounded-[2rem] text-sm font-bold flex items-center gap-3 hover:scale-105 transition-all shadow-2xl shadow-black/10 shrink-0"
         >
-          <Plus size={18} />
-          Add Industry
+          <Plus size={20} />
+          Register New Sector
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loading ? (
-           <div className="col-span-full py-20 text-center"><Loader2 size={32} className="animate-spin text-[#0D95F0] mx-auto" /></div>
-        ) : industries.length === 0 ? (
-           <div className="col-span-full py-20 text-center text-slate-400 font-medium">No industries listed yet.</div>
-        ) : (
-          industries.map(industry => (
-            <div key={industry.id} className="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-sm hover:shadow-md transition-all group relative">
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                  <Layout size={22} />
+      {/* Grid Canvas */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <AnimatePresence mode="popLayout">
+          {loading ? (
+             Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="h-64 rounded-[3rem] bg-slate-50 animate-pulse border border-black/5" />
+             ))
+          ) : industries.length === 0 ? (
+             <div className="col-span-full py-32 text-center opacity-40">
+                <Building2 size={64} className="text-slate-300 mx-auto mb-6" />
+                <p className="text-slate-500 font-bold tracking-tight text-xl">Zero active industrial sectors.</p>
+             </div>
+          ) : (
+            industries.map((industry, index) => (
+              <motion.div 
+                key={industry.id} 
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ delay: index * 0.1 }}
+                className="group bg-white rounded-[3rem] border border-black/5 p-10 shadow-sm hover:shadow-2xl hover:shadow-[#0D95F0]/10 transition-all duration-500 relative flex flex-col"
+              >
+                <div className="flex items-start justify-between mb-8">
+                  <div className="w-16 h-16 rounded-[1.5rem] bg-slate-950 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl shadow-black/10">
+                    <Cpu size={28} />
+                  </div>
+                  <SpatialBadge variant="blue">Active Sector</SpatialBadge>
                 </div>
-              </div>
-              <h3 className="text-lg font-bold text-[#0A1628] mb-2">{industry.name}</h3>
-              <p className="text-xs text-slate-400 font-medium leading-relaxed mb-4 line-clamp-3">{industry.description}</p>
-              
-              <div className="flex items-center gap-2 text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">
-                /{industry.slug}
-              </div>
-
-              <div className="absolute top-6 right-6 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                 <button onClick={() => { setEditingIndustry(industry); setIsSlideOverOpen(true) }} className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:text-[#0D95F0] flex items-center justify-center transition-all"><Edit2 size={14} /></button>
-                 <button onClick={async () => { await supabase.from('industries').delete().eq('id', industry.id); fetchIndustries() }} className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:text-red-500 flex items-center justify-center transition-all"><Trash2 size={14} /></button>
-              </div>
-            </div>
-          ))
-        )}
+                
+                <div className="flex-1">
+                   <h3 className="text-2xl font-black text-[#0A1628] mb-4 tracking-tighter group-hover:text-[#0D95F0] transition-colors">{industry.name}</h3>
+                   <p className="text-slate-400 text-sm font-bold leading-relaxed mb-6 line-clamp-3">{industry.description}</p>
+                </div>
+                
+                <div className="pt-8 border-t border-black/5 flex items-center justify-between">
+                   <div className="flex flex-col">
+                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">Routing Signature</span>
+                      <span className="text-[11px] font-black text-[#0A1628] uppercase tracking-tight">/{industry.slug}</span>
+                   </div>
+                   <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => { setEditingIndustry(industry); setIsDrawerOpen(true) }} 
+                        className="w-11 h-11 rounded-2xl bg-slate-50 text-slate-400 hover:text-[#0D95F0] hover:bg-white hover:shadow-lg flex items-center justify-center transition-all"
+                      >
+                         <Edit2 size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(industry.id)} 
+                        className="w-11 h-11 rounded-2xl bg-rose-50 text-rose-400 hover:text-rose-600 hover:bg-white hover:shadow-lg flex items-center justify-center transition-all"
+                      >
+                         <Trash2 size={16} />
+                      </button>
+                   </div>
+                </div>
+                
+                <div className="absolute top-0 right-0 p-10 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none">
+                   <Building2 size={120} />
+                </div>
+              </motion.div>
+            ))
+          )}
+        </AnimatePresence>
       </div>
 
-      <SlideOver
-        open={isSlideOverOpen}
-        onClose={() => setIsSlideOverOpen(false)}
-        title={editingIndustry ? 'Edit Industry' : 'Add Industry'}
+      {/* SpatialDrawer for Sector Config */}
+      <SpatialDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        title={editingIndustry ? 'Refine Market Sector' : 'Initialize New Sector'}
+        description={editingIndustry ? 'Modifying enterprise industrial vertical parameters.' : 'Configuring a new specialized market portfolio cluster.'}
       >
-        <form onSubmit={handleSave} className="space-y-6">
-          <FormField label="Industry Name" required>
+        <form onSubmit={handleSave} className="space-y-8 py-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sector Identity</label>
             <input 
               name="name" 
               defaultValue={editingIndustry?.name} 
               required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm font-bold" 
+              placeholder="e.g. Aerospace & Defense"
+              className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all" 
               onBlur={(e) => {
                 const slugInput = (e.target.form as HTMLFormElement).elements.namedItem('slug') as HTMLInputElement
                 if (slugInput && !slugInput.value) {
@@ -141,17 +229,49 @@ export default function IndustriesPage() {
                 }
               }}
             />
-          </FormField>
-          <FormField label="Slug" required><input name="slug" defaultValue={editingIndustry?.slug} required className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm font-medium bg-slate-50" /></FormField>
-          <FormField label="Icon Name (Lucide)"><input name="icon_name" defaultValue={editingIndustry?.icon_name} className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm font-medium" placeholder="e.g. Zap, Building, Layout" /></FormField>
-          <FormField label="Description" required><textarea name="description" defaultValue={editingIndustry?.description} required rows={5} className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm font-medium resize-none" /></FormField>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal Routing Slug</label>
+            <input 
+               name="slug" 
+               defaultValue={editingIndustry?.slug} 
+               required 
+               className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold font-mono tracking-tight transition-all" 
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Symbol Mapping (Lucide)</label>
+            <input 
+               name="icon_name" 
+               defaultValue={editingIndustry?.icon_name} 
+               className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all" 
+               placeholder="e.g. Shield, Zap, Target" 
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mission Description</label>
+            <textarea 
+               name="description" 
+               defaultValue={editingIndustry?.description} 
+               required 
+               rows={5} 
+               className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold leading-relaxed tracking-tight resize-none transition-all" 
+            />
+          </div>
           
-          <button type="submit" disabled={saving} className="w-full py-3 bg-[#0D95F0] text-white rounded-xl text-sm font-bold shadow-lg shadow-[#0D95F0]/20 flex items-center justify-center gap-2">
-            {saving && <Loader2 size={16} className="animate-spin" />}
-            Save Industry
+          <button 
+             type="submit" 
+             disabled={saving} 
+             className="w-full py-5 bg-[#0A1628] text-white rounded-[2rem] text-sm font-black uppercase tracking-[0.2em] shadow-2xl shadow-black/20 flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            {saving ? <Loader2 size={20} className="animate-spin" /> : <Shield size={20} className="text-[#0D95F0]" />}
+            Sync Sector Core
           </button>
         </form>
-      </SlideOver>
+      </SpatialDrawer>
     </div>
   )
 }

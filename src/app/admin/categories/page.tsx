@@ -11,7 +11,13 @@ import {
   Eye, 
   EyeOff,
   GripVertical,
-  Loader2
+  Loader2,
+  FolderTree,
+  Activity,
+  ArrowUpRight,
+  Hash,
+  Layers,
+  Zap
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -32,11 +38,10 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'sonner'
-import SlideOver from '@/components/admin/SlideOver'
-import ConfirmDialog from '@/components/admin/ConfirmDialog'
-import FormField from '@/components/admin/FormField'
-import DragHandle from '@/components/admin/DragHandle'
+import SpatialDrawer from '@/components/ui/SpatialDrawer'
+import SpatialBadge from '@/components/ui/SpatialBadge'
 import { MOCK_CATEGORIES } from '@/lib/mock-data'
+import { cn } from '@/lib/utils'
 
 interface Category {
   id: string
@@ -48,7 +53,7 @@ interface Category {
   is_active: boolean
 }
 
-function SortableRow({ 
+function SortableCategoryItem({ 
   category, 
   onEdit, 
   onDelete, 
@@ -71,69 +76,77 @@ function SortableRow({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 1 : 0,
-    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 50 : 0,
   }
 
   return (
-    <tr 
+    <div 
       ref={setNodeRef} 
       style={style}
       className={cn(
-        "group border-b border-slate-50 hover:bg-slate-50/50 transition-colors",
-        isDragging && "bg-white shadow-lg"
+        "group relative flex items-center gap-6 p-6 bg-white rounded-[2.5rem] border border-black/5 transition-all duration-500",
+        isDragging ? "shadow-2xl shadow-black/10 opacity-60 scale-[1.02]" : "hover:shadow-xl hover:shadow-[#0D95F0]/5"
       )}
     >
-      <td className="py-4 px-4">
-        <DragHandle listeners={listeners} attributes={attributes} />
-      </td>
-      <td className="py-4 px-4">
-        <div className="flex flex-col">
-          <span className="text-sm font-bold text-[#0A1628]">{category.name}</span>
-          <span className="text-xs text-slate-400 font-medium">/{category.slug}</span>
+      {/* Drag Handle */}
+      <div 
+        {...attributes} 
+        {...listeners}
+        className="w-12 h-12 rounded-2xl bg-slate-50 border border-black/5 flex items-center justify-center text-slate-300 hover:text-[#0D95F0] hover:bg-white hover:shadow-lg transition-all cursor-grab active:cursor-grabbing shrink-0"
+      >
+        <GripVertical size={20} />
+      </div>
+
+      {/* Info Cluster */}
+      <div className="flex-1 flex items-center gap-6 min-w-0">
+        <div className="w-14 h-14 rounded-[1.25rem] bg-slate-950 text-white flex items-center justify-center font-black text-xs shrink-0 group-hover:scale-110 transition-transform duration-500">
+          <Hash size={20} />
         </div>
-      </td>
-      <td className="py-4 px-4">
-        <span className="text-xs text-slate-500 font-medium line-clamp-1 max-w-[200px]">
-          {category.tagline || '—'}
-        </span>
-      </td>
-      <td className="py-4 px-4">
-        <button
+        <div className="flex flex-col min-w-0">
+          <h3 className="text-xl font-black text-[#0A1628] tracking-tighter truncate group-hover:text-[#0D95F0] transition-colors">{category.name}</h3>
+          <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] italic truncate">/{category.slug}</p>
+        </div>
+      </div>
+
+      {/* Tagline / Subtext */}
+      <div className="hidden lg:block flex-1 min-w-0 px-4">
+        <p className="text-sm text-slate-400 font-bold tracking-tight line-clamp-1 italic">
+          {category.tagline || '— System Default Architecture —'}
+        </p>
+      </div>
+
+      {/* Status & Actions */}
+      <div className="flex items-center gap-6 shrink-0">
+        <SpatialBadge 
+          variant={category.is_active ? 'blue' : 'slate'}
           onClick={() => onToggleActive(category.id, !category.is_active)}
-          className={cn(
-            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all",
-            category.is_active 
-              ? "bg-emerald-50 text-emerald-600 hover:bg-emerald-100" 
-              : "bg-slate-100 text-slate-400 hover:bg-slate-200"
-          )}
+          pulse={category.is_active}
         >
-          {category.is_active ? <Eye size={12} /> : <EyeOff size={12} />}
-          {category.is_active ? 'Active' : 'Hidden'}
-        </button>
-      </td>
-      <td className="py-4 px-4 text-right">
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          {category.is_active ? 'Online' : 'Encrypted'}
+        </SpatialBadge>
+
+        <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
           <button 
             onClick={() => onEdit(category)}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-[#0D95F0] hover:bg-[#0D95F0]/5 transition-all"
+            className="w-12 h-12 rounded-2xl bg-white border border-black/5 text-[#0D95F0] shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95"
           >
-            <Edit2 size={14} />
+            <Edit2 size={18} />
           </button>
           <button 
             onClick={() => onDelete(category.id)}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all"
+            className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 border border-black/5 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95"
           >
-            <Trash2 size={14} />
+            <Trash2 size={18} />
           </button>
         </div>
-      </td>
-    </tr>
-  )
-}
+      </div>
 
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
+      {/* Background Decor */}
+      <div className="absolute -right-4 -bottom-4 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity pointer-events-none">
+         <Layers size={120} />
+      </div>
+    </div>
+  )
 }
 
 export default function CategoriesPage() {
@@ -141,9 +154,7 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [isSlideOverOpen, setIsSlideOverOpen] = useState(false)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [editingCategory, setEditingCategory] = useState<Partial<Category> | null>(null)
   const [saving, setSaving] = useState(false)
 
@@ -159,7 +170,8 @@ export default function CategoriesPage() {
   }, [])
 
   async function fetchCategories() {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (isDemo) {
       setCategories(MOCK_CATEGORIES)
       setLoading(false)
       return
@@ -171,11 +183,8 @@ export default function CategoriesPage() {
       .select('*')
       .order('sort_order', { ascending: true })
 
-    if (error) {
-      toast.error('Failed to load categories')
-    } else {
-      setCategories(data || [])
-    }
+    if (error) toast.error('Failed to load categories')
+    else setCategories(data || [])
     setLoading(false)
   }
 
@@ -189,51 +198,59 @@ export default function CategoriesPage() {
       const newOrder = arrayMove(categories, oldIndex, newIndex)
       setCategories(newOrder)
 
-      // Update sort_order in database
-      const updates = newOrder.map((cat, index) => ({
-        id: cat.id,
-        sort_order: index,
-      }))
-
-      const { error } = await supabase.from('categories').upsert(updates)
-      if (error) {
-        toast.error('Failed to update order')
-        fetchCategories() // revert on error
+      const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+      if (!isDemo) {
+        const updates = newOrder.map((cat, index) => ({
+          id: cat.id,
+          sort_order: index,
+        }))
+        const { error } = await supabase.from('categories').upsert(updates)
+        if (error) {
+          toast.error('Failed to update order')
+          fetchCategories()
+        } else {
+          toast.success('Architecture Optimized')
+        }
       } else {
-        toast.success('Order updated')
+        toast.success('Local Architecture Updated')
       }
     }
   }
 
   async function handleToggleActive(id: string, active: boolean) {
-    const { error } = await supabase
-      .from('categories')
-      .update({ is_active: active })
-      .eq('id', id)
-
-    if (error) {
-      toast.error('Update failed')
-    } else {
-      setCategories(categories.map(c => c.id === id ? { ...c, is_active: active } : c))
-      toast.success(active ? 'Category activated' : 'Category hidden')
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!isDemo) {
+      const { error } = await supabase
+        .from('categories')
+        .update({ is_active: active })
+        .eq('id', id)
+      if (error) {
+        toast.error('Update failed')
+        return
+      }
     }
+    setCategories(categories.map(c => c.id === id ? { ...c, is_active: active } : c))
+    toast.success(active ? 'Layer Synced' : 'Layer Encrypted')
   }
 
-  async function handleDelete() {
-    if (!selectedCategoryId) return
+  async function handleDelete(id: string) {
+    if (!confirm('Decommission this architectural layer?')) return
+    
     setSaving(true)
-    const { error } = await supabase
-      .from('categories')
-      .delete()
-      .eq('id', selectedCategoryId)
-
-    if (error) {
-      toast.error('Delete failed')
-    } else {
-      setCategories(categories.filter(c => c.id !== selectedCategoryId))
-      toast.success('Category deleted')
-      setIsDeleteDialogOpen(false)
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!isDemo) {
+      const { error } = await supabase
+        .from('categories')
+        .delete()
+        .eq('id', id)
+      if (error) {
+        toast.error('Decommission failed')
+        setSaving(false)
+        return
+      }
     }
+    setCategories(categories.filter(c => c.id !== id))
+    toast.success('Layer Purged')
     setSaving(false)
   }
 
@@ -242,35 +259,49 @@ export default function CategoriesPage() {
     setSaving(true)
 
     const formData = new FormData(e.currentTarget as HTMLFormElement)
-    const data = {
+    const data: Category = {
+      id: editingCategory?.id || Math.random().toString(),
       name: formData.get('name') as string,
       slug: formData.get('slug') as string,
-      tagline: formData.get('tagline') as string,
-      description: formData.get('description') as string,
-      is_active: true,
-      sort_order: editingCategory?.id ? editingCategory.sort_order : categories.length
+      tagline: (formData.get('tagline') as string) || null,
+      description: (formData.get('description') as string) || null,
+      is_active: editingCategory?.id ? (editingCategory.is_active ?? true) : true,
+      sort_order: editingCategory?.id ? (editingCategory.sort_order ?? 0) : categories.length
     }
 
-    let result
-    if (editingCategory?.id) {
-      result = await supabase
-        .from('categories')
-        .update(data)
-        .eq('id', editingCategory.id)
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!isDemo) {
+      let result
+      if (editingCategory?.id) {
+        const { id, ...updateData } = data
+        result = await supabase
+          .from('categories')
+          .update(updateData)
+          .eq('id', editingCategory.id)
+      } else {
+        const { id, ...insertData } = data
+        result = await supabase
+          .from('categories')
+          .insert([insertData])
+      }
+      if (result.error) {
+        toast.error('Save failed: ' + result.error.message)
+        setSaving(false)
+        return
+      }
     } else {
-      result = await supabase
-        .from('categories')
-        .insert([data])
+      // Demo mode fake save
+      if (editingCategory?.id) {
+        setCategories(categories.map(c => c.id === editingCategory.id ? data : c))
+      } else {
+        setCategories([...categories, data])
+      }
     }
 
-    if (result.error) {
-      toast.error('Save failed: ' + result.error.message)
-    } else {
-      toast.success(editingCategory?.id ? 'Category updated' : 'Category created')
-      fetchCategories()
-      setIsSlideOverOpen(false)
-      setEditingCategory(null)
-    }
+    toast.success(editingCategory?.id ? 'Architecture Refined' : 'New Layer Deployed')
+    if (!isDemo) fetchCategories()
+    setIsDrawerOpen(false)
+    setEditingCategory(null)
     setSaving(false)
   }
 
@@ -280,110 +311,110 @@ export default function CategoriesPage() {
   )
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-[#0A1628] font-sora tracking-tight">Categories</h1>
-          <p className="text-slate-400 text-sm font-medium mt-1">Manage your product catalog structure</p>
+    <div className="space-y-12 pb-24">
+      {/* Premium Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="space-y-2">
+           <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
+                 <FolderTree size={20} />
+              </div>
+              <SpatialBadge variant="blue" pulse>Catalog Architecture</SpatialBadge>
+           </div>
+           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter">Taxonomy & Clusters</h1>
+           <p className="text-slate-500 text-lg font-medium max-w-xl">Configure the hierarchical metadata structure for the enterprise asset grid.</p>
         </div>
+        
         <button 
           onClick={() => {
             setEditingCategory(null)
-            setIsSlideOverOpen(true)
+            setIsDrawerOpen(true)
           }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#0D95F0] hover:bg-[#0b82d4] text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-[#0D95F0]/20"
+          className="px-10 py-5 bg-[#0A1628] text-white rounded-[2rem] text-sm font-black uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl shadow-black/10 shrink-0"
         >
-          <Plus size={18} />
-          Add Category
+          <Plus size={24} />
+          Deploy New Layer
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
-        <div className="p-4 border-b border-slate-50 flex items-center gap-4 bg-slate-50/30">
-          <div className="relative flex-1 max-w-sm">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
+      {/* Control Bar */}
+      <div className="flex flex-col md:flex-row items-center gap-6">
+         <div className="relative flex-1 w-full group">
+            <div className="absolute inset-0 bg-[#0D95F0]/5 rounded-3xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
+            <Search size={22} className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
             <input 
               type="text" 
-              placeholder="Search categories..." 
+              placeholder="Identify layers by signature..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/5 outline-none transition-all text-sm font-medium"
+              className="relative w-full pl-16 pr-8 py-6 rounded-[2rem] border border-black/5 bg-white focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-base font-bold tracking-tight shadow-sm focus:shadow-2xl focus:shadow-[#0D95F0]/5"
             />
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <DndContext 
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50/50">
-                  <th className="w-12 py-4 px-4"></th>
-                  <th className="text-xs font-bold text-slate-400 uppercase tracking-widest py-4 px-4">Category</th>
-                  <th className="text-xs font-bold text-slate-400 uppercase tracking-widest py-4 px-4">Tagline</th>
-                  <th className="text-xs font-bold text-slate-400 uppercase tracking-widest py-4 px-4">Status</th>
-                  <th className="w-24 py-4 px-4"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {loading ? (
-                  <tr>
-                    <td colSpan={5} className="py-20 text-center">
-                      <Loader2 size={32} className="animate-spin text-[#0D95F0] mx-auto" />
-                    </td>
-                  </tr>
-                ) : filteredCategories.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="py-20 text-center text-slate-400 font-medium">
-                      {searchQuery ? 'No categories found matching your search' : 'No categories yet. Click "Add Category" to get started.'}
-                    </td>
-                  </tr>
-                ) : (
-                  <SortableContext 
-                    items={filteredCategories.map(c => c.id)}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {filteredCategories.map((category) => (
-                      <SortableRow 
-                        key={category.id} 
-                        category={category} 
-                        onEdit={(cat) => {
-                          setEditingCategory(cat)
-                          setIsSlideOverOpen(true)
-                        }}
-                        onDelete={(id) => {
-                          setSelectedCategoryId(id)
-                          setIsDeleteDialogOpen(true)
-                        }}
-                        onToggleActive={handleToggleActive}
-                      />
-                    ))}
-                  </SortableContext>
-                )}
-              </tbody>
-            </table>
-          </DndContext>
-        </div>
+         </div>
+         <div className="flex items-center gap-3 px-8 py-4 bg-white border border-black/5 rounded-[1.5rem] shadow-sm shrink-0">
+            <Activity size={18} className="text-[#0D95F0]" />
+            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{filteredCategories.length} Layers Verified</span>
+         </div>
       </div>
 
-      {/* Add/Edit SlideOver */}
-      <SlideOver
-        open={isSlideOverOpen}
-        onClose={() => setIsSlideOverOpen(false)}
-        title={editingCategory ? 'Edit Category' : 'Add New Category'}
-        description={editingCategory ? 'Update existing category details' : 'Create a new product category'}
+      {/* Architectural Canvas (List) */}
+      <div className="space-y-4">
+        <DndContext 
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          {loading ? (
+             <div className="py-32 flex flex-col items-center gap-6">
+                <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Booting Taxonomy...</p>
+             </div>
+          ) : filteredCategories.length === 0 ? (
+             <div className="py-32 flex flex-col items-center gap-8 bg-white rounded-[3rem] border border-black/5 border-dashed opacity-40">
+                <Layers size={64} className="text-slate-300" />
+                <p className="text-slate-500 font-bold tracking-tight text-xl">Zero structural layers detected.</p>
+             </div>
+          ) : (
+            <SortableContext 
+              items={filteredCategories.map(c => c.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div className="grid gap-4">
+                <AnimatePresence mode="popLayout">
+                  {filteredCategories.map((category) => (
+                    <SortableCategoryItem 
+                      key={category.id} 
+                      category={category} 
+                      onEdit={(cat) => {
+                        setEditingCategory(cat)
+                        setIsDrawerOpen(true)
+                      }}
+                      onDelete={(id) => handleDelete(id)}
+                      onToggleActive={handleToggleActive}
+                    />
+                  ))}
+                </AnimatePresence>
+              </div>
+            </SortableContext>
+          )}
+        </DndContext>
+      </div>
+
+      {/* SpatialDrawer for Add/Edit */}
+      <SpatialDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        title={editingCategory ? 'Refine Structural Layer' : 'Deploy New Architecture'}
+        description={editingCategory ? 'Modifying existing catalog metadata signature.' : 'Configuring a new hierarchical asset cluster.'}
       >
-        <form onSubmit={handleSaveCategory} className="space-y-6">
-          <FormField label="Category Name" required>
+        <form onSubmit={handleSaveCategory} className="space-y-8 py-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Layer Designation</label>
             <input 
               name="name"
               defaultValue={editingCategory?.name || ''}
               required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/5 outline-none transition-all text-sm font-medium"
-              placeholder="e.g. LED Display Systems"
+              className="w-full px-6 py-5 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight"
+              placeholder="e.g. Holographic Displays"
               onBlur={(e) => {
                 const name = e.target.value
                 const slugInput = (e.target.form as HTMLFormElement).elements.namedItem('slug') as HTMLInputElement
@@ -392,65 +423,52 @@ export default function CategoriesPage() {
                 }
               }}
             />
-          </FormField>
+          </div>
 
-          <FormField label="Slug (URL Path)" required helperText="Auto-generated from name. Use lowercase and hyphens.">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal Slug Signature</label>
             <input 
               name="slug"
               defaultValue={editingCategory?.slug || ''}
               required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/5 outline-none transition-all text-sm font-medium bg-slate-50 focus:bg-white"
-              placeholder="e.g. led-display-systems"
+              className="w-full px-6 py-5 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold font-mono tracking-tight"
+              placeholder="e.g. holographic-displays"
             />
-          </FormField>
+          </div>
 
-          <FormField label="Tagline">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Operational Tagline</label>
             <input 
               name="tagline"
               defaultValue={editingCategory?.tagline || ''}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/5 outline-none transition-all text-sm font-medium"
-              placeholder="Short catchy phrase"
+              className="w-full px-6 py-5 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight"
+              placeholder="Short catchy technical phrase"
             />
-          </FormField>
+          </div>
 
-          <FormField label="Description">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Metadata Description</label>
             <textarea 
               name="description"
               defaultValue={editingCategory?.description || ''}
-              rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/5 outline-none transition-all text-sm font-medium resize-none"
-              placeholder="Describe what this category covers..."
+              rows={5}
+              className="w-full px-6 py-5 rounded-2xl border border-black/5 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight resize-none leading-relaxed"
+              placeholder="Detailed technical specifications of this cluster layer..."
             />
-          </FormField>
+          </div>
 
-          <div className="pt-4 flex gap-3">
-            <button
-              type="button"
-              onClick={() => setIsSlideOverOpen(false)}
-              className="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all"
-            >
-              Cancel
-            </button>
+          <div className="pt-6">
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-3 rounded-xl bg-[#0D95F0] text-white text-sm font-bold hover:bg-[#0b82d4] transition-all shadow-lg shadow-[#0D95F0]/20 disabled:opacity-60 flex items-center justify-center gap-2"
+              className="w-full py-6 rounded-[2.5rem] bg-[#0A1628] text-white text-sm font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl shadow-black/20 disabled:opacity-60 flex items-center justify-center gap-4"
             >
-              {saving && <Loader2 size={16} className="animate-spin" />}
-              {editingCategory ? 'Update Category' : 'Create Category'}
+              {saving ? <Loader2 size={24} className="animate-spin" /> : <Zap size={24} className="text-[#0D95F0]" />}
+              {editingCategory ? 'Commit Protocol Changes' : 'Initialize Global Deployment'}
             </button>
           </div>
         </form>
-      </SlideOver>
-
-      <ConfirmDialog
-        open={isDeleteDialogOpen}
-        onClose={() => setIsDeleteDialogOpen(false)}
-        onConfirm={handleDelete}
-        loading={saving}
-        title="Delete Category"
-        description="Are you sure you want to delete this category? This will also affect products linked to it."
-      />
+      </SpatialDrawer>
     </div>
   )
 }

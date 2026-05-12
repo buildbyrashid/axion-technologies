@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
-import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield, Zap, Terminal, Activity, ShieldCheck } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -21,10 +22,25 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError('')
 
+    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (isDemo) {
+      if (email === 'admin@axion.com' && password === 'admin123') {
+        setTimeout(() => {
+          router.push('/admin')
+          router.refresh()
+        }, 1500)
+        return
+      } else {
+        setError('Unauthorized: Credentials invalid in demo protocol.')
+        setLoading(false)
+        return
+      }
+    }
+
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('Invalid credentials. Please try again.')
+      setError('Access Denied: Authentication failure.')
       setLoading(false)
       return
     }
@@ -34,162 +50,166 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Panel — Branding */}
-      <div className="hidden lg:flex lg:w-[45%] bg-[#0A1628] relative overflow-hidden items-center justify-center">
-        {/* Decorative Elements */}
+    <div className="min-h-screen flex bg-white relative overflow-hidden">
+      {/* Background Decor Layer */}
+      <div className="absolute inset-0 bg-grid-black/[0.02] bg-[size:40px_40px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white via-slate-50 to-white opacity-80 pointer-events-none" />
+      
+      {/* Left Panel — Branding (Spatial Identity) */}
+      <div className="hidden lg:flex lg:w-[55%] relative overflow-hidden items-center justify-center bg-[#0A1628]">
+        {/* Deep Spatial Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#0D95F0]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#0D95F0]/8 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/[0.03] rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/[0.05] rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-white/[0.07] rounded-full" />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#0D95F0]/20 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3" />
+           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#0D95F0]/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
+           <div className="absolute inset-0 bg-grid-white/[0.03] bg-[size:60px_60px]" />
+           <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628] via-transparent to-[#0A1628]" />
         </div>
 
-        <div className="relative z-10 px-16 max-w-lg">
+        <div className="relative z-10 px-20 max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+            className="space-y-16"
           >
-            <div className="relative h-12 w-52 mb-16">
+            <div className="relative h-14 w-60 group">
               <Image
                 src="/images/company/logo-dark.png"
                 alt="Axion Technology"
                 fill
-                className="object-contain"
+                className="object-contain filter brightness-200 group-hover:scale-105 transition-transform duration-1000"
                 priority
               />
             </div>
 
-            <h1 className="text-4xl font-extrabold text-white font-sora leading-tight mb-4 tracking-tight">
-              Command <br />
-              <span className="text-[#0D95F0]">Center</span>
-            </h1>
-            <p className="text-white/40 text-lg leading-relaxed mb-12">
-              Enterprise content management system for Axion Technology's digital infrastructure.
-            </p>
-
-            <div className="space-y-5">
-              {[
-                { icon: Shield, text: 'Secure admin access with role-based permissions' },
-                { icon: Lock, text: 'End-to-end encrypted session management' },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + i * 0.15 }}
-                  className="flex items-center gap-4"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <item.icon size={18} className="text-[#0D95F0]" />
+            <div className="space-y-6">
+               <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
+                     <Terminal size={24} />
                   </div>
-                  <span className="text-white/50 text-sm font-medium">{item.text}</span>
-                </motion.div>
-              ))}
+                  <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">Operational Gateway</div>
+               </div>
+               <h1 className="text-7xl font-black text-white tracking-tighter leading-[0.9] mb-8">
+                  Command <br />
+                  <span className="text-[#0D95F0]">Intelligence.</span>
+               </h1>
+               <p className="text-white/40 text-xl font-medium max-w-md italic leading-relaxed">
+                  Enterprise-grade management hub for the next evolution of Axion Technology assets.
+               </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 pt-10">
+               {[
+                 { icon: ShieldCheck, label: 'Protocol', value: 'Encrypted' },
+                 { icon: Activity, label: 'Uptime', value: '99.9% Alpha' },
+               ].map((item, i) => (
+                 <motion.div
+                   key={i}
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ delay: 0.6 + i * 0.2 }}
+                   className="p-6 rounded-[2rem] bg-white/[0.03] border border-white/10"
+                 >
+                   <item.icon size={20} className="text-[#0D95F0] mb-3" />
+                   <div className="text-[9px] font-black text-white/20 uppercase tracking-widest">{item.label}</div>
+                   <div className="text-sm font-black text-white tracking-tight">{item.value}</div>
+                 </motion.div>
+               ))}
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Right Panel — Login Form */}
-      <div className="flex-1 flex items-center justify-center bg-[#F8FAFC] px-6 lg:px-16">
+      {/* Right Panel — Spatial Login Terminal */}
+      <div className="flex-1 flex items-center justify-center relative z-20 px-6 lg:px-20">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
           className="w-full max-w-md"
         >
-          {/* Mobile logo */}
-          <div className="lg:hidden mb-10">
-            <div className="relative h-10 w-44 mb-2">
-              <Image
-                src="/images/company/logo-light1.png"
-                alt="Axion Technology"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
+          {/* Mobile Identity */}
+          <div className="lg:hidden mb-12 flex justify-center">
+             <div className="relative h-12 w-48">
+               <Image
+                 src="/images/company/logo-light1.png"
+                 alt="Axion"
+                 fill
+                 className="object-contain"
+                 priority
+               />
+             </div>
           </div>
 
-          <div className="mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0D95F0]/10 text-[#0D95F0] rounded-full text-xs font-bold mb-6 tracking-wide">
-              <Shield size={12} />
-              ADMIN ACCESS
+          <div className="mb-12">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#0D95F0]/10 text-[#0D95F0] rounded-full text-[10px] font-black tracking-[0.2em] mb-8 border border-[#0D95F0]/10">
+              <Zap size={14} fill="currentColor" />
+              AUTHORIZATION REQUIRED
             </div>
-            <h2 className="text-3xl font-extrabold text-[#0A1628] font-sora tracking-tight mb-2">
-              Welcome back
-            </h2>
-            <p className="text-slate-400 text-sm font-medium">
-              Sign in to access the Axion admin dashboard
-            </p>
+            <h2 className="text-5xl font-black text-[#0A1628] tracking-tighter mb-3 leading-tight">Initialize Console</h2>
+            <p className="text-slate-400 text-lg font-medium italic">Authenticated session mandatory for sector access.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-8">
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium flex items-center gap-3"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-6 rounded-3xl bg-rose-50 border border-rose-100 text-rose-500 text-sm font-black flex items-center gap-4 shadow-2xl shadow-rose-500/10"
               >
-                <div className="w-8 h-8 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
-                  <Lock size={14} />
+                <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center shrink-0">
+                  <Lock size={18} />
                 </div>
                 {error}
               </motion.div>
             )}
 
             {!process.env.NEXT_PUBLIC_SUPABASE_URL && (
-              <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 text-[#0D95F0] text-[11px] font-bold flex items-center gap-3">
-                 <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-                    <Shield size={14} />
+              <div className="p-6 rounded-3xl bg-slate-900 text-white relative overflow-hidden group">
+                 <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <ShieldCheck size={48} />
                  </div>
-                 <div>
-                    <div className="uppercase tracking-wider mb-0.5">DEMO MODE ACTIVE</div>
-                    <div className="opacity-70 font-medium">Use: admin@axion.com / admin123</div>
+                 <div className="relative z-10">
+                    <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-2">Protocol: Sandbox</div>
+                    <div className="text-xs font-bold text-white/80 leading-relaxed">
+                       DEMO CREDENTIALS: <br />
+                       <span className="text-[#0D95F0] font-black tracking-tight">admin@axion.com / admin123</span>
+                    </div>
                  </div>
               </div>
             )}
 
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Email Address
-              </label>
+            <div className="space-y-3 group/input">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal ID (Email)</label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                <Mail size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0D95F0] transition-colors" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="admin@axiontechnology.com"
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/10 outline-none transition-all text-[#0A1628] font-medium placeholder:text-slate-300 text-sm"
+                  className="w-full pl-16 pr-6 py-5 rounded-[2rem] bg-white border border-black/5 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Password
-              </label>
+            <div className="space-y-3 group/input">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Access Cipher (Password)</label>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                <Lock size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0D95F0] transition-colors" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  placeholder="Enter your password"
-                  className="w-full pl-12 pr-12 py-4 rounded-2xl bg-white border border-slate-200 focus:border-[#0D95F0] focus:ring-4 focus:ring-[#0D95F0]/10 outline-none transition-all text-[#0A1628] font-medium placeholder:text-slate-300 text-sm"
+                  placeholder="••••••••••••"
+                  className="w-full pl-16 pr-14 py-5 rounded-[2rem] bg-white border border-black/5 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#0D95F0] transition-colors"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -199,22 +219,32 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-2xl bg-[#0D95F0] hover:bg-[#0b82d4] text-white font-bold text-sm transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-[#0D95F0]/20 hover:shadow-xl hover:shadow-[#0D95F0]/30 disabled:opacity-60 disabled:cursor-not-allowed mt-8 group"
+              className="w-full py-6 rounded-[2.5rem] bg-[#0A1628] text-white font-black text-xs uppercase tracking-[0.3em] transition-all duration-700 flex items-center justify-center gap-4 shadow-2xl shadow-black/20 hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed mt-12 group overflow-hidden relative"
             >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  Sign In to Dashboard
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  Establish Connection
+                  <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-500" />
                 </>
               )}
             </button>
           </form>
 
-          <p className="text-center text-xs text-slate-300 mt-10 font-medium">
-            Protected by Supabase Auth · Axion Technology © 2026
-          </p>
+          <div className="mt-16 flex flex-col items-center gap-6">
+             <div className="flex items-center gap-6 opacity-30">
+                <Shield size={16} />
+                <div className="h-4 w-px bg-slate-300" />
+                <Activity size={16} />
+                <div className="h-4 w-px bg-slate-300" />
+                <Zap size={16} />
+             </div>
+             <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.4em]">
+               Axion Core v2.0 · Authorization Protocol
+             </p>
+          </div>
         </motion.div>
       </div>
     </div>

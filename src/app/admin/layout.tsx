@@ -4,6 +4,7 @@ import { useState, createContext, useContext } from 'react'
 import { usePathname } from 'next/navigation'
 import AdminSidebar from '../../components/admin/Sidebar'
 import AdminTopbar from '../../components/admin/Topbar'
+import CommandPalette from '../../components/admin/CommandPalette'
 import { motion } from 'framer-motion'
 import { Toaster } from 'sonner'
 
@@ -31,22 +32,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <AdminContext.Provider value={{ sidebarCollapsed, setSidebarCollapsed }}>
       <div className="flex h-screen bg-[#F8FAFC] overflow-hidden relative">
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0D95F0]/3 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0D95F0]/2 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
+        {/* Spatial Background Architecture */}
+        <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-[#0D95F0]/[0.03] rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-slate-200/[0.2] rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-white rounded-full blur-[160px] opacity-40 pointer-events-none" />
         
         <AdminSidebar />
+        <CommandPalette />
 
         <div className="flex-1 flex flex-col min-w-0 relative z-10">
           <AdminTopbar />
 
-          <main className="flex-1 overflow-y-auto scroll-smooth">
+          <main className="flex-1 overflow-y-auto scroll-smooth scrollbar-hide">
             <motion.div 
               key={pathname}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className="p-8 lg:p-10 max-w-[1600px] mx-auto w-full"
+              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+              className="p-10 lg:p-14 max-w-[1800px] mx-auto w-full min-h-full"
             >
               {children}
             </motion.div>
@@ -57,14 +60,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           position="top-right"
           toastOptions={{
             style: {
-              background: '#fff',
-              border: '1px solid #E2E8F0',
-              borderRadius: '16px',
-              padding: '16px 20px',
-              boxShadow: '0 20px 60px -15px rgba(0,0,0,0.1)',
-              fontFamily: 'var(--font-plus-jakarta)',
+              background: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(0, 0, 0, 0.05)',
+              borderRadius: '24px',
+              padding: '20px 24px',
+              boxShadow: '0 32px 80px -20px rgba(0,0,0,0.15)',
+              fontFamily: 'inherit',
               fontSize: '14px',
-              fontWeight: '600',
+              fontWeight: '800',
             },
           }}
           richColors
