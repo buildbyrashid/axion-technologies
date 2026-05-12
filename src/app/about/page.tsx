@@ -1,194 +1,160 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { MapPin, Globe, Clock, Wrench, ArrowRight } from 'lucide-react';
-import { COMPANY_STATS, getYearsExperience } from '@/lib/constants';
+import { Globe, ShieldCheck, Factory, Cpu } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CTASection from '@/components/sections/CTASection';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'About Axion Technology',
-  description:
-    `Learn about Axion Technology Co Ltd — ${getYearsExperience()}+ years of visual technology engineering across the Middle East and Europe, with offices in Hong Kong, Shenzhen, and Dubai.`,
+  title: 'About Us | Axion Technology',
+  description: 'Axion Technology Co Ltd is a global visual technology engineering company specializing in professional LED systems and integrated AV solutions.',
 };
 
-const milestones = [
-  { year: `${getYearsExperience()}+`, label: 'Years of Experience' },
-  { year: COMPANY_STATS.GLOBAL_LOCATIONS.toString(), label: 'Global Offices' },
-  { year: '5', label: 'Product Categories' },
-  { year: '10+', label: 'Industries Served' },
+const technicalCore = [
+  { 
+    title: "LED Display Systems", 
+    tagline: "Brilliant Visuals for Every Environment.",
+    icon: <Globe className="text-accent" />
+  },
+  { 
+    title: "LCD & Interactive Kiosks", 
+    tagline: "Smart Displays for Connected Experiences.",
+    icon: <Cpu className="text-accent" />
+  },
+  { 
+    title: "Lighting Systems", 
+    tagline: "Dynamic Lighting for Immersive Spaces.",
+    icon: <ShieldCheck className="text-accent" />
+  },
+  { 
+    title: "Professional Audio", 
+    tagline: "Precision Audio for Powerful Experiences.",
+    icon: <Factory className="text-accent" />
+  }
 ];
 
-const values = [
-  {
-    icon: <Wrench size={24} className="text-accent" />,
-    title: 'Engineering Excellence',
-    desc: 'Every solution we deliver is built on a foundation of engineering expertise, precision manufacturing partnerships, and real-world performance testing.',
-  },
-  {
-    icon: <Globe size={24} className="text-accent" />,
-    title: 'Global Reach',
-    desc: 'With operations across Hong Kong, Shenzhen, and Dubai, we coordinate international supply chains and support clients across the Middle East and Europe.',
-  },
-  {
-    icon: <Clock size={24} className="text-accent" />,
-    title: 'Proven Experience',
-    desc: 'Two decades of hands-on industry experience means we understand the real challenges of deploying visual technology at scale.',
-  },
-];
-
-const offices = [
+const hubs = [
   {
     city: 'Hong Kong',
-    role: 'Global Business Operations',
-    desc: 'Our Hong Kong office serves as the primary hub for international business coordination, client relations, and strategic development.',
-    flag: '🇭🇰',
+    role: 'Global Business Hub',
+    desc: 'International business coordination, client relations, and strategic development hub.',
   },
   {
     city: 'Shenzhen',
-    role: 'Manufacturing & Supply Chain',
-    desc: "Located in the heart of China's technology manufacturing belt, our Shenzhen operations manage OEM partnerships, production coordination, and quality assurance.",
-    flag: '🇨🇳',
+    role: 'Manufacturing Hub',
+    desc: 'OEM coordination, quality-focused production, and manufacturing management.',
   },
   {
     city: 'Dubai',
-    role: 'Middle East Operations',
-    desc: 'Our Dubai office supports the growing Middle East market with regional inventory, client support, and on-ground project coordination.',
-    flag: '🇦🇪',
-  },
+    role: 'Regional Support Hub',
+    desc: 'Middle East inventory support, project coordination, and regional logistics.',
+  }
 ];
 
 export default function AboutPage() {
   return (
-    <>
+    <main className="bg-white">
       <PageHero
         title="Engineering Technology for Modern Visual Environments"
-        subtitle={`Axion Technology Co Ltd is a global visual technology engineering company with over ${getYearsExperience()} years of experience delivering professional AV solutions across the Middle East and Europe.`}
-        badge="Our Story"
+        subtitle="Axion Technology Co Ltd is a global visual technology engineering company delivering professional LED display systems and integrated AV solutions."
+        badge="About Us"
         backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80"
       />
 
-      {/* Stats Section */}
-      <section className="py-12 bg-primary">
+      {/* Main Narrative Section */}
+      <section className="py-24 lg:py-32">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {milestones.map((m) => (
-              <div key={m.label} className="text-center">
-                <div className="text-4xl lg:text-5xl font-black text-white mb-2">{m.year}</div>
-                <div className="text-sm uppercase tracking-widest font-bold text-slate-400">{m.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Company Overview */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            <div className="space-y-8">
               <SectionHeader
-                badge="Company Overview"
-                title="Global Leaders in Visual Engineering Excellence"
+                badge="Who We Are"
+                title="Global Leaders in Visual Engineering"
                 align="left"
               />
-              <div className="space-y-6 mb-10">
-                <p className="text-slate-600 leading-relaxed">
-                  Axion Technology is a premier engineering-driven provider of advanced visual solutions. 
-                  delivering professional LED display systems, integrated AV solutions, interactive
-                  technologies, lighting, audio systems, and technical infrastructure for events,
-                  exhibitions, corporate environments, and modern visual experiences.
+              <div className="space-y-6 text-lg text-slate-600 leading-relaxed font-light">
+                <p>
+                  Axion Technology Co Ltd is a global visual technology engineering company delivering professional 
+                  LED display systems, integrated AV solutions, interactive technologies, lighting, audio systems, 
+                  and technical infrastructure for events, exhibitions, corporate environments, and modern visual experiences.
                 </p>
-                <p className="text-slate-600 leading-relaxed">
-                  Backed by over {getYearsExperience()} years of industry experience across the Middle East and Europe,
-                  Axion combines engineering expertise, OEM manufacturing partnerships, and global
-                  supply capabilities to support clients with high-performance visual technologies.
+                <p>
+                  Backed by over 20 years of industry experience across the Middle East and Europe, Axion combines 
+                  engineering expertise, OEM manufacturing partnerships, and global supply capabilities to support 
+                  clients with high-performance visual technologies tailored for real-world applications.
                 </p>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/contact" className="btn btn-primary px-8 rounded-full">
-                  Partner With Us <ArrowRight size={16} className="ml-2" />
-                </Link>
-                <Link href="/products" className="btn btn-outline px-8 rounded-full">
-                  Our Products
-                </Link>
               </div>
             </div>
+            
             <div className="relative">
-              <div className="relative h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
+              <div className="aspect-[4/3] rounded-[40px] overflow-hidden shadow-2xl relative">
                 <Image
                   src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80"
                   alt="Axion Technology Operations"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>
+              {/* Floating Highlight */}
+              <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-xl border border-slate-100 max-w-xs hidden sm:block">
+                <p className="text-sm font-medium text-slate-500 uppercase tracking-widest mb-2">Technical Reach</p>
+                <p className="text-2xl font-bold text-primary tracking-tight">Hong Kong | Shenzhen | Dubai</p>
+              </div>
             </div>
           </div>
+          
+          <div className="mt-24 pt-24 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-600">
+            <p className="leading-relaxed">
+              With operational presence in Hong Kong, Shenzhen, and Dubai, Axion supports international 
+              clients through manufacturing coordination, quality-focused production, regional inventory 
+              support, and international logistics.
+            </p>
+            <p className="leading-relaxed">
+              From rental-grade LED systems and touring technologies to premium COB, MIP, and enterprise 
+              collaboration displays, Axion delivers scalable visual solutions engineered for reliability, 
+              performance, and long-term value.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="section-padding bg-slate-50">
+      {/* Technical Core Section */}
+      <section className="py-24 bg-slate-50">
         <div className="container-custom">
           <SectionHeader
-            badge="Core Values"
-            title="What Drives Us"
-            subtitle="Our commitment to excellence defines every project we undertake."
+            badge="Our Foundation"
+            title="Technical Core Competencies"
+            subtitle="Delivering scalable visual solutions engineered for reliability and long-term value."
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((v) => (
-              <div key={v.title} className="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-shadow duration-300">
-                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-6">
-                  {v.icon}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {technicalCore.map((tech) => (
+              <div key={tech.title} className="bg-white p-8 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-accent/10 transition-colors">
+                  {tech.icon}
                 </div>
-                <h3 className="text-xl font-bold text-primary mb-4">{v.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{v.desc}</p>
+                <h4 className="text-xl font-bold text-primary mb-3 font-sora">{tech.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{tech.tagline}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Global Presence */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <SectionHeader
-            badge="Global Presence"
-            title="International Operations & Supply Network"
-            subtitle="Strategic presence in key global technology hubs."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {offices.map((o) => (
-              <div key={o.city} className="p-8 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="text-4xl mb-4">{o.flag}</div>
-                <h3 className="text-2xl font-bold text-primary mb-2">{o.city}</h3>
-                <div className="text-xs uppercase tracking-widest font-bold text-accent mb-4">{o.role}</div>
-                <p className="text-slate-600 text-sm leading-relaxed">{o.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Markets Tag Cloud */}
-      <section className="section-padding bg-slate-50">
+      {/* Hubs Section */}
+      <section className="py-24 lg:py-32 bg-white">
         <div className="container-custom text-center">
           <SectionHeader
-            badge="Our Markets"
-            title="Industries We Serve"
-            subtitle="Delivering excellence across diverse professional sectors."
+            badge="Global Hubs"
+            title="Strategic Operational Presence"
+            subtitle="Providing manufacturing coordination and regional inventory support from key technology centers."
           />
-          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-            {[
-              'Event Production', 'AV Systems Integrators', 'Corporate Enterprises', 
-              'Public Sector', 'Exhibition Organizers', 'Broadcast & Media', 
-              'Hospitality Groups', 'Educational Institutions', 'Entertainment Venues', 'Retail Chains'
-            ].map((m) => (
-              <div key={m} className="px-6 py-3 bg-white border border-slate-200 rounded-full text-primary font-medium flex items-center shadow-sm">
-                <MapPin size={14} className="mr-2 text-accent" />
-                {m}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+            {hubs.map((hub) => (
+              <div key={hub.city} className="p-10 bg-slate-50 rounded-[40px] border border-slate-100 hover:bg-white hover:shadow-2xl transition-all duration-500 text-left relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/10 transition-colors" />
+                <h3 className="text-3xl font-bold text-primary mb-2 tracking-tight">{hub.city}</h3>
+                <div className="text-xs font-bold text-accent uppercase tracking-widest mb-6">{hub.role}</div>
+                <p className="text-slate-500 leading-relaxed text-sm">{hub.desc}</p>
               </div>
             ))}
           </div>
@@ -196,7 +162,6 @@ export default function AboutPage() {
       </section>
 
       <CTASection />
-    </>
+    </main>
   );
 }
-
