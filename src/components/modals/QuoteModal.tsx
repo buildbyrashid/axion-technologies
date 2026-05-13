@@ -92,15 +92,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
             </button>
 
             <div className="p-10 md:p-14 max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
-              <h2 className="text-[42px] font-bold text-[#111111] mb-10 font-sora tracking-tight">
-                Send a Comment
+              <h2 className="text-3xl md:text-[40px] font-extrabold text-primary mb-10 font-sora tracking-tighter leading-none">
+                Request a Quote
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                   {/* Project Status */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
                       * Project status:
                     </label>
                     <select
@@ -108,110 +108,112 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       required
                       value={formData.projectStatus}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-[#666666] text-sm"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
-                      <option value="">Select Project status:</option>
-                      <option value="Planning">Planning</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Completed">Completed</option>
+                      <option value="">Select Project Status</option>
+                      <option value="Concept / Planning">Concept / Planning</option>
+                      <option value="Design Phase">Design Phase</option>
+                      <option value="Procurement">Procurement</option>
+                      <option value="Ongoing Project">Ongoing Project</option>
+                      <option value="Ready for Order">Ready for Order</option>
                     </select>
                   </div>
 
                   {/* Business Email */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
                       * Business email:
                     </label>
                     <input
                       type="email"
                       name="email"
                       required
-                      placeholder="Business email"
+                      placeholder="e.g. name@company.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-sm placeholder:text-[#D1D5DB]"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
                   {/* Phone */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      Phone:
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      Phone Number:
                     </label>
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="Phone"
+                      placeholder="e.g. +1 234 567 890"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-sm"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
                   {/* Country */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      * Country
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      * Country/Region:
                     </label>
                     <input
                       type="text"
                       name="country"
                       required
-                      placeholder="Country"
+                      placeholder="Enter country"
                       value={formData.country}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-sm"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
                   {/* Width */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      Width in millimeter:
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      Width in mm:
                     </label>
                     <input
                       type="text"
                       name="width"
-                      placeholder="Width in millimeter"
+                      placeholder="Width (optional)"
                       value={formData.width}
                       onChange={handleChange}
                       disabled={formData.uncertainSize}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-sm disabled:opacity-50"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
                     />
                   </div>
 
                   {/* Height */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      Height in millimeter:
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      Height in mm:
                     </label>
                     <input
                       type="text"
                       name="height"
-                      placeholder="Height in millimeter"
+                      placeholder="Height (optional)"
                       value={formData.height}
                       onChange={handleChange}
                       disabled={formData.uncertainSize}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-sm disabled:opacity-50"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
                     />
-                    <div className="flex items-center justify-end space-x-2 pt-1">
+                    <div className="flex items-center space-x-2.5 pt-1.5">
                       <input
                         type="checkbox"
                         id="uncertainSize"
                         name="uncertainSize"
                         checked={formData.uncertainSize}
                         onChange={handleChange}
-                        className="h-4 w-4 text-accent border-[#E5E7EB] rounded focus:ring-0 transition-all"
+                        className="h-4 w-4 text-accent border-slate-300 rounded-md focus:ring-accent/20 transition-all cursor-pointer"
                       />
-                      <label htmlFor="uncertainSize" className="text-sm text-[#666666]">
-                        Uncertain size
+                      <label htmlFor="uncertainSize" className="text-xs font-semibold text-slate-500 cursor-pointer">
+                        Size not yet confirmed
                       </label>
                     </div>
                   </div>
 
                   {/* Installation Method */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
                       * Installation method:
                     </label>
                     <select
@@ -219,57 +221,62 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       required
                       value={formData.installationMethod}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-[#666666] text-sm"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
-                      <option value="">right structure and a more accurate quote.</option>
-                      <option value="Wall Mount">Wall Mount</option>
-                      <option value="Hanging">Hanging</option>
-                      <option value="Standing">Standing</option>
+                      <option value="">Select Installation Method</option>
+                      <option value="Fixed Installation">Fixed Installation</option>
+                      <option value="Rental / Staging">Rental / Staging</option>
+                      <option value="Wall Mounted">Wall Mounted</option>
+                      <option value="Pole Mounted / Hanging">Pole Mounted / Hanging</option>
+                      <option value="Custom Structure">Custom Structure</option>
                     </select>
                   </div>
 
                   {/* Type */}
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      * Type:
+                  <div className="space-y-2.5">
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      * Solution Type:
                     </label>
                     <select
                       name="type"
                       required
                       value={formData.type}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all text-[#666666] text-sm"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
-                      <option value="">Select * Type</option>
-                      <option value="LED Display">LED Display</option>
-                      <option value="LCD Video Wall">LCD Video Wall</option>
-                      <option value="Interactive Panel">Interactive Panel</option>
+                      <option value="">Select Solution Type</option>
+                      <option value="LED Display Systems">LED Display Systems</option>
+                      <option value="LCD Screens & Interactive Kiosks">LCD Screens & Interactive Kiosks</option>
+                      <option value="Lighting Systems">Lighting Systems</option>
+                      <option value="Professional Audio Systems">Professional Audio Systems</option>
+                      <option value="Power Distribution & Cable Solutions">Power Distribution & Cable Solutions</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Message & Captcha row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                  <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      rows={4}
-                      placeholder="Describe your project requirements here. The more details you provide (such as application, screen size, and indoor/outdoor environment), the faster we can send you a tailored proposal and accurate quote."
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-0 focus:border-slate-300 transition-all resize-none text-sm placeholder:text-[#D1D5DB]"
-                    />
-                  </div>
+                {/* Message */}
+                <div className="space-y-2.5">
+                  <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                    Project Requirements & Details
+                  </label>
+                  <textarea
+                    name="message"
+                    rows={4}
+                    placeholder="Describe your project requirements here. Include details like environment, pixel pitch preference, or specific technical needs for a more accurate quote."
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all resize-none text-sm font-medium placeholder:text-slate-300"
+                  />
+                </div>
 
+                {/* Captcha & Submit row */}
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-2">
                   <div className="space-y-3">
-                    <label className="block text-[15px] font-[800] text-[#111111]">
-                      *Enter the answer
+                    <label className="block text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+                      * Verify you're human
                     </label>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-base text-[#111111]">
+                    <div className="flex items-center space-x-3">
+                      <div className="text-sm font-bold text-primary bg-slate-100 px-4 py-2.5 rounded-lg border border-slate-200">
                         {captchaQuestion.num1} + {captchaQuestion.num2} =
                       </div>
                       <input
@@ -278,19 +285,16 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                         required
                         value={formData.captcha}
                         onChange={handleChange}
-                        className="w-20 px-3 py-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded focus:outline-none focus:border-slate-300 transition-all text-sm"
+                        className="w-20 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-accent transition-all text-sm font-bold"
                       />
                     </div>
                   </div>
-                </div>
 
-                {/* Submit Button */}
-                <div className="pt-6">
                   <button
                     type="submit"
-                    className="bg-[#006644] hover:bg-[#005533] text-white font-bold py-3 px-8 rounded-sm transition-all shadow-md active:scale-[0.98] text-[15px]"
+                    className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary rounded-full hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95"
                   >
-                    Get Quote Now
+                    <span className="relative">Submit Request Now</span>
                   </button>
                 </div>
               </form>
