@@ -168,7 +168,7 @@ export default function ProductsPage() {
           href="/admin/products/new"
           className="group relative px-10 py-5 bg-[#0A1628] text-white rounded-[2.5rem] text-sm font-black uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] shrink-0 overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1000ms]" />
           <Plus size={20} className="group-hover:rotate-90 transition-transform" />
           Initialize Asset
         </Link>
@@ -273,7 +273,7 @@ export default function ProductsPage() {
                            src={primaryImage.image_url} 
                            alt={product.name} 
                            fill 
-                           className="object-cover group-hover:scale-110 transition-transform duration-[1.5s] ease-out"
+                           className="object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-out"
                         />
                      ) : (
                         <div className="w-full h-full flex items-center justify-center text-slate-200">

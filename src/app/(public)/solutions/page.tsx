@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Zap, Globe, Settings } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
@@ -8,7 +8,7 @@ import CTASection from '@/components/sections/CTASection';
 export const metadata: Metadata = {
   title: 'Engineering Solutions',
   description:
-    'Custom visual technology engineering solutions for global enterprise environments — from concept to deployment.',
+    'Custom visual technology engineering solutions for global enterprise environments ΓÇö from concept to deployment.',
 };
 
 const solutions = [

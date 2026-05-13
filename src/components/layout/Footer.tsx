@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, } from "lucide-react";
 import { 
@@ -129,7 +129,7 @@ export default function Footer() {
         <div className="pt-10 border-t border-white/10 flex flex-col md:grid md:grid-cols-3 md:items-center space-y-6 md:space-y-0 text-center md:text-left">
           {/* Copyright - Left */}
           <p className="text-slate-500 text-sm font-light">
-            © 2026 Axion Technology Co Ltd. All rights reserved.
+            ┬⌐ 2026 Axion Technology Co Ltd. All rights reserved.
           </p>
 
           {/* Credits - Center */}

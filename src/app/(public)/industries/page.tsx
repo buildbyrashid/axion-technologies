@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Zap } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
@@ -14,37 +14,37 @@ export const metadata: Metadata = {
 const industries = [
   {
     name: 'Live Events & Entertainment',
-    icon: '🎤',
+    icon: '≡ƒÄñ',
     desc: 'Full-scale visual and audio technology for concerts, music festivals, and touring productions. High-brightness outdoor LED and professional sound systems.',
     applications: ['Concert LED screens', 'Stage lighting rigs', 'Line array sound', 'LED video walls'],
   },
   {
     name: 'Exhibitions & Trade Shows',
-    icon: '🏛️',
+    icon: '≡ƒÅ¢∩╕Å',
     desc: 'Impactful visual technology solutions for exhibition booths and brand activation events. Interactive kiosks and high-resolution LED displays.',
     applications: ['Exhibition LED walls', 'Interactive kiosks', 'Digital signage', 'AV infrastructure'],
   },
   {
     name: 'Corporate Environments',
-    icon: '🏢',
+    icon: '≡ƒÅó',
     desc: 'Professional AV solutions for boardrooms, lobbies, and executive spaces. Interactive flat panels and video conferencing systems.',
     applications: ['Boardroom displays', 'Video conferencing', 'Digital directories', 'Lobby signage'],
   },
   {
     name: 'Museums & Experience Centers',
-    icon: '🖼️',
+    icon: '≡ƒû╝∩╕Å',
     desc: 'Immersive visual technologies for museums and brand experience spaces. Creative LED installations and interactive touchscreens.',
     applications: ['Creative LED', 'Interactive exhibits', 'Transparent displays', 'Immersive AV'],
   },
   {
     name: 'Retail & Digital Signage',
-    icon: '🛍️',
+    icon: '≡ƒ¢ì∩╕Å',
     desc: 'Dynamic digital signage solutions for retail environments and shopping centers. Window displays and content management systems.',
     applications: ['Window LED', 'Video walls', 'Menu boards', 'Wayfinding'],
   },
   {
     name: 'Command & Control Centers',
-    icon: '🖥️',
+    icon: '≡ƒûÑ∩╕Å',
     desc: 'High-reliability video wall solutions for operations centers and security control rooms. Fine-pitch LED and LCD video walls.',
     applications: ['LED video walls', 'Fine-pitch displays', 'LCD walls', 'Control systems'],
   },

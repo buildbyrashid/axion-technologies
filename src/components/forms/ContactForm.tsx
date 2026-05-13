@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +39,7 @@ export default function ContactForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Simulate API call — replace with actual endpoint
+      // Simulate API call ΓÇö replace with actual endpoint
       await new Promise((res) => setTimeout(res, 1200));
       console.log('Form submitted:', data);
       setStatus('success');
@@ -55,7 +55,7 @@ export default function ContactForm() {
         <div className="contact-form__success" role="alert">
           <CheckCircle size={48} className="contact-form__success-icon" />
           <h3>Message Sent Successfully!</h3>
-          <p>Thank you for reaching out. Our team will get back to you within 1–2 business days.</p>
+          <p>Thank you for reaching out. Our team will get back to you within 1ΓÇô2 business days.</p>
           <button className="btn btn-primary" onClick={() => setStatus('idle')}>
             Send Another Message
           </button>
@@ -138,7 +138,7 @@ export default function ContactForm() {
               {...register('productInterest')}
               defaultValue=""
             >
-              <option value="" disabled>Select a product category…</option>
+              <option value="" disabled>Select a product categoryΓÇª</option>
               {productOptions.map((opt) => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}
@@ -156,7 +156,7 @@ export default function ContactForm() {
               id="cf-details"
               rows={5}
               className={`contact-form__input contact-form__textarea${errors.projectDetails ? ' contact-form__input--error' : ''}`}
-              placeholder="Tell us about your project, requirements, timeline, and any specific needs…"
+              placeholder="Tell us about your project, requirements, timeline, and any specific needsΓÇª"
               {...register('projectDetails')}
             />
             {errors.projectDetails && (
@@ -182,7 +182,7 @@ export default function ContactForm() {
             {isSubmitting ? (
               <>
                 <span className="contact-form__spinner" aria-hidden="true" />
-                Sending…
+                SendingΓÇª
               </>
             ) : (
               <>

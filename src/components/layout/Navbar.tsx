@@ -23,6 +23,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import ProductDropdown from "./ProductDropdown";
+import QuoteModal from "@/components/modals/QuoteModal";
 
 const navLinks = [
   { name: "About", href: "/about", hasDropdown: false },
@@ -33,7 +34,7 @@ const navLinks = [
   { name: "Contact", href: "/contact", hasDropdown: false },
 ];
 
-// ── Mobile product categories (mirrors ProductDropdown data) ──────────────────
+// ————— Mobile product categories (mirrors ProductDropdown data) ——————————————————
 const mobileProductCategories = [
   { name: "LED Display Systems", href: "/products/led-display-systems" },
   { name: "LCD & Interactive", href: "/products/lcd-interactive-kiosks" },
@@ -117,8 +118,8 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  // ── NEW: tracks whether the mobile Products submenu is open ──────────────
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,6 +198,7 @@ export default function Navbar() {
                   !isScrolled && "bg-white/20"
                 )} />
                 <Button
+                  onClick={() => setIsQuoteModalOpen(true)}
                   className={cn(
                     "rounded-full px-8 py-6 font-bold text-[14px] transition-all",
                     isScrolled
@@ -259,11 +261,11 @@ export default function Navbar() {
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
 
-                  // ── Products: accordion with category sub-links ───────────
+                  // ————— Products: accordion with category sub-links —————————————
                   if (link.hasDropdown) {
                     return (
                       <div key={link.name}>
-                        {/* Row: tap label → toggle submenu */}
+                        {/* Row: tap label —> toggle submenu */}
                         <button
                           onClick={() => setIsMobileProductsOpen((prev) => !prev)}
                           className={cn(
@@ -311,7 +313,7 @@ export default function Navbar() {
                     );
                   }
 
-                  // ── All other links: unchanged behaviour ─────────────────
+                  // ————— All other links: unchanged behaviour —————————————————
                   return (
                     <Link
                       key={link.name}
@@ -339,7 +341,13 @@ export default function Navbar() {
                     +852 2345 6789
                   </a>
                 </div>
-                <Button className="w-full rounded-full h-14 bg-accent text-white font-bold text-lg">
+                <Button
+                  onClick={() => {
+                    setIsQuoteModalOpen(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full rounded-full h-14 bg-accent text-white font-bold text-lg"
+                >
                   Get a Quote Now
                 </Button>
               </div>
@@ -347,6 +355,11 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      <QuoteModal
+        isOpen={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
+      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { Mail, Globe, MapPin, Phone } from 'lucide-react';
 import ContactForm from '@/components/forms/ContactForm';
 import PageHero from '@/components/sections/PageHero';
@@ -7,7 +7,7 @@ import SectionHeader from '@/components/ui/SectionHeader';
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Get in touch with Axion Technology — request a consultation, product quote, or technical enquiry. Offices in Hong Kong, Shenzhen, and Dubai.',
+    'Get in touch with Axion Technology ΓÇö request a consultation, product quote, or technical enquiry. Offices in Hong Kong, Shenzhen, and Dubai.',
 };
 
 const offices = [
@@ -15,19 +15,19 @@ const offices = [
     city: 'Hong Kong',
     role: 'Global Operations',
     detail: 'Primary hub for international business coordination and strategic operations.',
-    flag: '🇭🇰',
+    flag: '≡ƒç¡≡ƒç░',
   },
   {
     city: 'Shenzhen',
     role: 'Manufacturing & Supply Chain',
     detail: 'OEM manufacturing partnerships, quality assurance, and sourcing operations.',
-    flag: '🇨🇳',
+    flag: '≡ƒç¿≡ƒç│',
   },
   {
     city: 'Dubai',
     role: 'Middle East Operations',
     detail: 'Regional inventory support and project coordination for the Middle East market.',
-    flag: '🇦🇪',
+    flag: '≡ƒçª≡ƒç¬',
   },
 ];
 

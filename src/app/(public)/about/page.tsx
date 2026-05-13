@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { Globe, ShieldCheck, Factory, Cpu } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
 import SectionHeader from '@/components/ui/SectionHeader';
