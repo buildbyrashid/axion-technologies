@@ -35,6 +35,7 @@ const navLinks = [
 
 // ————— Mobile product categories (mirrors ProductDropdown data) ——————————————————
 const mobileProductCategories = [
+  { name: "All", href: "/products" },
   { name: "LED Display Systems", href: "/products/led-display-systems" },
   { name: "LCD & Interactive", href: "/products/lcd-interactive-kiosks" },
   { name: "Lighting & Power", href: "/products/lighting-systems" },

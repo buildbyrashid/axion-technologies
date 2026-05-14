@@ -1,9 +1,12 @@
-import ProductHeroSection from "@/components/products/ProductHeroSection";
+import HeroCarousel from "@/components/products/HeroCarousel";
+import ProductsCard from "@/components/products/ProductsCard";
+
 
 export default function ProductsPage() {
   return (
-    <div className="md:py-20 py-[10px]">
-      <ProductHeroSection />
+    <div className="bg-[#ffff]">
+      <HeroCarousel />
+      <ProductsCard />
     </div>
   );
 }
