@@ -16,13 +16,21 @@ export default function PageHero({ title, subtitle, badge, backgroundImage }: Pa
     <section className="relative h-[75vh] min-h-[550px] flex items-center pt-32 overflow-hidden bg-primary">
       {/* Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent z-10" />
+        {/* Deep Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-primary/40 z-10" />
+        
+        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 z-10 opacity-[0.15]" 
+             style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        
         {backgroundImage ? (
           <Image
             src={backgroundImage}
             alt={title}
             fill
-            className="object-cover"
+            sizes="100vw"
+            className="object-cover scale-105"
             priority
           />
         ) : (

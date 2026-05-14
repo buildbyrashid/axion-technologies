@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import { Mail, Globe, MapPin, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import ContactForm from '@/components/forms/ContactForm';
-import PageHero from '@/components/sections/PageHero';
-import SectionHeader from '@/components/ui/SectionHeader';
+import ContactHero from '@/components/sections/ContactHero';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -33,87 +32,69 @@ const offices = [
 
 export default function ContactPage() {
   return (
-    <>
-      <PageHero
-        title="Let's Build the Next Visual Experience"
-        subtitle="Partner with Axion Technology for advanced visual technology solutions engineered for modern environments. Our team is ready to discuss your requirements."
-        badge="Get in Touch"
-        backgroundImage="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&q=80"
-      />
+    <div className="bg-[#fcfcfc] min-h-screen">
+      <ContactHero />
 
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Form Column */}
-            <div>
-              <SectionHeader
-                badge="Send a Message"
-                title="Request a Consultation"
-                align="left"
-              />
-              <div className="bg-slate-50 p-8 lg:p-12 rounded-3xl border border-slate-100">
-                <ContactForm />
+      {/* Main Content Area - Form & Office Info */}
+      <div id="contact-form-section" className="container-custom py-20 relative z-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-20">
+          {/* Form Column */}
+          <div className="lg:col-span-7">
+            <div className="bg-white p-8 md:p-14 rounded-[48px] border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.02)]">
+              <div className="mb-10">
+                <h3 className="text-3xl font-bold text-primary font-sora mb-3 tracking-tight">Direct Inquiry</h3>
+                <p className="text-slate-500 text-base leading-relaxed">
+                  Please fill in the form below and an engineering expert will contact you within 24 hours.
+                </p>
+              </div>
+              <ContactForm />
+            </div>
+          </div>
+
+          {/* Sidebar Column */}
+          <div className="lg:col-span-5 space-y-12">
+            {/* Quick Contact Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <a href="mailto:sales@axiontechnology.com" className="group p-8 bg-white rounded-[32px] border border-slate-100 hover:border-accent hover:shadow-xl hover:shadow-accent/5 transition-all duration-500">
+                <div className="h-12 w-12 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-500">
+                  <Mail size={24} className="text-accent group-hover:text-white transition-colors" />
+                </div>
+                <div className="text-sm font-bold text-primary uppercase tracking-widest mb-1">Email Sales</div>
+                <div className="text-xs text-slate-400 font-medium break-all">sales@axiontechnology.com</div>
+              </a>
+              <div className="group p-8 bg-white rounded-[32px] border border-slate-100 hover:shadow-xl transition-all duration-500">
+                <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
+                  <Phone size={24} className="text-slate-400" />
+                </div>
+                <div className="text-sm font-bold text-primary uppercase tracking-widest mb-1">Global Support</div>
+                <div className="text-xs text-slate-400 font-medium">Available Mon-Fri</div>
               </div>
             </div>
 
-            {/* Info Column */}
-            <div className="space-y-12">
-              <div>
-                <SectionHeader
-                  badge="Contact Info"
-                  title="Direct Channels"
-                  align="left"
-                  className="mb-8"
-                />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <a href="mailto:sales@axiontechnology.com" className="p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-accent hover:shadow-xl transition-all group">
-                    <Mail className="text-accent mb-4 group-hover:scale-110 transition-transform" size={24} />
-                    <div className="text-sm font-bold text-primary mb-1">Email Sales</div>
-                    <div className="text-xs text-slate-500 break-all">sales@axiontechnology.com</div>
-                  </a>
-                  <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 group">
-                    <Phone className="text-accent mb-4" size={24} />
-                    <div className="text-sm font-bold text-primary mb-1">Global Support</div>
-                    <div className="text-xs text-slate-500">Available Mon-Fri</div>
-                  </div>
-                </div>
+            {/* Regional Hubs Section */}
+            <div className="space-y-8">
+              <div className="flex items-center">
+                <h4 className="text-xs font-bold text-slate-400 font-sora uppercase tracking-[0.2em]">Regional Hubs</h4>
+                <div className="h-px bg-slate-100 flex-1 ml-6" />
               </div>
-
-              <div>
-                <SectionHeader
-                  badge="Global Offices"
-                  title="Regional Hubs"
-                  align="left"
-                  className="mb-8"
-                />
-                <div className="space-y-4">
-                  {offices.map((o) => (
-                    <div key={o.city} className="flex items-start p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="text-3xl mr-6">{o.flag}</div>
-                      <div>
+              <div className="grid grid-cols-1 gap-5">
+                {offices.map((o) => (
+                  <div key={o.city} className="flex items-center p-6 bg-white rounded-[32px] border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-500 group">
+                    <div className="text-3xl mr-6 h-16 w-16 flex items-center justify-center bg-slate-50 rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700">{o.flag}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
                         <div className="text-lg font-bold text-primary">{o.city}</div>
-                        <div className="text-xs uppercase tracking-widest font-bold text-accent mb-2">{o.role}</div>
-                        <p className="text-slate-500 text-sm">{o.detail}</p>
+                        <div className="text-[10px] uppercase tracking-widest font-bold text-accent">{o.role.split(' & ')[0]}</div>
                       </div>
+                      <p className="text-slate-400 text-xs leading-relaxed">{o.detail}</p>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="p-8 bg-primary rounded-3xl text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                <MapPin className="text-accent mb-4" size={32} />
-                <h4 className="text-xl font-bold mb-2">Global Sourcing Hub</h4>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  Our strategic presence in Hong Kong and Shenzhen ensures we maintain the highest 
-                  quality control standards and efficient logistics for every project.
-                </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }
-

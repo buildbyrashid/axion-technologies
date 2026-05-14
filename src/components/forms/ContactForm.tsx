@@ -39,7 +39,7 @@ export default function ContactForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Simulate API call — replace with actual endpoint
+      // Simulate API call
       await new Promise((res) => setTimeout(res, 1200));
       console.log('Form submitted:', data);
       setStatus('success');
@@ -49,150 +49,170 @@ export default function ContactForm() {
     }
   };
 
-  return (
-    <div className="contact-form-wrapper">
-      {status === 'success' ? (
-        <div className="contact-form__success" role="alert">
-          <CheckCircle size={48} className="contact-form__success-icon" />
-          <h3>Message Sent Successfully!</h3>
-          <p>Thank you for reaching out. Our team will get back to you within 1–2 business days.</p>
-          <button className="btn btn-primary" onClick={() => setStatus('idle')}>
-            Send Another Message
-          </button>
-        </div>
-      ) : (
-        <form
-          className="contact-form"
-          onSubmit={handleSubmit(onSubmit)}
-          aria-label="Contact form"
-          noValidate
+  if (status === 'success') {
+    return (
+      <div className="text-center py-12 px-6 bg-slate-50 rounded-3xl border border-slate-100 shadow-sm" role="alert">
+        <CheckCircle size={64} className="text-accent mx-auto mb-6" />
+        <h3 className="text-2xl font-bold text-primary mb-4 font-sora">Message Sent Successfully!</h3>
+        <p className="text-slate-500 mb-8 max-w-md mx-auto">
+          Thank you for reaching out to Axion Technology. Our team will review your request and get back to you within 1–2 business days.
+        </p>
+        <button 
+          className="bg-primary hover:bg-accent text-white font-bold py-3 px-8 rounded-full transition-all duration-300" 
+          onClick={() => setStatus('idle')}
         >
-          <div className="contact-form__row">
-            <div className="contact-form__field">
-              <label htmlFor="cf-name" className="contact-form__label">Full Name *</label>
-              <input
-                id="cf-name"
-                type="text"
-                className={`contact-form__input${errors.name ? ' contact-form__input--error' : ''}`}
-                placeholder="Your full name"
-                {...register('name')}
-              />
-              {errors.name && (
-                <span className="contact-form__error" role="alert">
-                  <AlertCircle size={13} /> {errors.name.message}
-                </span>
-              )}
-            </div>
+          Send Another Message
+        </button>
+      </div>
+    );
+  }
 
-            <div className="contact-form__field">
-              <label htmlFor="cf-email" className="contact-form__label">Email Address *</label>
-              <input
-                id="cf-email"
-                type="email"
-                className={`contact-form__input${errors.email ? ' contact-form__input--error' : ''}`}
-                placeholder="your@company.com"
-                {...register('email')}
-              />
-              {errors.email && (
-                <span className="contact-form__error" role="alert">
-                  <AlertCircle size={13} /> {errors.email.message}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="contact-form__row">
-            <div className="contact-form__field">
-              <label htmlFor="cf-company" className="contact-form__label">Company *</label>
-              <input
-                id="cf-company"
-                type="text"
-                className={`contact-form__input${errors.company ? ' contact-form__input--error' : ''}`}
-                placeholder="Your company name"
-                {...register('company')}
-              />
-              {errors.company && (
-                <span className="contact-form__error" role="alert">
-                  <AlertCircle size={13} /> {errors.company.message}
-                </span>
-              )}
-            </div>
-
-            <div className="contact-form__field">
-              <label htmlFor="cf-phone" className="contact-form__label">Phone Number</label>
-              <input
-                id="cf-phone"
-                type="tel"
-                className="contact-form__input"
-                placeholder="+971 XX XXX XXXX"
-                {...register('phone')}
-              />
-            </div>
-          </div>
-
-          <div className="contact-form__field">
-            <label htmlFor="cf-product" className="contact-form__label">Product Interest *</label>
-            <select
-              id="cf-product"
-              className={`contact-form__input contact-form__select${errors.productInterest ? ' contact-form__input--error' : ''}`}
-              {...register('productInterest')}
-              defaultValue=""
-            >
-              <option value="" disabled>Select a product category…</option>
-              {productOptions.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </select>
-            {errors.productInterest && (
-              <span className="contact-form__error" role="alert">
-                <AlertCircle size={13} /> {errors.productInterest.message}
-              </span>
-            )}
-          </div>
-
-          <div className="contact-form__field">
-            <label htmlFor="cf-details" className="contact-form__label">Project Details *</label>
-            <textarea
-              id="cf-details"
-              rows={5}
-              className={`contact-form__input contact-form__textarea${errors.projectDetails ? ' contact-form__input--error' : ''}`}
-              placeholder="Tell us about your project, requirements, timeline, and any specific needs…"
-              {...register('projectDetails')}
-            />
-            {errors.projectDetails && (
-              <span className="contact-form__error" role="alert">
-                <AlertCircle size={13} /> {errors.projectDetails.message}
-              </span>
-            )}
-          </div>
-
-          {status === 'error' && (
-            <div className="contact-form__error-banner" role="alert">
-              <AlertCircle size={16} />
-              Something went wrong. Please try again or email us directly at sales@axiontechnology.com
-            </div>
+  return (
+    <form
+      className="space-y-6"
+      onSubmit={handleSubmit(onSubmit)}
+      aria-label="Contact form"
+      noValidate
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Full Name */}
+        <div className="space-y-2">
+          <label htmlFor="cf-name" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+            Full Name *
+          </label>
+          <input
+            id="cf-name"
+            type="text"
+            className={`w-full px-4 py-3.5 bg-white border ${errors.name ? 'border-red-400 focus:ring-red-50' : 'border-slate-200 focus:ring-accent/10'} rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm`}
+            placeholder="Your full name"
+            {...register('name')}
+          />
+          {errors.name && (
+            <span className="text-xs text-red-500 font-medium flex items-center mt-1" role="alert">
+              <AlertCircle size={12} className="mr-1" /> {errors.name.message}
+            </span>
           )}
+        </div>
 
-          <button
-            type="submit"
-            id="contact-form-submit"
-            className="btn btn-primary contact-form__submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="contact-form__spinner" aria-hidden="true" />
-                Sending…
-              </>
-            ) : (
-              <>
-                <Send size={16} />
-                Send Message
-              </>
-            )}
-          </button>
-        </form>
+        {/* Email */}
+        <div className="space-y-2">
+          <label htmlFor="cf-email" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+            Business Email *
+          </label>
+          <input
+            id="cf-email"
+            type="email"
+            className={`w-full px-4 py-3.5 bg-white border ${errors.email ? 'border-red-400 focus:ring-red-50' : 'border-slate-200 focus:ring-accent/10'} rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm`}
+            placeholder="your@company.com"
+            {...register('email')}
+          />
+          {errors.email && (
+            <span className="text-xs text-red-500 font-medium flex items-center mt-1" role="alert">
+              <AlertCircle size={12} className="mr-1" /> {errors.email.message}
+            </span>
+          )}
+        </div>
+
+        {/* Company */}
+        <div className="space-y-2">
+          <label htmlFor="cf-company" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+            Company *
+          </label>
+          <input
+            id="cf-company"
+            type="text"
+            className={`w-full px-4 py-3.5 bg-white border ${errors.company ? 'border-red-400 focus:ring-red-50' : 'border-slate-200 focus:ring-accent/10'} rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm`}
+            placeholder="Your company name"
+            {...register('company')}
+          />
+          {errors.company && (
+            <span className="text-xs text-red-500 font-medium flex items-center mt-1" role="alert">
+              <AlertCircle size={12} className="mr-1" /> {errors.company.message}
+            </span>
+          )}
+        </div>
+
+        {/* Phone */}
+        <div className="space-y-2">
+          <label htmlFor="cf-phone" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+            Phone Number
+          </label>
+          <input
+            id="cf-phone"
+            type="tel"
+            className="w-full px-4 py-3.5 bg-white border border-slate-200 focus:ring-accent/10 rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm"
+            placeholder="+1 234 567 890"
+            {...register('phone')}
+          />
+        </div>
+      </div>
+
+      {/* Product Interest */}
+      <div className="space-y-2">
+        <label htmlFor="cf-product" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+          Product Interest *
+        </label>
+        <select
+          id="cf-product"
+          className={`w-full px-4 py-3.5 bg-white border ${errors.productInterest ? 'border-red-400 focus:ring-red-50' : 'border-slate-200 focus:ring-accent/10'} rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium shadow-sm appearance-none cursor-pointer`}
+          {...register('productInterest')}
+          defaultValue=""
+        >
+          <option value="" disabled>Select a product category...</option>
+          {productOptions.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+        {errors.productInterest && (
+          <span className="text-xs text-red-500 font-medium flex items-center mt-1" role="alert">
+            <AlertCircle size={12} className="mr-1" /> {errors.productInterest.message}
+          </span>
+        )}
+      </div>
+
+      {/* Project Details */}
+      <div className="space-y-2">
+        <label htmlFor="cf-details" className="text-[13px] font-bold text-slate-900 uppercase tracking-wider">
+          Project Details *
+        </label>
+        <textarea
+          id="cf-details"
+          rows={5}
+          className={`w-full px-4 py-3.5 bg-white border ${errors.projectDetails ? 'border-red-400 focus:ring-red-50' : 'border-slate-200 focus:ring-accent/10'} rounded-xl focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm resize-none`}
+          placeholder="Tell us about your project, requirements, timeline, and any specific needs..."
+          {...register('projectDetails')}
+        />
+        {errors.projectDetails && (
+          <span className="text-xs text-red-500 font-medium flex items-center mt-1" role="alert">
+            <AlertCircle size={12} className="mr-1" /> {errors.projectDetails.message}
+          </span>
+        )}
+      </div>
+
+      {status === 'error' && (
+        <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm flex items-center" role="alert">
+          <AlertCircle size={16} className="mr-2" />
+          Something went wrong. Please try again or email us directly at sales@axiontechnology.com
+        </div>
       )}
-    </div>
+
+      <button
+        type="submit"
+        className="w-full group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary rounded-full hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95 disabled:opacity-70"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <>
+            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-3" aria-hidden="true" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Send size={18} className="mr-2" />
+            Send Message
+          </>
+        )}
+      </button>
+    </form>
   );
 }
