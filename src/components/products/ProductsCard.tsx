@@ -117,11 +117,11 @@ export default function ProductsCard() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Heading */}
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <span className="mb-4 inline-block rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-sm font-semibold tracking-wide text-blue-700">
+          <span className="mb-4 inline-block rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-[10px] font-semibold tracking-wide text-blue-700">
             OUR PRODUCTS
           </span>
 
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
             Professional Visual Technology Solutions
           </h2>
 
@@ -152,11 +152,11 @@ export default function ProductsCard() {
 
                 {/* Title Overlay */}
                 <div className="absolute bottom-5 left-5 right-5">
-                  <h3 className="text-xl font-bold text-white">
+                  <h3 className="text-sm font-bold text-white">
                     {product.title}
                   </h3>
 
-                  <p className="mt-2 text-sm text-slate-200">
+                  <p className="mt-2 text-[10px] text-slate-200">
                     {product.subtitle}
                   </p>
                 </div>
@@ -164,7 +164,7 @@ export default function ProductsCard() {
 
               {/* Content */}
               <div className="flex flex-1 flex-col justify-between p-6">
-                <p className="text-sm leading-relaxed text-slate-600">
+                <p className="text-[11px] leading-relaxed text-slate-600">
                   {product.description}
                 </p>
 
@@ -173,7 +173,7 @@ export default function ProductsCard() {
                   {product.categories.map((item, idx) => (
                     <span
                       key={idx}
-                      className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700"
+                      className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[9px] font-medium text-blue-700"
                     >
                       {item}
                     </span>
@@ -183,7 +183,7 @@ export default function ProductsCard() {
                   {/* Button */}
                   <Link
                     href={`/products/${product.slug}`}
-                    className="inline-flex px-4 border rounded-[10px] mt-5 gap-2 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                    className="inline-flex px-4 border rounded-[10px] mt-5 gap-2 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors text-xs"
                   >
                     Explore Products
                     <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
