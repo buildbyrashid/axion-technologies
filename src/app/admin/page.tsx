@@ -152,7 +152,7 @@ export default function AdminDashboard() {
           animate={{ opacity: 1, scale: 1 }}
           className="md:col-span-4 bg-slate-950 text-white rounded-[3.5rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
         >
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1.5s]" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1500ms]" />
           
           <div className="relative z-10 h-full flex flex-col lg:flex-row gap-16">
              <div className="flex-1 space-y-10">
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
           transition={{ delay: 0.2 }}
           className="md:col-span-2 bg-white rounded-[3.5rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
         >
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1s]" />
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1000ms]" />
           <div className="relative z-10 flex flex-col h-full justify-between">
             <div className="w-16 h-16 rounded-[2rem] bg-blue-50 text-[#0D95F0] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
               <Box size={28} />
