@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -13,6 +14,7 @@ import {
 
 type ProductCard = {
   title: string;
+  slug: string;
   subtitle: string;
   description: string;
   image: string;
@@ -23,6 +25,7 @@ type ProductCard = {
 const products: ProductCard[] = [
   {
     title: "LED DISPLAY SYSTEMS",
+    slug: "led-display-systems",
     subtitle: "Brilliant Visuals for Every Environment",
     description:
       "Professional LED display solutions for events, command centers, retail spaces, exhibitions, and immersive visual environments.",
@@ -38,6 +41,7 @@ const products: ProductCard[] = [
   },
   {
     title: "LCD SCREENS & INTERACTIVE KIOSKS",
+    slug: "lcd-screens-&-interactive-kiosks",
     subtitle: "Smart Displays for Connected Experiences",
     description:
       "Advanced touch displays, kiosks, signage systems, and collaboration solutions for modern interactive experiences.",
@@ -53,6 +57,7 @@ const products: ProductCard[] = [
   },
   {
     title: "LIGHTING SYSTEMS",
+    slug: "lighting-systems",
     subtitle: "Dynamic Lighting for Immersive Spaces",
     description:
       "Professional stage and architectural lighting systems engineered for live events and entertainment productions.",
@@ -68,6 +73,7 @@ const products: ProductCard[] = [
   },
   {
     title: "PROFESSIONAL AUDIO SYSTEMS",
+    slug: "professional-audio-systems",
     subtitle: "Precision Audio for Powerful Experiences",
     description:
       "High-performance audio systems including speakers, amplifiers, DSP systems, and installation audio solutions.",
@@ -83,6 +89,7 @@ const products: ProductCard[] = [
   },
   {
     title: "POWER DISTRIBUTION & CABLE SOLUTIONS",
+    slug: "power-distribution-&-cable-solutions",
     subtitle: "Engineered Connectivity. Reliable Performance.",
     description:
       "Reliable power distribution systems, signal management solutions, and professional-grade cabling.",
@@ -174,11 +181,13 @@ export default function ProductsCard() {
                 </div>
                 <div>
                   {/* Button */}
-                <button className=" px-4 border rounded-[10px] mt-5 flex gap-2 py-2 bg-blue-500 text-white">
-                 Explore Products
-
-                  <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-                </button>
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="inline-flex px-4 border rounded-[10px] mt-5 gap-2 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                  >
+                    Explore Products
+                    <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </Link>
                 </div>
              
               </div>
