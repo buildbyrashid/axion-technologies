@@ -7,19 +7,17 @@ export async function POST(request: Request) {
     const supabase = getSupabaseClient()
     
     const { data, error } = await supabase
-      .from('contact_inquiries')
+      .from('inquiries')
       .insert([
         {
-          full_name: inquiryData.name,
+          full_name: inquiryData.name || inquiryData.full_name,
           email: inquiryData.email,
+          phone: inquiryData.phone,
+          company: inquiryData.company,
+          country: inquiryData.country,
           subject: inquiryData.subject || 'General Inquiry',
           message: inquiryData.message,
-          company: inquiryData.company,
-          phone: inquiryData.phone,
-          metadata: {
-            source: 'website_contact_form',
-            timestamp: new Date().toISOString()
-          }
+          status: 'new'
         }
       ])
       .select()
