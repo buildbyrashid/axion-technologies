@@ -11,7 +11,7 @@ interface Props {
 
 export default function ProductHeroSection({ product }: Props) {
   return (
-    <section className="relative min-h-[88vh] flex items-center pt-[150px] pb-24 overflow-hidden bg-[#001a33] text-white">
+    <section className="relative min-h-[88vh] flex items-center pt-[100px] sm:pt-[150px]  pb-24 overflow-hidden bg-[#001a33] text-white">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image

@@ -28,7 +28,7 @@ export default function ProductTabNav({ activeSection }: Props) {
 
       for (const tab of [...tabs].reverse()) {
         const el = document.getElementById(`section-${tab.id}`);
-        if (el && window.scrollY + 120 >= el.offsetTop) {
+        if (el && window.scrollY + 140 >= el.offsetTop) {
           setActive(tab.id);
           break;
         }
@@ -41,7 +41,7 @@ export default function ProductTabNav({ activeSection }: Props) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(`section-${id}`);
     if (el) {
-      const offset = 80;
+      const offset = 100;
       window.scrollTo({ top: el.offsetTop - offset, behavior: "smooth" });
     }
   };
@@ -50,24 +50,26 @@ export default function ProductTabNav({ activeSection }: Props) {
     <div
       ref={ref}
       className={cn(
-        "sticky top-0 z-30 transition-all duration-300",
-        stuck ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white/90 backdrop-blur-sm"
+        "sticky top-[72px] z-30 transition-all duration-300",
+        stuck ? "bg-[#0a1628] shadow-lg border-b border-white/10" : "bg-white border-b border-slate-100"
       )}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="flex gap-1 overflow-x-auto scrollbar-hide justify-center">
+        <div className="flex gap-1 overflow-x-auto scrollbar-hide md:justify-center">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => scrollTo(tab.id)}
               className={cn(
-                "flex items-center gap-2 px-5 py-4 text-sm font-bold whitespace-nowrap border-b-2 transition-all duration-200",
+                "flex items-center gap-2 px-5 py-4 text-sm font-bold whitespace-nowrap border-b-2 transition-all duration-300",
                 active === tab.id
-                  ? "border-sky-500 text-sky-600"
-                  : "border-transparent text-slate-400 hover:text-slate-700 hover:border-slate-200"
+                  ? (stuck ? "border-sky-400 text-sky-400" : "border-sky-500 text-sky-600")
+                  : (stuck ? "border-transparent text-white/50 hover:text-white" : "border-transparent text-slate-400 hover:text-slate-700")
               )}
             >
-              {tab.icon}
+              <span className={cn("transition-colors duration-300", active === tab.id ? "" : (stuck ? "text-white/40" : "text-slate-400"))}>
+                {tab.icon}
+              </span>
               {tab.label}
             </button>
           ))}

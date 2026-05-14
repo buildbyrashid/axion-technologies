@@ -10,15 +10,11 @@ interface Props {
 
 export default function ProductAccessoriesTab({ accessories }: Props) {
   return (
-    <section className="relative bg-white py-16 sm:py-20 lg:py-28 xl:py-36 overflow-hidden">
+    <section className="relative bg-white py-10 lg:py-20 overflow-hidden">
       {/* Subtle background grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #0a0f1e 1px, transparent 1px), linear-gradient(to bottom, #0a0f1e 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
+      
       />
 
       {/* Glow accent */}
@@ -35,8 +31,7 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 mb-5"
           >
-            <span className="block h-px w-8 bg-sky-500" />
-            <span className="text-sky-600 text-xs font-semibold tracking-[0.2em] uppercase">
+            <span className="text-sky-500 text-xs font-semibold tracking-[0.2em] uppercase">
               System Compatibility
             </span>
           </motion.div>
@@ -46,8 +41,7 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.07 }}
-            className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 tracking-tight max-w-xl leading-[1.15]"
-            style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+            className="text-[22px] leading-[30px] sm:text-4xl uppercase md:text-4xl font-bold tracking-tight text-black tracking-[4px]"
           >
             Optional Accessories
           </motion.h2>
@@ -57,7 +51,7 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.14 }}
-            className="mt-4 text-slate-500 text-base max-w-md leading-relaxed"
+            className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-slate-600"
           >
             Expand and customize your setup with compatible accessories designed for seamless integration.
           </motion.p>
@@ -77,8 +71,8 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
               {/* Left: icon + label */}
               <div className="flex items-center gap-3 sm:gap-5 flex-1 min-w-0">
                 {/* Icon */}
-                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white group-hover:border-sky-300 group-hover:bg-sky-50 transition-all duration-200">
-                  <Package size={14} className="text-slate-400 group-hover:text-sky-600 transition-colors duration-200" />
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white group-hover:border-[#0a1628]/20 group-hover:bg-[#0a1628]/5 transition-all duration-200">
+                  <Package size={14} className="text-slate-400 group-hover:text-[#0a1628] transition-colors duration-200" />
                 </div>
 
                 {/* Divider */}
@@ -98,21 +92,10 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
               </div>
 
               {/* Hover left accent bar */}
-              <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-sky-500 group-hover:h-10 transition-all duration-300 rounded-full" />
+              <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-[#0a1628] group-hover:h-10 transition-all duration-300 rounded-full" />
             </motion.div>
           ))}
         </div>
-
-        {/* Footer note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 text-slate-400 text-xs text-center"
-        >
-          Contact your distributor for accessory availability and compatibility details.
-        </motion.p>
       </div>
     </section>
   );
