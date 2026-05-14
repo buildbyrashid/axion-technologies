@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -94,12 +94,6 @@ function NavLink({ link, isScrolled, pathname }: { link: any; isScrolled: boolea
           )} />
         )}
       </Link>
-      {isActive && (
-        <motion.div
-          layoutId="nav-underline"
-          className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent rounded-full"
-        />
-      )}
 
       <AnimatePresence>
         {isHovered && link.name === "Products" && (

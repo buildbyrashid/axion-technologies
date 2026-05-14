@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Globe, ShieldCheck, Factory, Cpu } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -103,17 +103,23 @@ export default function AboutPage() {
             </div>
           </div>
           
-          <div className="mt-24 pt-24 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-600">
-            <p className="leading-relaxed">
-              With operational presence in Hong Kong, Shenzhen, and Dubai, Axion supports international 
-              clients through manufacturing coordination, quality-focused production, regional inventory 
-              support, and international logistics.
-            </p>
-            <p className="leading-relaxed">
-              From rental-grade LED systems and touring technologies to premium COB, MIP, and enterprise 
-              collaboration displays, Axion delivers scalable visual solutions engineered for reliability, 
-              performance, and long-term value.
-            </p>
+          <div className="mt-24 pt-24 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-primary font-sora tracking-tight">Global Operations</h4>
+              <p className="leading-relaxed text-slate-600">
+                With operational presence in Hong Kong, Shenzhen, and Dubai, Axion supports international 
+                clients through manufacturing coordination, quality-focused production, regional inventory 
+                support, and international logistics.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-primary font-sora tracking-tight">Visual Solutions</h4>
+              <p className="leading-relaxed text-slate-600">
+                From rental-grade LED systems and touring technologies to premium COB, MIP, and enterprise 
+                collaboration displays, Axion delivers scalable visual solutions engineered for reliability, 
+                performance, and long-term value.
+              </p>
+            </div>
           </div>
         </div>
       </section>
