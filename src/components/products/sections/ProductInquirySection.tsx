@@ -26,7 +26,7 @@ export default function ProductInquirySection() {
   };
 
   return (
-    <section className="bg-[#001a33] py-24 lg:py-32">
+    <section className="bg-[#001a33] py-10 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-16 items-stretch">
           {/* Left: Contact info */}
@@ -42,7 +42,7 @@ export default function ProductInquirySection() {
             <h2 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
               Ready to Spec Your Project?
             </h2>
-            <p className="text-white/60 text-lg leading-relaxed mb-12 max-w-md">
+            <p className="mb-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-white">
               Our technical sales team provides full system drawings, BOM
               optimization, and localized support for global deployments.
             </p>

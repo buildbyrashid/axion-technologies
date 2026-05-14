@@ -9,7 +9,7 @@ interface Props {
 
 export default function ProductSpecificationsTab({ specifications }: Props) {
   return (
-    <section className="bg-slate-50 py-24 lg:py-32">
+    <section className="bg-slate-50 py-10 lg:py-20">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
 
         {/* Header */}
@@ -21,8 +21,7 @@ export default function ProductSpecificationsTab({ specifications }: Props) {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 mb-5"
           >
-            <span className="block h-px w-8 bg-sky-500" />
-            <span className="text-sky-600 text-xs font-semibold tracking-[0.2em] uppercase">
+            <span className="text-sky-500 text-xs font-semibold tracking-[0.2em] uppercase">
               Technical Data
             </span>
           </motion.div>
@@ -32,7 +31,7 @@ export default function ProductSpecificationsTab({ specifications }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.07 }}
-            className="text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight leading-[1.15]"
+            className="text-[22px] leading-[30px] sm:text-4xl uppercase md:text-4xl font-bold tracking-tight text-black tracking-[4px]"
           >
             Detailed Specifications
           </motion.h2>
@@ -42,7 +41,7 @@ export default function ProductSpecificationsTab({ specifications }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.14 }}
-            className="mt-4 text-slate-500 text-base max-w-lg leading-relaxed"
+            className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-slate-600"
           >
             Full technical parameters and performance data for engineering and procurement reference.
           </motion.p>
@@ -81,10 +80,10 @@ export default function ProductSpecificationsTab({ specifications }: Props) {
                   transition={{ duration: 0.3, delay: index * 0.04 }}
                   className={`group border-t border-slate-200 transition-colors duration-150 ${
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/70"
-                  } hover:bg-sky-50`}
+                  } hover:bg-[#0a1628]/5`}
                 >
                   <td className="py-4 px-6 border-r border-slate-200 w-2/5 align-top">
-                    <span className="text-slate-800 font-semibold text-sm leading-snug group-hover:text-sky-700 transition-colors duration-150">
+                    <span className="text-slate-800 font-semibold text-sm leading-snug group-hover:text-[#0a1628] transition-colors duration-150">
                       {spec.label}
                     </span>
                   </td>
