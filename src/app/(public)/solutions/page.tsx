@@ -14,7 +14,11 @@ import {
   Activity,
   ShoppingBag,
   History,
-  Tv
+  Tv,
+  Coffee,
+  Workflow,
+  Globe,
+  ShieldCheck
 } from 'lucide-react';
 import PageHero from '@/components/sections/PageHero';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -31,13 +35,13 @@ const technologies = [
   {
     title: "LCD & Interactive Kiosks",
     desc: "Precision-engineered interactive touch solutions for high-traffic environments.",
-    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80",
+    image: "/images/solutions/kiosk.png",
     icon: Layout,
   },
   {
     title: "Professional Lighting",
     desc: "Advanced architectural and stage lighting systems with centralized control integration.",
-    image: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80",
     icon: Zap,
   },
   {
@@ -49,7 +53,7 @@ const technologies = [
   {
     title: "Power & Connectivity",
     desc: "Robust power distribution and high-bandwidth signal management ecosystems.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&q=80",
     icon: Cpu,
   },
 ];
@@ -102,6 +106,14 @@ const environments = [
     image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80",
     size: "standard",
     icon: Tv,
+  },
+  {
+    title: "Hospitality & Entertainment",
+    subtitle: "Premium Guest Experiences",
+    desc: "Luxury visual integration for high-end hospitality venues, lounges, and entertainment complexes.",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80",
+    size: "standard",
+    icon: Coffee,
   },
 ];
 
@@ -264,30 +276,33 @@ export default function SolutionsPage() {
               viewport={{ once: true }}
             >
               <span className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block">Engineering Excellence</span>
-              <h2 className="text-4xl lg:text-5xl font-extrabold mb-8 leading-tight">
+              <h2 className="text-4xl lg:text-5xl font-extrabold mb-8 leading-tight text-white">
                 From Engineering Concept to Global Deployment
               </h2>
               <div className="space-y-8">
                 {[
                   {
                     title: "System Integration",
-                    desc: "We don't just supply hardware; we engineer entire ecosystems that integrate seamlessly with your existing infrastructure."
+                    desc: "We don't just supply hardware; we engineer entire ecosystems that integrate seamlessly with your existing infrastructure.",
+                    icon: Workflow
                   },
                   {
                     title: "Deployment Logistics",
-                    desc: "Coordinated global supply chains ensuring timely delivery and precision installation in even the most complex environments."
+                    desc: "Coordinated global supply chains ensuring timely delivery and precision installation in even the most complex environments.",
+                    icon: Globe
                   },
                   {
                     title: "Performance Validation",
-                    desc: "Rigorous testing protocols that ensure every installation meets international enterprise standards for reliability."
+                    desc: "Rigorous testing protocols that ensure every installation meets international enterprise standards for reliability.",
+                    icon: ShieldCheck
                   }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6">
                     <div className="h-12 w-12 shrink-0 rounded-2xl bg-primary flex items-center justify-center border border-white/10">
-                      <Zap className="text-accent h-6 w-6" />
+                      <item.icon className="text-accent h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold mb-2">{item.title}</h4>
+                      <h4 className="text-xl font-bold mb-2 text-white">{item.title}</h4>
                       <p className="text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -309,15 +324,6 @@ export default function SolutionsPage() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-              <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl">
-                <div className="flex gap-4 items-center">
-                  <div className="h-12 w-12 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xl">10+</div>
-                  <div>
-                    <div className="font-bold">Global Hubs</div>
-                    <div className="text-sm text-slate-400">Serving 10+ international markets</div>
-                  </div>
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
