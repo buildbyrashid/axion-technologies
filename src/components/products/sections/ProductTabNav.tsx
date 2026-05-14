@@ -19,16 +19,20 @@ interface Props {
 export default function ProductTabNav({ activeSection }: Props) {
   const [active, setActive] = useState(activeSection);
   const [stuck, setStuck] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
 
   // Highlight active tab based on scroll position
   useEffect(() => {
     const handleScroll = () => {
       setStuck(window.scrollY > 80);
 
+      // Higher threshold for detection
+      const threshold = 160; 
+
       for (const tab of [...tabs].reverse()) {
         const el = document.getElementById(`section-${tab.id}`);
-        if (el && window.scrollY + 140 >= el.offsetTop) {
+        if (el && window.scrollY + threshold >= el.offsetTop) {
           setActive(tab.id);
           break;
         }
@@ -37,6 +41,17 @@ export default function ProductTabNav({ activeSection }: Props) {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Auto-scroll active tab into view
+  useEffect(() => {
+    if (activeTabRef.current && scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const tab = activeTabRef.current;
+      
+      const scrollLeft = tab.offsetLeft - (container.clientWidth / 2) + (tab.clientWidth / 2);
+      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
+    }
+  }, [active]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(`section-${id}`);
@@ -48,17 +63,20 @@ export default function ProductTabNav({ activeSection }: Props) {
 
   return (
     <div
-      ref={ref}
       className={cn(
-        "sticky top-[72px] z-30 transition-all duration-300",
+        "sticky top-[68px] z-30 transition-all duration-300",
         stuck ? "bg-[#0a1628] shadow-lg border-b border-white/10" : "bg-white border-b border-slate-100"
       )}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="flex gap-1 overflow-x-auto scrollbar-hide md:justify-center">
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-1 overflow-x-auto scrollbar-hide md:justify-center"
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              ref={active === tab.id ? activeTabRef : null}
               onClick={() => scrollTo(tab.id)}
               className={cn(
                 "flex items-center gap-2 px-5 py-4 text-sm font-bold whitespace-nowrap border-b-2 transition-all duration-300",

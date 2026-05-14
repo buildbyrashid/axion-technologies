@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ProductData } from "@/data/products";
 
 interface Props {
@@ -21,73 +21,128 @@ export default function ProductFeaturesSection({ features }: Props) {
   };
 
   return (
-    <section className="w-full bg-white py-5 sm:py-14 md:py-10 px-3 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] bg-white p-4 sm:p-6 md:p-10 border-blue-100 overflow-hidden">
+    <section className="w-full bg-white py-14 sm:py-20 px-4 sm:px-6">
+      <div className="mx-auto max-w-5xl">
 
         {/* Header */}
-        <div className="flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center gap-3 mb-4"
-            >
-          
-              <span className="text-sky-600 text-xs font-semibold tracking-[0.2em] uppercase">
-                Engineering Excellence
-              </span>
-            </motion.div>
+        <div className="text-center mb-12 sm:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center justify-center gap-3 mb-4"
+          >
+            <span className="text-sky-600 text-xs font-semibold tracking-[0.2em] uppercase">
+              Engineering Excellence
+            </span>
+          </motion.div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.07 }}
-              className="text-[22px] leading-[30px] sm:text-4xl uppercase md:text-4xl font-bold tracking-tight text-black tracking-[4px]"
-            >
-              Key Technical Advantages
-            </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.07 }}
+            className="text-[26px] sm:text-4xl font-bold tracking-tight text-black"
+          >
+            Key Technical Advantages
+          </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.14 }}
-              className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-slate-600"
-            >
-              Explore innovative engineering solutions designed to deliver superior
-              performance, operational flexibility, and seamless industrial integration.
-            </motion.p>
-          </div>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.14 }}
+            className="mt-4 text-sm sm:text-base text-slate-500 max-w-xl mx-auto leading-relaxed"
+          >
+            Explore innovative engineering solutions designed to deliver superior
+            performance, operational flexibility, and seamless industrial integration.
+          </motion.p>
+        </div>
 
-          {/* Arrow buttons — navy colour */}
-          <div className="hidden sm:flex items-center gap-2">
+        {/* Grid — desktop: 3 cols with dividers, mobile: slider */}
+
+        {/* Mobile Slider */}
+        <div className="sm:hidden relative">
+          {/* Mobile slider buttons — flanking the content */}
+          <div className="absolute top-[40%] -left-2 z-10 -translate-y-1/2">
             <button
               onClick={scrollLeft}
               aria-label="Scroll left"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#0a1628]/20 bg-white text-[#0a1628] transition-all duration-300 hover:bg-[#0a1628]/5"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-xl border border-slate-100 text-slate-600 active:scale-95 transition-all"
             >
               <ChevronLeft size={20} />
             </button>
+          </div>
+          
+          <div className="absolute top-[40%] -right-2 z-10 -translate-y-1/2">
             <button
               onClick={scrollRight}
               aria-label="Scroll right"
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white transition-all duration-300 hover:bg-[#0d1f35]"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 shadow-xl text-white active:scale-95 transition-all"
             >
               <ChevronRight size={20} />
             </button>
           </div>
+
+          <div
+            ref={sliderRef}
+            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x snap-mandatory pb-4 px-1"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.07 }}
+                className="min-w-[85%] snap-center flex flex-col items-center text-center px-6 py-10 border border-slate-100 bg-white rounded-2xl shadow-sm"
+              >
+                {/* Icon placeholder */}
+                <div className="mb-6 text-orange-400">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v4l3 3" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-black mb-4">{feature.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
-        {/* Slider */}
-        <div
-          ref={sliderRef}
-          className="mt-8 sm:mt-10 md:mt-12 flex items-stretch gap-2 sm:gap-5 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide px-1 pb-2 snap-x snap-mandatory"
-        >
+        {/* Desktop Grid */}
+        <div className="hidden sm:block border border-slate-200 rounded-2xl overflow-hidden">
           {features.map((feature, index) => {
-            const isDark = index === 0;
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            const totalRows = Math.ceil(features.length / 3);
+            const isLastRow = row === totalRows - 1;
+            const isLastCol = col === 2 || index === features.length - 1;
+            const isFirstInRow = col === 0;
+
+            // icon colors cycling
+            const iconColors = [
+              "text-orange-400",
+              "text-teal-500",
+              "text-blue-500",
+              "text-indigo-500",
+              "text-red-400",
+              "text-purple-500",
+            ];
+            const iconColor = iconColors[index % iconColors.length];
+
+            // Simple icon shapes cycling
+            const icons = [
+              <svg key="a" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>,
+              <svg key="b" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9V5a3 3 0 0 0-6 0v4"/><rect x="2" y="9" width="20" height="13" rx="2"/></svg>,
+              <svg key="c" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>,
+              <svg key="d" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+              <svg key="e" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"/><path d="M6.5 17a5.5 5.5 0 0 1 11 0"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="8" y1="21" x2="16" y2="21"/></svg>,
+              <svg key="f" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+            ];
+
             return (
               <motion.div
                 key={index}
@@ -95,40 +150,25 @@ export default function ProductFeaturesSection({ features }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.07 }}
-                className={`min-w-[85%] sm:min-w-[300px] min-h-[320px] rounded-[28px] p-5 sm:p-7 flex flex-col transition-all duration-300 border snap-center ${
-                  isDark
-                    ? "bg-blue-700 text-white"
-                    : "bg-[#eff6ff] text-black border-[#0a1628]/10"
-                }`}
+                style={{
+                  float: "left",
+                  width: "33.333%",
+                  borderRight: !isLastCol ? "1px solid #e2e8f0" : "none",
+                  borderBottom: !isLastRow ? "1px solid #e2e8f0" : "none",
+                  boxSizing: "border-box",
+                }}
+                className="flex flex-col items-center text-center px-8 py-10 hover:bg-slate-50 transition-colors duration-200"
               >
-                {/* Icon */}
-                {/* <div className={`mb-6 sm:mb-8 ${isDark ? "text-white" : "text-[#0a1628]"}`}>
-                  <CheckCircle2 size={28} />
-                </div> */}
-
-                {/* Title */}
-                <h3 className={`text-[18px] sm:text-[28px] font-bold leading-[30px] sm:leading-[34px] ${isDark ? "text-white" : "text-black"}`}>
-                  {feature.title}
-                </h3>
-
-                {/* Description */}
-                <p className={`mt-4 sm:mt-5 text-sm leading-6 flex-1 ${isDark ? "text-slate-300" : "text-slate-600"}`}>
-                  {feature.description}
-                </p>
-
-                {/* Button — navy colour */}
-                <button
-                  className={`mt-6 sm:mt-8 w-full sm:w-fit rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 ${
-                    isDark
-                      ? "bg-white text-[#0a1628] hover:bg-slate-100"
-                      : "bg-blue-700 text-white hover:bg-[#0d1f35]"
-                  }`}
-                >
-                  Learn More
-                </button>
+                <div className={`mb-5 ${iconColor}`}>
+                  {icons[index % icons.length]}
+                </div>
+                <h3 className="text-base font-semibold text-black mb-3">{feature.title}</h3>
+                <p className="text-sm text-slate-500 leading-6">{feature.description}</p>
               </motion.div>
             );
           })}
+          {/* clearfix */}
+          <div style={{ clear: "both" }} />
         </div>
 
       </div>
