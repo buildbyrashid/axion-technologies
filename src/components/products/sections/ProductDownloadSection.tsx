@@ -39,7 +39,7 @@ const fallbackConfig = {
 
 export default function ProductDownloadSection({ downloads }: Props) {
   return (
-    <section className="relative bg-[#0a0f1e] py-28 lg:py-36 overflow-hidden">
+    <section className="relative bg-[#0a0f1e] py-10 lg:py-20 overflow-hidden">
       {/* Subtle background grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
@@ -64,8 +64,7 @@ export default function ProductDownloadSection({ downloads }: Props) {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 mb-5"
           >
-            <span className="block h-px w-8 bg-sky-500" />
-            <span className="text-sky-400 text-xs font-semibold tracking-[0.2em] uppercase">
+                        <span className="text-sky-400 text-xs font-semibold tracking-[0.2em] uppercase">
               Technical Resources
             </span>
           </motion.div>
@@ -75,7 +74,7 @@ export default function ProductDownloadSection({ downloads }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.07 }}
-            className="text-4xl lg:text-5xl text-center font-bold text-white tracking-tight max-w-xl leading-[1.15] text-nowrap"
+            className="text-[25px] lg:text-5xl text-center font-bold text-white tracking-tight max-w-xl leading-[1.15] text-nowrap"
 
           >
             Downloads &amp; Documentation
@@ -86,7 +85,7 @@ export default function ProductDownloadSection({ downloads }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.14 }}
-            className="mt-4 text-slate-400 text-base max-w-md leading-relaxed"
+            className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-white"
           >
             Datasheets, CAD drawings, photometric files, and certificates — everything you need, ready to download.
           </motion.p>
@@ -150,17 +149,6 @@ export default function ProductDownloadSection({ downloads }: Props) {
             );
           })}
         </div>
-
-        {/* Footer note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 text-slate-600 text-xs text-center"
-        >
-          All files are provided for professional use. Contact support for custom formats.
-        </motion.p>
       </div>
     </section>
   );

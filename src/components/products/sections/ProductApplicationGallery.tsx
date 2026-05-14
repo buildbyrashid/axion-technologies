@@ -11,17 +11,17 @@ interface Props {
 
 export default function ProductApplicationGallery({ gallery }: Props) {
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-white py-10 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="text-sky-600 font-bold tracking-widest uppercase text-xs mb-3">
+          <div className="text-[#0a1628] font-bold tracking-widest uppercase text-xs mb-3">
             Case Studies
           </div>
           <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             Application Gallery
           </h2>
-          <p className="mt-4 text-slate-500 max-w-xl mx-auto leading-relaxed">
+          <p className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-black">
             Real-world installations across concerts, corporate environments, retail, and control rooms.
           </p>
         </div>

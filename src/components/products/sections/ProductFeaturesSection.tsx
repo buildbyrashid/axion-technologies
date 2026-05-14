@@ -21,8 +21,8 @@ export default function ProductFeaturesSection({ features }: Props) {
   };
 
   return (
-    <section className="w-full bg-white py-10 sm:py-14 md:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] bg-white p-4 sm:p-6 md:p-10 border-blue-100 shadow-sm overflow-hidden">
+    <section className="w-full bg-white py-5 sm:py-14 md:py-10 px-3 sm:px-4">
+      <div className="mx-auto max-w-7xl rounded-[28px] bg-white p-4 sm:p-6 md:p-10 border-blue-100 overflow-hidden">
 
         {/* Header */}
         <div className="flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -34,7 +34,7 @@ export default function ProductFeaturesSection({ features }: Props) {
               transition={{ duration: 0.4 }}
               className="flex items-center gap-3 mb-4"
             >
-              <span className="block h-px w-8 bg-sky-500" />
+          
               <span className="text-sky-600 text-xs font-semibold tracking-[0.2em] uppercase">
                 Engineering Excellence
               </span>
@@ -45,7 +45,7 @@ export default function ProductFeaturesSection({ features }: Props) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.07 }}
-              className="text-[28px] leading-[36px] sm:text-4xl md:text-5xl font-bold tracking-tight text-[#0f172a]"
+              className="text-[22px] leading-[30px] sm:text-4xl uppercase md:text-4xl font-bold tracking-tight text-black tracking-[4px]"
             >
               Key Technical Advantages
             </motion.h2>
@@ -55,7 +55,7 @@ export default function ProductFeaturesSection({ features }: Props) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.14 }}
-              className="mt-3 sm:mt-4 text-sm md:text-base leading-6 md:leading-7 text-slate-600 max-w-2xl"
+              className="mt-3 sm:mt-4 text-[12px] md:text-sm leading-5  md:leading-6 text-slate-600"
             >
               Explore innovative engineering solutions designed to deliver superior
               performance, operational flexibility, and seamless industrial integration.
@@ -63,7 +63,7 @@ export default function ProductFeaturesSection({ features }: Props) {
           </div>
 
           {/* Arrow buttons — navy colour */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2">
             <button
               onClick={scrollLeft}
               aria-label="Scroll left"
@@ -74,7 +74,7 @@ export default function ProductFeaturesSection({ features }: Props) {
             <button
               onClick={scrollRight}
               aria-label="Scroll right"
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0a1628] text-white transition-all duration-300 hover:bg-[#0d1f35]"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white transition-all duration-300 hover:bg-[#0d1f35]"
             >
               <ChevronRight size={20} />
             </button>
@@ -84,7 +84,7 @@ export default function ProductFeaturesSection({ features }: Props) {
         {/* Slider */}
         <div
           ref={sliderRef}
-          className="mt-8 sm:mt-10 md:mt-12 flex items-stretch gap-4 sm:gap-5 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide px-1 pb-2 snap-x snap-mandatory"
+          className="mt-8 sm:mt-10 md:mt-12 flex items-stretch gap-2 sm:gap-5 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide px-1 pb-2 snap-x snap-mandatory"
         >
           {features.map((feature, index) => {
             const isDark = index === 0;
@@ -95,19 +95,19 @@ export default function ProductFeaturesSection({ features }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.07 }}
-                className={`min-w-[85%] sm:min-w-[300px] min-h-[360px] rounded-[28px] p-5 sm:p-7 flex flex-col transition-all duration-300 border snap-center ${
+                className={`min-w-[85%] sm:min-w-[300px] min-h-[320px] rounded-[28px] p-5 sm:p-7 flex flex-col transition-all duration-300 border snap-center ${
                   isDark
-                    ? "bg-[#0a1628] text-white border-[#0d1f35]"
-                    : "bg-[#eff6ff] text-[#0f172a] border-[#0a1628]/10"
+                    ? "bg-blue-700 text-white"
+                    : "bg-[#eff6ff] text-black border-[#0a1628]/10"
                 }`}
               >
                 {/* Icon */}
-                <div className={`mb-6 sm:mb-8 ${isDark ? "text-white" : "text-[#0a1628]"}`}>
+                {/* <div className={`mb-6 sm:mb-8 ${isDark ? "text-white" : "text-[#0a1628]"}`}>
                   <CheckCircle2 size={28} />
-                </div>
+                </div> */}
 
                 {/* Title */}
-                <h3 className={`text-[20px] sm:text-[22px] font-bold leading-[30px] sm:leading-[34px] ${isDark ? "text-white" : "text-black"}`}>
+                <h3 className={`text-[18px] sm:text-[28px] font-bold leading-[30px] sm:leading-[34px] ${isDark ? "text-white" : "text-black"}`}>
                   {feature.title}
                 </h3>
 
@@ -121,7 +121,7 @@ export default function ProductFeaturesSection({ features }: Props) {
                   className={`mt-6 sm:mt-8 w-full sm:w-fit rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 ${
                     isDark
                       ? "bg-white text-[#0a1628] hover:bg-slate-100"
-                      : "bg-[#0a1628] text-white hover:bg-[#0d1f35]"
+                      : "bg-blue-700 text-white hover:bg-[#0d1f35]"
                   }`}
                 >
                   Learn More
