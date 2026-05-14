@@ -64,7 +64,7 @@ const HeroSection: React.FC = () => {
     };
 
     return (
-        <section className="relative min-h-screen overflow-hidden bg-white">
+        <section className="relative min-h-screen overflow-hidden bg-black">
 
             {/* Background Glow */}
             <div className="absolute left-0 top-0 z-10 h-full w-full " />
@@ -163,7 +163,7 @@ const HeroSection: React.FC = () => {
                             initial={{ opacity: 1 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 0.1 }}
                         >
 
                             {/* GRID PIECES */}
@@ -255,7 +255,7 @@ const HeroSection: React.FC = () => {
                                             transition={selectedAnimation.transition}
                                         >
                                             <div
-                                                className="absolute inset-0 bg-cover bg-center"
+                                                className="absolute inset-0 bg-cover bg-center bg-black"
                                                 style={{
                                                     backgroundImage: `url(${slides[activeSlide].image})`,
                                                     backgroundSize: "400% 400%",
@@ -268,7 +268,7 @@ const HeroSection: React.FC = () => {
                             </div>
 
                             {/* Overlay — fades left on desktop, fades top on mobile */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent lg:bg-gradient-to-r" />
+                            <div className="absolute inset-0 " />
 
                         </motion.div>
 
