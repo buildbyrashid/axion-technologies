@@ -35,16 +35,16 @@ export default function ProductHeroSection({ product }: Props) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-400/10 border border-sky-400/20 text-sky-400 text-xs font-bold uppercase tracking-widest mb-8">
-              <Info size={13} />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-400/10 border border-sky-400/20 text-sky-400 text-[9px] font-bold uppercase tracking-widest mb-8">
+              <Info size={10} />
               {product.category}
             </div>
 
-            <h1 className="text-4xl text-white lg:text-6xl font-extrabold leading-[1.1] mb-6 tracking-tight">
+            <h1 className="text-2xl text-white lg:text-4xl font-extrabold leading-[1.1] mb-6 tracking-tight">
               {product.title}
             </h1>
 
-            <p className="text-lg text-white/65 mb-10 max-w-xl leading-relaxed">
+            <p className="text-sm text-white/65 mb-10 max-w-xl leading-relaxed">
               {product.description}
             </p>
 
@@ -52,10 +52,10 @@ export default function ProductHeroSection({ product }: Props) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12 border-t border-white/10 pt-8">
               {product.keySpecs.map((spec, i) => (
                 <div key={i} className="flex flex-col gap-1">
-                  <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                  <span className="text-[8px] uppercase tracking-widest text-white/40 font-bold">
                     {spec.label}
                   </span>
-                  <span className="text-base font-bold text-white">{spec.value}</span>
+                  <span className="text-xs font-bold text-white">{spec.value}</span>
                 </div>
               ))}
             </div>
