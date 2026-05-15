@@ -10,7 +10,8 @@ import {
   ChevronRight,
   Mail,
   Phone,
-  ChevronDown
+  ChevronDown,
+  ArrowLeft
 } from "lucide-react";
 import {
   FaFacebookF,
@@ -33,12 +34,64 @@ const navLinks = [
   { name: "Contact", href: "/contact", hasDropdown: false },
 ];
 
-// ————— Mobile product categories (mirrors ProductDropdown data) ——————————————————
-const mobileProductCategories = [
-  { name: "All", href: "/products" },
-  { name: "LED Display Systems", href: "/products/led-display-systems" },
-  { name: "LCD & Interactive", href: "/products/lcd-interactive-kiosks" },
-  { name: "Lighting & Power", href: "/products/lighting-systems" },
+const mobileProductGroups = [
+  {
+    name: "VISUAL DISPLAY SOLUTIONS",
+    categories: [
+      {
+        name: "LED DISPLAY SYSTEMS",
+        href: "/products/led-display-systems",
+        subcategories: [
+          { name: "Indoor Rental LED Displays", href: "/products/led-display-systems" },
+          { name: "Outdoor Rental LED Displays", href: "/products/led-display-systems" },
+          { name: "Fine Pitch LED Displays", href: "/products/led-display-systems" },
+          { name: "COB LED Displays", href: "/products/led-display-systems" },
+        ],
+      },
+      {
+        name: "LCD SCREENS & KIOSKS",
+        href: "/products/lcd-screens-&-interactive-kiosks",
+        subcategories: [
+          { name: "Interactive Touch Screens", href: "/products/lcd-screens-&-interactive-kiosks" },
+          { name: "Digital Signage Displays", href: "/products/lcd-screens-&-interactive-kiosks" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "EVENT TECHNOLOGY",
+    categories: [
+      {
+        name: "LIGHTING SYSTEMS",
+        href: "/products/lighting-systems",
+        subcategories: [
+          { name: "Moving Head Lights", href: "/products/lighting-systems" },
+          { name: "Beam Lights", href: "/products/lighting-systems" },
+        ],
+      },
+      {
+        name: "PROFESSIONAL AUDIO",
+        href: "/products/professional-audio-systems",
+        subcategories: [
+          { name: "Line Array Systems", href: "/products/professional-audio-systems" },
+          { name: "Professional Speakers", href: "/products/professional-audio-systems" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "INFRASTRUCTURE",
+    categories: [
+      {
+        name: "POWER & CABLING",
+        href: "/products/power-distribution-&-cable-solutions",
+        subcategories: [
+          { name: "Power Distribution Units", href: "/products/power-distribution-&-cable-solutions" },
+          { name: "Signal Distribution", href: "/products/power-distribution-&-cable-solutions" },
+        ],
+      },
+    ],
+  },
 ];
 
 function TopBar() {
@@ -98,7 +151,7 @@ function NavLink({ link, isScrolled, pathname }: { link: any; isScrolled: boolea
 
       <AnimatePresence>
         {isHovered && link.name === "Products" && (
-          <ProductDropdown />
+          <ProductDropdown onClose={() => setIsHovered(false)} />
         )}
       </AnimatePresence>
     </div>
@@ -113,6 +166,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+  const [mobileProductLevel, setMobileProductLevel] = useState<{
+    level: "groups" | "categories" | "subcategories";
+    groupId?: number;
+    catId?: number;
+  }>({ level: "groups" });
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   useEffect(() => {
@@ -276,30 +334,106 @@ export default function Navbar() {
                           />
                         </button>
 
-                        {/* Submenu — category list */}
-                        <AnimatePresence>
+                        {/* Submenu — drill-down list */}
+                        <AnimatePresence mode="wait">
                           {isMobileProductsOpen && (
                             <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
+                              key={`${mobileProductLevel.level}-${mobileProductLevel.groupId}-${mobileProductLevel.catId}`}
+                              initial={{ opacity: 0, x: 10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
                               transition={{ duration: 0.2 }}
-                              className="overflow-hidden pl-3"
+                              className="overflow-hidden pl-3 space-y-1"
                             >
-                              {mobileProductCategories.map((cat) => (
-                                <Link
-                                  key={cat.name}
-                                  href={cat.href}
+                              {/* Back Button for Drill-down */}
+                              {mobileProductLevel.level !== "groups" && (
+                                <button
                                   onClick={() => {
-                                    setIsMobileProductsOpen(false);
-                                    setIsMobileMenuOpen(false);
+                                    if (mobileProductLevel.level === "subcategories") {
+                                      setMobileProductLevel({ level: "categories", groupId: mobileProductLevel.groupId });
+                                    } else {
+                                      setMobileProductLevel({ level: "groups" });
+                                    }
                                   }}
-                                  className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
+                                  className="flex items-center gap-2 px-4 py-2 text-[12px] font-bold text-blue-600 hover:text-accent transition-all"
                                 >
-                                  {cat.name}
-                                  <ChevronRight className="h-4 w-4 text-slate-400" />
-                                </Link>
-                              ))}
+                                  <ArrowLeft size={14} />
+                                  Back
+                                </button>
+                              )}
+
+                              {/* Level: Groups */}
+                              {mobileProductLevel.level === "groups" && (
+                                <>
+                                  <Link
+                                    href="/products"
+                                    onClick={() => {
+                                      setIsMobileMenuOpen(false);
+                                      setIsMobileProductsOpen(false);
+                                    }}
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-bold text-blue-600 bg-blue-50/50 mb-1"
+                                  >
+                                    All Products
+                                    <ChevronRight className="h-4 w-4" />
+                                  </Link>
+                                  {mobileProductGroups.map((group, idx) => (
+                                    <button
+                                      key={group.name}
+                                      onClick={() => setMobileProductLevel({ level: "categories", groupId: idx })}
+                                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
+                                    >
+                                      {group.name}
+                                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                                    </button>
+                                  ))}
+                                </>
+                              )}
+
+                              {/* Level: Categories */}
+                              {mobileProductLevel.level === "categories" && (
+                                <>
+                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    {mobileProductGroups[mobileProductLevel.groupId!].name}
+                                  </div>
+                                  {mobileProductGroups[mobileProductLevel.groupId!].categories.map((cat, idx) => (
+                                    <button
+                                      key={cat.name}
+                                      onClick={() => setMobileProductLevel({ 
+                                        level: "subcategories", 
+                                        groupId: mobileProductLevel.groupId,
+                                        catId: idx 
+                                      })}
+                                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all"
+                                    >
+                                      {cat.name}
+                                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                                    </button>
+                                  ))}
+                                </>
+                              )}
+
+                              {/* Level: Subcategories */}
+                              {mobileProductLevel.level === "subcategories" && (
+                                <>
+                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].name}
+                                  </div>
+                                  {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].subcategories.map((sub) => (
+                                    <Link
+                                      key={sub.name}
+                                      href={sub.href}
+                                      onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        setIsMobileProductsOpen(false);
+                                      }}
+                                      className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
+                                    >
+                                      {sub.name}
+                                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                                    </Link>
+                                  ))}
+                                </>
+                              )}
                             </motion.div>
                           )}
                         </AnimatePresence>
