@@ -150,7 +150,7 @@ export default function AdminDashboard() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="md:col-span-4 bg-slate-950 text-white rounded-[3.5rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
+          className="md:col-span-4 bg-slate-950 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
         >
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1500ms]" />
           
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="md:col-span-2 bg-white rounded-[3.5rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+          className="md:col-span-2 bg-white rounded-[2.25rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
         >
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1000ms]" />
           <div className="relative z-10 flex flex-col h-full justify-between">
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="md:col-span-6 bg-white rounded-[4rem] p-16 border border-black/5 relative overflow-hidden group shadow-sm"
+          className="md:col-span-6 bg-white rounded-[2.5rem] p-16 border border-black/5 relative overflow-hidden group shadow-sm"
         >
           <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-slate-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
           
@@ -251,7 +251,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="relative h-[400px] w-full z-10 bg-slate-50/30 rounded-[3rem] p-8 border border-black/[0.03]">
+          <div className="relative h-[400px] w-full z-10 bg-slate-50/30 rounded-[1.75rem] p-8 border border-black/[0.03]">
              <svg viewBox="0 0 1000 250" className="w-full h-full preserve-3d">
                 <defs>
                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
@@ -280,7 +280,7 @@ export default function AdminDashboard() {
              </svg>
              
              {/* Spotlight HUD */}
-             <div className="absolute top-12 left-[35%] -translate-x-1/2 p-6 bg-slate-950 text-white rounded-[2rem] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-90 group-hover:scale-100 flex items-center gap-5">
+             <div className="absolute top-12 left-[35%] -translate-x-1/2 p-6 bg-slate-950 text-white rounded-[1.25rem] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-90 group-hover:scale-100 flex items-center gap-5">
                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#0D95F0]">
                    <TrendingUp size={24} />
                 </div>
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="md:col-span-2 bg-white rounded-[3.5rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm"
+          className="md:col-span-2 bg-white rounded-[2.25rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm"
         >
           <div className="relative z-10 flex flex-col h-full justify-between">
             <div className="w-16 h-16 rounded-[2rem] bg-violet-50 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
@@ -315,7 +315,7 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6 }}
-          className="md:col-span-4 bg-white rounded-[3.5rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
+          className="md:col-span-4 bg-white rounded-[2.25rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
         >
            {[
              { label: 'System Protocol', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Manage access layers' },
@@ -325,7 +325,7 @@ export default function AdminDashboard() {
              <Link 
                key={i}
                href={action.href}
-               className="flex-1 flex flex-col p-8 rounded-[2.5rem] bg-slate-50 border border-black/5 hover:bg-white hover:shadow-2xl hover:shadow-black/5 transition-all duration-700 group"
+               className="flex-1 flex flex-col p-8 rounded-[1.5rem] bg-slate-50 border border-black/5 hover:bg-white hover:shadow-2xl hover:shadow-black/5 transition-all duration-700 group"
              >
                 <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-10 shadow-sm group-hover:scale-110 transition-transform duration-700">
                    <action.icon size={24} className={action.color} />
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Intelligence Stream Table */}
-      <div className="bg-white rounded-[4rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
+      <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
         <div className="absolute inset-0 bg-[#0D95F0]/[0.02] opacity-0 group-hover/table:opacity-100 transition-opacity pointer-events-none" />
         
         <div className="p-12 border-b border-black/5 flex items-center justify-between bg-slate-50/50 relative z-10">

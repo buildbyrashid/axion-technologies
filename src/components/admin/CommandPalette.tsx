@@ -65,7 +65,7 @@ export default function CommandPalette() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-white rounded-[3rem] border border-black/5 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.4)] overflow-hidden"
+            className="relative w-full max-w-2xl bg-white rounded-[1.75rem] border border-black/5 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.4)] overflow-hidden"
           >
             <div className="flex items-center gap-4 px-8 py-6 border-b border-black/5">
               <Search className="text-slate-300" size={20} />

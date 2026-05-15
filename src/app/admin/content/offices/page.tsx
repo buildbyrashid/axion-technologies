@@ -122,7 +122,7 @@ export default function OfficesPage() {
       {/* Grid Canvas */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-6 min-h-[600px]">
         {loading ? (
-           <div className="col-span-full flex flex-col items-center justify-center py-32 bg-white/40 backdrop-blur-xl rounded-[3rem] border border-black/5">
+           <div className="col-span-full flex flex-col items-center justify-center py-32 bg-white/40 backdrop-blur-xl rounded-[1.75rem] border border-black/5">
               <div className="relative w-16 h-16">
                  <div className="absolute inset-0 border-4 border-[#0D95F0]/10 rounded-full" />
                  <div className="absolute inset-0 border-4 border-[#0D95F0] border-t-transparent rounded-full animate-spin" />
@@ -130,8 +130,8 @@ export default function OfficesPage() {
               <p className="mt-6 text-slate-400 font-bold uppercase tracking-widest text-xs">Synchronizing Maps...</p>
            </div>
         ) : offices.length === 0 ? (
-           <div className="col-span-full py-32 text-center bg-white/40 backdrop-blur-xl rounded-[3rem] border border-black/5 border-dashed">
-              <div className="w-24 h-24 rounded-[3rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-8">
+           <div className="col-span-full py-32 text-center bg-white/40 backdrop-blur-xl rounded-[1.75rem] border border-black/5 border-dashed">
+              <div className="w-24 h-24 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-8">
                 <MapPin size={48} />
               </div>
               <h3 className="text-2xl font-bold text-[#0A1628] mb-2">No locations deployed</h3>
@@ -154,7 +154,7 @@ export default function OfficesPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.05, duration: 0.5 }}
                 className={cn(
-                  "group relative overflow-hidden bg-white rounded-[2.5rem] border border-black/5 p-10 transition-all duration-700 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] hover:-translate-y-2",
+                  "group relative overflow-hidden bg-white rounded-[1.5rem] border border-black/5 p-10 transition-all duration-700 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] hover:-translate-y-2",
                   isLarge ? "md:col-span-3" : "md:col-span-2"
                 )}
               >

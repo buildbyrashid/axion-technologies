@@ -111,7 +111,7 @@ export default function HomepageSettingsPage() {
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Configuration Column */}
         <div className="space-y-12">
-          <div className="bg-white rounded-[3rem] border border-black/5 p-12 shadow-sm relative overflow-hidden">
+          <div className="bg-white rounded-[1.75rem] border border-black/5 p-12 shadow-sm relative overflow-hidden">
              <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-[1.25rem] bg-slate-950 text-white flex items-center justify-center shadow-xl shadow-black/10">
                   <Layout size={24} />
@@ -205,7 +205,7 @@ export default function HomepageSettingsPage() {
               <SpatialBadge variant="blue">Real-time</SpatialBadge>
            </div>
            
-           <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden bg-slate-950 shadow-2xl border border-black/10 group">
+           <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-slate-950 shadow-2xl border border-black/10 group">
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
               
               <div className="absolute inset-0 z-0 opacity-40 group-hover:scale-105 transition-transform duration-1000">

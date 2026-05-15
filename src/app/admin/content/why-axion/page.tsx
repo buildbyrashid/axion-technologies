@@ -143,7 +143,7 @@ export default function WhyAxionPage() {
         <AnimatePresence mode="popLayout">
           {loading ? (
              Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-32 rounded-[2.5rem] bg-slate-50 animate-pulse border border-black/5" />
+                <div key={i} className="h-32 rounded-[1.5rem] bg-slate-50 animate-pulse border border-black/5" />
              ))
           ) : items.length === 0 ? (
              <div className="py-32 text-center opacity-40">
@@ -159,7 +159,7 @@ export default function WhyAxionPage() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white rounded-[3rem] border border-black/5 p-10 shadow-sm hover:shadow-2xl hover:shadow-[#0D95F0]/10 transition-all duration-500 flex items-center gap-10 relative overflow-hidden"
+                className="group bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm hover:shadow-2xl hover:shadow-[#0D95F0]/10 transition-all duration-500 flex items-center gap-10 relative overflow-hidden"
               >
                 <div className="w-20 h-20 rounded-[2rem] bg-[#0A1628] text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500 shadow-2xl shadow-black/20">
                   <Cpu size={32} />

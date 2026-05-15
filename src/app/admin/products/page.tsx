@@ -175,7 +175,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Control Console */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[3rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[1.75rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
          <div className="relative flex-1 max-w-xl group">
             <div className="absolute inset-0 bg-[#0D95F0]/5 rounded-[2rem] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
             <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
@@ -236,10 +236,10 @@ export default function ProductsPage() {
         <AnimatePresence mode="popLayout">
           {loading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-[450px] rounded-[3.5rem] bg-slate-50/50 animate-pulse border border-black/5 shadow-inner" />
+              <div key={i} className="h-[450px] rounded-[2.25rem] bg-slate-50/50 animate-pulse border border-black/5 shadow-inner" />
             ))
           ) : filteredProducts.length === 0 ? (
-            <div className="col-span-full py-48 text-center bg-slate-50/30 rounded-[4rem] border-2 border-dashed border-black/5">
+            <div className="col-span-full py-48 text-center bg-slate-50/30 rounded-[2.5rem] border-2 border-dashed border-black/5">
                <div className="flex flex-col items-center gap-8 opacity-30">
                   <Package size={80} className="text-slate-300" strokeWidth={1} />
                   <p className="text-slate-500 font-black tracking-[0.2em] text-xl uppercase">Sector Registry Empty</p>
@@ -258,7 +258,7 @@ export default function ProductsPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 30 }}
                   className={cn(
-                    "group bg-white rounded-[3.5rem] border border-black/5 overflow-hidden shadow-sm hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 relative flex flex-col",
+                    "group bg-white rounded-[2.25rem] border border-black/5 overflow-hidden shadow-sm hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 relative flex flex-col",
                     viewMode === 'list' && "flex-row h-48"
                   )}
                 >
