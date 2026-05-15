@@ -10,102 +10,213 @@ import {
   Volume2,
   Cable,
   ArrowUpRight,
+  ArrowLeft,
+  ChevronRight,
 } from "lucide-react";
+import { useState } from "react";
 
-type ProductCard = {
-  title: string;
-  slug: string;
-  subtitle: string;
+interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+interface SubCategory {
+  name: string;
+  tagline: string;
+  href: string;
+  image: string;
+  specs: ProductSpec[];
+  features: string[];
+}
+
+interface Category {
+  name: string;
+  href: string;
+  image?: string;
+  description?: string;
+  subcategories: SubCategory[];
+}
+
+interface ProductGroup {
+  name: string;
+  href: string;
   description: string;
   image: string;
   icon: React.ReactNode;
-  categories: string[];
-};
+  categories: Category[];
+}
 
-const products: ProductCard[] = [
+const productGroups: ProductGroup[] = [
   {
-    title: "LED DISPLAY SYSTEMS",
-    slug: "led-display-systems",
-    subtitle: "Brilliant Visuals for Every Environment",
-    description:
-      "Professional LED display solutions for events, command centers, retail spaces, exhibitions, and immersive visual environments.",
-    image:
-      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop",
+    name: "VISUAL DISPLAY SOLUTIONS",
+    href: "/products/visual-display-solutions",
+    description: "Cutting-edge display technologies for high-impact visual communication and immersive environments.",
+    image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop",
     icon: <Monitor className="w-6 h-6" />,
     categories: [
-      "Indoor Rental LED Displays",
-      "Outdoor Rental LED Displays",
-      "Fine Pitch LED Displays",
-      "COB LED Displays",
+      {
+        name: "LED DISPLAY SYSTEMS",
+        href: "/products/led-display-systems",
+        image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop",
+        description: "Professional LED solutions for events, command centers, and retail spaces.",
+        subcategories: [
+          {
+            name: "Indoor Rental LED Displays",
+            tagline: "Brilliant Visuals for Indoor Event Environments",
+            href: "/products/led-display-systems",
+            image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Pixel Pitch", value: "P1.9 – P4.8" }],
+            features: ["Lightweight", "Fast Installation"],
+          },
+          {
+            name: "Outdoor Rental LED Displays",
+            tagline: "High Brightness for Outdoor Productions",
+            href: "/products/led-display-systems",
+            image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Brightness", value: "5000–8000 nits" }],
+            features: ["Weatherproof", "High-impact"],
+          },
+          {
+            name: "Fine Pitch LED Displays",
+            tagline: "Ultra Fine Pixel Precision",
+            href: "/products/led-display-systems",
+            image: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Pixel Pitch", value: "P0.9 – P1.8" }],
+            features: ["Ultra-sharp", "HDR Performance"],
+          },
+          {
+            name: "COB LED Displays",
+            tagline: "Advanced Chip-on-Board Technology",
+            href: "/products/led-display-systems",
+            image: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Technology", value: "COB Packaging" }],
+            features: ["Durable", "High Contrast"],
+          },
+        ],
+      },
+      {
+        name: "LCD SCREENS & INTERACTIVE KIOSKS",
+        href: "/products/lcd-screens-&-interactive-kiosks",
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+        description: "Smart interactive displays and digital signage for modern engagement.",
+        subcategories: [
+          {
+            name: "Interactive Touch Screens",
+            tagline: "Smart Collaboration & Communication",
+            href: "/products/lcd-screens-&-interactive-kiosks",
+            image: "https://images.unsplash.com/photo-1588702547919-26089e690ecc?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Touch", value: "20 Point Multi-Touch" }],
+            features: ["Smooth Interaction", "4K UHD"],
+          },
+          {
+            name: "Digital Signage Displays",
+            tagline: "Dynamic Digital Communication",
+            href: "/products/lcd-screens-&-interactive-kiosks",
+            image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Operation", value: "24/7 Use" }],
+            features: ["Cloud Management", "Portrait Mode"],
+          },
+        ],
+      },
     ],
   },
   {
-    title: "LCD SCREENS & INTERACTIVE KIOSKS",
-    slug: "lcd-screens-&-interactive-kiosks",
-    subtitle: "Smart Displays for Connected Experiences",
-    description:
-      "Advanced touch displays, kiosks, signage systems, and collaboration solutions for modern interactive experiences.",
-    image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-    icon: <PanelsTopLeft className="w-6 h-6" />,
-    categories: [
-      "Interactive Touch Screens",
-      "Digital Signage Displays",
-      "Interactive Kiosks",
-      "OLED Displays",
-    ],
-  },
-  {
-    title: "LIGHTING SYSTEMS",
-    slug: "lighting-systems",
-    subtitle: "Dynamic Lighting for Immersive Spaces",
-    description:
-      "Professional stage and architectural lighting systems engineered for live events and entertainment productions.",
-    image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
+    name: "EVENT TECHNOLOGY",
+    href: "/products/event-technology",
+    description: "Professional audio and lighting systems for live entertainment and productions.",
+    image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
     icon: <Lightbulb className="w-6 h-6" />,
     categories: [
-      "Moving Head Lights",
-      "Beam Lights",
-      "Wash Lights",
-      "Architectural Lighting",
+      {
+        name: "LIGHTING SYSTEMS",
+        href: "/products/lighting-systems",
+        image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
+        description: "Dynamic stage and architectural lighting for professional productions.",
+        subcategories: [
+          {
+            name: "Moving Head Lights",
+            tagline: "Intelligent Lighting Systems",
+            href: "/products/lighting-systems",
+            image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Control", value: "DMX512" }],
+            features: ["High-speed", "Programmable"],
+          },
+        ],
+      },
+      {
+        name: "PROFESSIONAL AUDIO SYSTEMS",
+        href: "/products/professional-audio-systems",
+        image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop",
+        description: "High-fidelity sound systems for concerts and conferences.",
+        subcategories: [
+          {
+            name: "Line Array Systems",
+            tagline: "Scalable Professional Audio",
+            href: "/products/professional-audio-systems",
+            image: "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Coverage", value: "Large Venues" }],
+            features: ["High SPL", "Scalable"],
+          },
+        ],
+      },
     ],
   },
   {
-    title: "PROFESSIONAL AUDIO SYSTEMS",
-    slug: "professional-audio-systems",
-    subtitle: "Precision Audio for Powerful Experiences",
-    description:
-      "High-performance audio systems including speakers, amplifiers, DSP systems, and installation audio solutions.",
-    image:
-      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop",
-    icon: <Volume2 className="w-6 h-6" />,
-    categories: [
-      "Line Array Systems",
-      "Professional Speakers",
-      "Subwoofers",
-      "Conference Audio Systems",
-    ],
-  },
-  {
-    title: "POWER DISTRIBUTION & CABLE SOLUTIONS",
-    slug: "power-distribution-&-cable-solutions",
-    subtitle: "Engineered Connectivity. Reliable Performance.",
-    description:
-      "Reliable power distribution systems, signal management solutions, and professional-grade cabling.",
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+    name: "INFRASTRUCTURE & CONNECTIVITY",
+    href: "/products/infrastructure-connectivity",
+    description: "Reliable power management and signal processing solutions for AV infrastructure.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
     icon: <Cable className="w-6 h-6" />,
     categories: [
-      "Power Distribution Units",
-      "Signal Distribution Systems",
-      "Power Cables",
-      "DMX & Signal Solutions",
+      {
+        name: "POWER DISTRIBUTION",
+        href: "/products/power-distribution-&-cable-solutions",
+        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop",
+        description: "Safe and reliable power management for large-scale events.",
+        subcategories: [
+          {
+            name: "Power Distribution Units",
+            tagline: "Event Power Management",
+            href: "/products/power-distribution-&-cable-solutions",
+            image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop",
+            specs: [{ label: "Capacity", value: "32A – 400A" }],
+            features: ["Industrial Grade", "Portable"],
+          },
+        ],
+      },
     ],
   },
 ];
 
 export default function ProductsCard() {
+  const [view, setView] = useState<{
+    level: "groups" | "categories" | "subcategories";
+    groupIndex?: number;
+    categoryIndex?: number;
+  }>({ level: "groups" });
+
+  const handleBack = () => {
+    if (view.level === "categories") {
+      setView({ level: "groups" });
+    } else if (view.level === "subcategories") {
+      setView({ level: "categories", groupIndex: view.groupIndex });
+    }
+  };
+
+  const currentItems =
+    view.level === "groups"
+      ? productGroups
+      : view.level === "categories"
+      ? productGroups[view.groupIndex!].categories
+      : productGroups[view.groupIndex!].categories[view.categoryIndex!].subcategories;
+
+  const currentTitle =
+    view.level === "groups"
+      ? "Product Groups"
+      : view.level === "categories"
+      ? productGroups[view.groupIndex!].name
+      : productGroups[view.groupIndex!].categories[view.categoryIndex!].name;
+
   return (
     <section className="relative overflow-hidden bg-white py-20">
       {/* Background Effects */}
@@ -116,80 +227,165 @@ export default function ProductsCard() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Heading */}
-        <div className="mx-auto mb-16 max-w-3xl text-center">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-4 inline-block rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-[10px] font-semibold tracking-wide text-blue-700">
             OUR PRODUCTS
           </span>
 
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            Professional Visual Technology Solutions
+            {currentTitle}
           </h2>
 
           <div className="mx-auto mt-6 h-1 w-28 rounded-full bg-gradient-to-r from-blue-500 to-blue-700" />
         </div>
 
-        {/* Product Cards */}
+        {/* Navigation Controls */}
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {view.level !== "groups" && (
+            <button
+              onClick={handleBack}
+              className="flex sm:hidden items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-xl w-fit"
+            >
+              <ArrowLeft size={16} />
+              Back
+            </button>
+          )}
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <button
+              onClick={() => setView({ level: "groups" })}
+              className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full transition-all ${
+                view.level === "groups" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+              }`}
+            >
+              All Groups
+            </button>
+            {view.groupIndex !== undefined && (
+              <>
+                <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
+                <button
+                  onClick={() => setView({ level: "categories", groupIndex: view.groupIndex })}
+                  className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full transition-all ${
+                    view.level === "categories" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                  }`}
+                >
+                  {productGroups[view.groupIndex].name}
+                </button>
+              </>
+            )}
+            {view.categoryIndex !== undefined && (
+              <>
+                <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
+                <button
+                  className="text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full bg-blue-600 text-white shadow-lg"
+                >
+                  {productGroups[view.groupIndex!].categories[view.categoryIndex].name}
+                </button>
+              </>
+            )}
+          </div>
+
+          {view.level !== "groups" && (
+            <button
+              onClick={handleBack}
+              className="hidden sm:flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-xl"
+            >
+              <ArrowLeft size={16} />
+              Back
+            </button>
+          )}
+        </div>
+
+        {/* Product Cards Grid */}
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {products.map((product, index) => (
+          {currentItems.map((item: any, index: number) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              key={`${view.level}-${index}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
               className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
             >
-              {/* Image */}
+              {/* Image Section */}
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src={product.image}
-                  alt={product.title}
+                  src={item.image}
+                  alt={item.name}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-transparent" />
-
-                {/* Title Overlay */}
+                
+                {/* Overlay Text */}
                 <div className="absolute bottom-5 left-5 right-5">
-                  <h3 className="text-sm font-bold text-white">
-                    {product.title}
+                  <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                    {item.name}
                   </h3>
+                  {item.tagline && (
+                    <p className="mt-2 text-[10px] text-slate-200">
+                      {item.tagline}
+                    </p>
+                  )}
+                </div>
 
-                  <p className="mt-2 text-[10px] text-slate-200">
-                    {product.subtitle}
-                  </p>
+                {/* Level Indicator */}
+                <div className="absolute top-4 right-4">
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 text-[9px] font-bold text-white uppercase">
+                    {view.level === "groups" ? "Group" : view.level === "categories" ? "Category" : "Series"}
+                  </div>
                 </div>
               </div>
 
-              {/* Content */}
+              {/* Content Section */}
               <div className="flex flex-1 flex-col justify-between p-6">
-                <p className="text-[11px] leading-relaxed text-slate-600">
-                  {product.description}
-                </p>
-
-                {/* Categories */}
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {product.categories.map((item, idx) => (
-                    <span
-                      key={idx}
-                      className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[9px] font-medium text-blue-700"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
                 <div>
-                  {/* Button */}
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="inline-flex px-4 border rounded-[10px] mt-5 gap-2 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors text-xs"
-                  >
-                    Explore Products
-                    <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-                  </Link>
+                  <p className="text-[11px] leading-relaxed text-slate-600 mb-6">
+                    {item.description || item.tagline || "Professional solutions engineered for excellence and reliability in demanding environments."}
+                  </p>
+
+                  {/* Features/Specs Chips */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {(item.categories || item.subcategories || item.features || []).slice(0, 4).map((feat: any, idx: number) => (
+                      <span
+                        key={idx}
+                        className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[9px] font-medium text-blue-700"
+                      >
+                        {typeof feat === 'string' ? feat : feat.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-             
+
+                {/* Action Button */}
+                <div className="mt-auto">
+                  {view.level === "subcategories" ? (
+                    <Link
+                      href={item.href}
+                      className="inline-flex w-full items-center justify-center px-4 border rounded-xl gap-2 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-all font-bold text-[12px] shadow-lg shadow-blue-200"
+                    >
+                      Explore Products
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        if (view.level === "groups") {
+                          setView({ level: "categories", groupIndex: index });
+                        } else if (view.level === "categories") {
+                          setView({
+                            level: "subcategories",
+                            groupIndex: view.groupIndex,
+                            categoryIndex: index,
+                          });
+                        }
+                      }}
+                      className="inline-flex w-full items-center justify-center px-4 border rounded-xl gap-2 py-3 bg-white text-blue-600 border-blue-100 hover:bg-blue-50 transition-all font-bold text-[12px]"
+                    >
+                      View Details
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}

@@ -7,7 +7,7 @@ import AnimatedBadge from "@/components/ui/AnimatedBadge";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 sm:pt-40 lg:pt-48 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pb-10 pt-32 sm:pt-40 lg:pt-48 overflow-hidden">
       {/* Background Video/Image */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 sm:from-black/80 sm:via-black/40 sm:to-transparent z-10" />
