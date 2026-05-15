@@ -298,10 +298,10 @@ export default function Navbar() {
               <div className="p-6 flex items-center justify-between border-b">
                 <div className="relative h-8 w-32">
                   <Image
-                    src="/images/company/logo-dark.png"
+                    src="/images/company/logo-light1.png"
                     alt="Axion Technology"
                     fill
-                    className="object-contain brightness-0"
+                    className="object-contain"
                   />
                 </div>
                 <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-slate-500">
