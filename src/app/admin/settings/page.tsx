@@ -123,7 +123,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Spatial Tabs */}
-      <div className="flex gap-2 p-2 bg-white rounded-[2rem] border border-black/5 shadow-sm overflow-x-auto scrollbar-hide max-w-fit">
+      <div className="flex gap-2 p-2 bg-white rounded-[1.25rem] border border-black/5 shadow-sm overflow-x-auto scrollbar-hide max-w-fit">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -150,7 +150,7 @@ export default function SettingsPage() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-12">
-        <div className="bg-white rounded-[3rem] border border-black/5 p-12 lg:p-16 shadow-sm relative overflow-hidden">
+        <div className="bg-white rounded-[1.75rem] border border-black/5 p-12 lg:p-16 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
              <SettingsIcon size={200} />
           </div>
@@ -293,8 +293,8 @@ export default function SettingsPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="text-center py-20 relative z-10"
               >
-                 <div className="w-24 h-24 rounded-[2rem] bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0] mx-auto mb-8 relative group">
-                    <div className="absolute inset-0 bg-[#0D95F0] rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-20 transition-opacity" />
+                 <div className="w-24 h-24 rounded-[1.25rem] bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0] mx-auto mb-8 relative group">
+                    <div className="absolute inset-0 bg-[#0D95F0] rounded-[1.25rem] blur-2xl opacity-0 group-hover:opacity-20 transition-opacity" />
                     <ShieldCheck size={48} className="relative z-10" />
                  </div>
                  <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Enterprise Shield Active</h3>

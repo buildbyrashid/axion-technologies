@@ -84,7 +84,7 @@ function SortableCategoryItem({
       ref={setNodeRef} 
       style={style}
       className={cn(
-        "group relative flex items-center gap-6 p-6 bg-white rounded-[2.5rem] border border-black/5 transition-all duration-500",
+        "group relative flex items-center gap-6 p-6 bg-white rounded-[1.5rem] border border-black/5 transition-all duration-500",
         isDragging ? "shadow-2xl shadow-black/10 opacity-60 scale-[1.02]" : "hover:shadow-xl hover:shadow-[#0D95F0]/5"
       )}
     >
@@ -369,7 +369,7 @@ export default function CategoriesPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Booting Taxonomy...</p>
              </div>
           ) : filteredCategories.length === 0 ? (
-             <div className="py-32 flex flex-col items-center gap-8 bg-white rounded-[3rem] border border-black/5 border-dashed opacity-40">
+             <div className="py-32 flex flex-col items-center gap-8 bg-white rounded-[1.75rem] border border-black/5 border-dashed opacity-40">
                 <Layers size={64} className="text-slate-300" />
                 <p className="text-slate-500 font-bold tracking-tight text-xl">Zero structural layers detected.</p>
              </div>

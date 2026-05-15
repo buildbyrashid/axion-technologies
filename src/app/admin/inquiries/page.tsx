@@ -179,7 +179,7 @@ export default function InquiriesPage() {
       </div>
 
       {/* CRM Console Control */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[3rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[1.75rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
          <div className="relative flex-1 max-w-xl group">
             <div className="absolute inset-0 bg-[#0D95F0]/5 rounded-[2rem] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
             <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
@@ -212,7 +212,7 @@ export default function InquiriesPage() {
       </div>
 
       {/* Signal Stream Architecture */}
-      <div className="bg-white rounded-[4rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
+      <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
         <div className="overflow-x-auto relative z-10">
           <table className="w-full">
             <thead>
@@ -309,11 +309,11 @@ export default function InquiriesPage() {
         {selectedInquiry && (
           <div className="space-y-12 py-8">
              {/* Operational Status Card */}
-             <div className="p-10 bg-slate-950 text-white rounded-[3rem] relative overflow-hidden group shadow-2xl">
+             <div className="p-10 bg-slate-950 text-white rounded-[1.75rem] relative overflow-hidden group shadow-2xl">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D95F0]/20 rounded-full blur-[100px] pointer-events-none" />
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                    <div className="flex items-center gap-6">
-                      <div className="w-20 h-20 rounded-[2.5rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
+                      <div className="w-20 h-20 rounded-[1.5rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
                          <Activity size={32} />
                       </div>
                       <div>
@@ -352,7 +352,7 @@ export default function InquiriesPage() {
                   { icon: Globe2, label: 'Geo-Origin', value: selectedInquiry.country || 'Global Core' },
                   { icon: Calendar, label: 'Signal Logged', value: formatDate(selectedInquiry.created_at) },
                 ].map((item, i) => (
-                  <div key={i} className="p-8 rounded-[2.5rem] bg-slate-50 border border-black/5 transition-all hover:bg-white hover:shadow-2xl hover:shadow-black/[0.02] group">
+                  <div key={i} className="p-8 rounded-[1.5rem] bg-slate-50 border border-black/5 transition-all hover:bg-white hover:shadow-2xl hover:shadow-black/[0.02] group">
                     <div className="flex items-center gap-3 mb-4 text-slate-400 group-hover:text-[#0D95F0] transition-colors">
                       <item.icon size={16} />
                       <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
@@ -372,7 +372,7 @@ export default function InquiriesPage() {
                   <div className="w-1.5 h-1.5 rounded-full bg-[#0D95F0]" />
                   <span className="text-[10px] font-black uppercase tracking-[0.3em]">Signal Payload</span>
                 </div>
-                <div className="p-12 rounded-[4rem] bg-white border border-black/5 shadow-sm space-y-10 relative overflow-hidden">
+                <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm space-y-10 relative overflow-hidden">
                    <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
                       <Zap size={160} />
                    </div>

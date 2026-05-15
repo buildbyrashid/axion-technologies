@@ -152,7 +152,7 @@ export default function AdminSidebar() {
       
       {!sidebarCollapsed && (
         <div className="relative z-10 px-6 py-8">
-          <div className="p-6 rounded-[2.5rem] bg-white/[0.02] border border-white/[0.05] relative overflow-hidden group shadow-2xl">
+          <div className="p-6 rounded-[1.5rem] bg-white/[0.02] border border-white/[0.05] relative overflow-hidden group shadow-2xl">
             <div className="absolute inset-0 bg-[#0D95F0]/5 opacity-0 group-hover:opacity-100 transition-opacity blur-3xl duration-700" />
             
             <div className="relative z-10 flex items-center gap-4 mb-5">
@@ -218,7 +218,7 @@ export default function AdminSidebar() {
       <motion.aside
         animate={{ width: sidebarCollapsed ? 110 : 340 }}
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-        className="hidden lg:flex flex-col bg-slate-950/90 backdrop-blur-[60px] border border-white/[0.08] h-[calc(100vh-2.5rem)] m-5 rounded-[4rem] shrink-0 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] relative z-50"
+        className="hidden lg:flex flex-col bg-slate-950/90 backdrop-blur-[60px] border border-white/[0.08] h-[calc(100vh-2.5rem)] m-5 rounded-[2.5rem] shrink-0 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] relative z-50"
       >
         <SidebarContent />
       </motion.aside>

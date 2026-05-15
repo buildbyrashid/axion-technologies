@@ -146,7 +146,7 @@ export default function IndustriesPage() {
         <AnimatePresence mode="popLayout">
           {loading ? (
              Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-64 rounded-[3rem] bg-slate-50 animate-pulse border border-black/5" />
+                <div key={i} className="h-64 rounded-[1.75rem] bg-slate-50 animate-pulse border border-black/5" />
              ))
           ) : industries.length === 0 ? (
              <div className="col-span-full py-32 text-center opacity-40">
@@ -162,7 +162,7 @@ export default function IndustriesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white rounded-[3rem] border border-black/5 p-10 shadow-sm hover:shadow-2xl hover:shadow-[#0D95F0]/10 transition-all duration-500 relative flex flex-col"
+                className="group bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm hover:shadow-2xl hover:shadow-[#0D95F0]/10 transition-all duration-500 relative flex flex-col"
               >
                 <div className="flex items-start justify-between mb-8">
                   <div className="w-16 h-16 rounded-[1.5rem] bg-slate-950 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl shadow-black/10">
