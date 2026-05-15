@@ -125,7 +125,7 @@ export default function AboutPageCMS() {
                initial={{ opacity: 0, scale: 0.9 }}
                animate={{ opacity: 1, scale: 1 }}
                transition={{ delay: idx * 0.05 }}
-               className="bg-white rounded-[2.5rem] border border-black/5 p-8 shadow-sm hover:shadow-xl transition-all group"
+               className="bg-white rounded-[1.5rem] border border-black/5 p-8 shadow-sm hover:shadow-xl transition-all group"
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#0D95F0]/10 group-hover:text-[#0D95F0] transition-colors">
@@ -147,7 +147,7 @@ export default function AboutPageCMS() {
         </div>
 
         {/* Narrative Section */}
-        <div className="bg-white rounded-[3rem] border border-black/5 p-12 lg:p-16 space-y-10 shadow-sm relative overflow-hidden">
+        <div className="bg-white rounded-[1.75rem] border border-black/5 p-12 lg:p-16 space-y-10 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-16 opacity-[0.03] pointer-events-none">
              <BookOpen size={240} />
           </div>

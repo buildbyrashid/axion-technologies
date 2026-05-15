@@ -336,7 +336,7 @@ export default function ProductEditorPage() {
       </div>
 
       {/* Spatial Tabs Navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide p-2 bg-white/40 backdrop-blur-2xl rounded-[2.5rem] border border-black/5 sticky top-24 z-30 mb-12 shadow-2xl shadow-black/[0.02]">
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide p-2 bg-white/40 backdrop-blur-2xl rounded-[1.5rem] border border-black/5 sticky top-24 z-30 mb-12 shadow-2xl shadow-black/[0.02]">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -357,9 +357,9 @@ export default function ProductEditorPage() {
 
       {/* Technical Canvas (Content) */}
       <div className="relative group">
-        <div className="absolute -inset-4 bg-gradient-to-br from-[#0D95F0]/5 to-transparent rounded-[4rem] opacity-0 group-hover:opacity-100 transition-opacity blur-3xl pointer-events-none" />
+        <div className="absolute -inset-4 bg-gradient-to-br from-[#0D95F0]/5 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity blur-3xl pointer-events-none" />
         
-        <div className="relative bg-white rounded-[3.5rem] border border-black/5 shadow-sm overflow-hidden min-h-[600px] z-10 transition-all duration-700">
+        <div className="relative bg-white rounded-[2.25rem] border border-black/5 shadow-sm overflow-hidden min-h-[600px] z-10 transition-all duration-700">
           <AnimatePresence mode="wait">
             {activeTab === 'basic' && (
               <motion.div 
@@ -426,7 +426,7 @@ export default function ProductEditorPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[2.5rem] border border-black/5">
+                <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[1.5rem] border border-black/5">
                    <label className="flex items-center gap-4 cursor-pointer group">
                       <div className="relative w-12 h-6 bg-slate-200 rounded-full transition-colors group-has-[:checked]:bg-emerald-400">
                          <input type="checkbox" {...register('is_active')} className="sr-only peer" />
@@ -455,7 +455,7 @@ export default function ProductEditorPage() {
 
                 <div className="space-y-4">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal Narrative (Detailed Context)</label>
-                  <div className="rounded-[2.5rem] overflow-hidden border border-black/5">
+                  <div className="rounded-[1.5rem] overflow-hidden border border-black/5">
                     <RichTextEditor 
                       content={watch('full_description') || ''} 
                       onChange={(val) => setValue('full_description', val, { shouldDirty: true })}
@@ -480,7 +480,7 @@ export default function ProductEditorPage() {
                     <p className="text-slate-400 font-medium text-lg italic">Manage high-fidelity imagery and primary listing thumbnails.</p>
                   </div>
                   
-                  <div className="bg-slate-50/50 p-8 rounded-[3rem] border border-black/5">
+                  <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
                     <MediaUploader 
                       files={images}
                       onFilesChange={setImages}
@@ -599,7 +599,7 @@ export default function ProductEditorPage() {
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.9 }}
-                          className="bg-slate-50/50 p-8 rounded-[2.5rem] border border-black/5 space-y-6 group relative hover:bg-white hover:shadow-2xl transition-all duration-700"
+                          className="bg-slate-50/50 p-8 rounded-[1.5rem] border border-black/5 space-y-6 group relative hover:bg-white hover:shadow-2xl transition-all duration-700"
                         >
                           <div className="flex items-center justify-between">
                              <div className="w-12 h-12 rounded-[1rem] bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
@@ -642,7 +642,7 @@ export default function ProductEditorPage() {
                 exit={{ opacity: 0, y: -20 }}
                 className="p-16 text-center py-40"
               >
-                <div className="w-24 h-24 rounded-[2.5rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-10 shadow-inner">
+                <div className="w-24 h-24 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-10 shadow-inner">
                   <Box size={40} />
                 </div>
                 <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Peripheral Kit Console</h3>
@@ -686,7 +686,7 @@ export default function ProductEditorPage() {
                           key={index}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          className="bg-slate-50/50 p-6 rounded-[2.5rem] border border-black/5 flex flex-col md:flex-row md:items-center gap-6 group hover:bg-white hover:shadow-2xl transition-all duration-700"
+                          className="bg-slate-50/50 p-6 rounded-[1.5rem] border border-black/5 flex flex-col md:flex-row md:items-center gap-6 group hover:bg-white hover:shadow-2xl transition-all duration-700"
                         >
                           <div className="w-14 h-14 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 shrink-0 shadow-sm">
                             <Download size={22} />
@@ -753,7 +753,7 @@ export default function ProductEditorPage() {
                     <p className="text-slate-400 font-medium text-lg italic text-balance">Showcase high-impact deployments of this hardware cluster in enterprise environments.</p>
                   </div>
                   
-                  <div className="bg-slate-50/50 p-8 rounded-[3rem] border border-black/5">
+                  <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
                     <MediaUploader 
                       files={applications}
                       onFilesChange={setApplications}
@@ -764,7 +764,7 @@ export default function ProductEditorPage() {
 
                   <div className="grid gap-6">
                     {applications.map((app, i) => (
-                      <div key={i} className="flex gap-8 p-6 bg-white rounded-[2.5rem] border border-black/5 shadow-sm group hover:shadow-2xl transition-all duration-700">
+                      <div key={i} className="flex gap-8 p-6 bg-white rounded-[1.5rem] border border-black/5 shadow-sm group hover:shadow-2xl transition-all duration-700">
                         <div className="w-24 h-24 rounded-[1.5rem] bg-slate-900 overflow-hidden shrink-0 shadow-2xl">
                           <Image src={app.url} alt="App" width={96} height={96} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-1000" />
                         </div>
@@ -811,7 +811,7 @@ export default function ProductEditorPage() {
         <motion.div 
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-slate-950/90 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-6 flex items-center justify-between shadow-[0_32px_120px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden"
+          className="bg-slate-950/90 backdrop-blur-3xl border border-white/10 rounded-[1.75rem] p-6 flex items-center justify-between shadow-[0_32px_120px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#0D95F0]/20 to-transparent" />
           
