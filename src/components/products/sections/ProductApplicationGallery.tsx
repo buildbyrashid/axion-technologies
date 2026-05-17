@@ -35,7 +35,7 @@ export default function ProductApplicationGallery({ gallery }: Props) {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.07 }}
-              className="group relative aspect-video rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-shadow duration-500"
+              className="group relative aspect-video rounded-none-none overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-shadow duration-500"
             >
               <Image
                 src={item.src}

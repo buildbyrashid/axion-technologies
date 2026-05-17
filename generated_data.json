@@ -1,0 +1,722 @@
+[
+  {
+    "name": "LED DISPLAY SYSTEMS",
+    "href": "/products/led-display-systems",
+    "subcategories": [
+      {
+        "name": "Indoor Rental LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Indoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Indoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Outdoor Rental LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Outdoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Outdoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Fine Pitch LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Fine Pitch LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Fine Pitch LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "COB LED Displays",
+        "products": [
+          {
+            "name": "Pro Series COB LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite COB LED Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "MIP LED Displays",
+        "products": [
+          {
+            "name": "Pro Series MIP LED Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite MIP LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Creative LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Creative LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Creative LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Curved & Transparent LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Curved & Transparent LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Curved & Transparent LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "All-in-One LED Displays",
+        "products": [
+          {
+            "name": "Pro Series All-in-One LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite All-in-One LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Fixed Installation LED Systems",
+        "products": [
+          {
+            "name": "Pro Series Fixed Installation LED Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Fixed Installation LED Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "LCD SCREENS & INTERACTIVE KIOSKS",
+    "href": "/products/lcd-screens-interactive-kiosks",
+    "subcategories": [
+      {
+        "name": "Interactive Touch Screens",
+        "products": [
+          {
+            "name": "Pro Series Interactive Touch Screens",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Interactive Touch Screens",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Digital Signage Displays",
+        "products": [
+          {
+            "name": "Pro Series Digital Signage Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Digital Signage Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Interactive Kiosks",
+        "products": [
+          {
+            "name": "Pro Series Interactive Kiosks",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Interactive Kiosks",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "OLED Displays",
+        "products": [
+          {
+            "name": "Pro Series OLED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite OLED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Transparent OLED Systems",
+        "products": [
+          {
+            "name": "Pro Series Transparent OLED Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Transparent OLED Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Self-Service Kiosks",
+        "products": [
+          {
+            "name": "Pro Series Self-Service Kiosks",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Self-Service Kiosks",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Enterprise Collaboration Displays",
+        "products": [
+          {
+            "name": "Pro Series Enterprise Collaboration Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Enterprise Collaboration Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Meeting Room Solutions",
+        "products": [
+          {
+            "name": "Pro Series Meeting Room Solutions",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Meeting Room Solutions",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Information & Wayfinding Systems",
+        "products": [
+          {
+            "name": "Pro Series Information & Wayfinding Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Information & Wayfinding Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "LIGHTING SYSTEMS",
+    "href": "/products/lighting-systems",
+    "subcategories": [
+      {
+        "name": "Moving Head Lights",
+        "products": [
+          {
+            "name": "Pro Series Moving Head Lights",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Moving Head Lights",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Beam Lights",
+        "products": [
+          {
+            "name": "Pro Series Beam Lights",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Beam Lights",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Wash Lights",
+        "products": [
+          {
+            "name": "Pro Series Wash Lights",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Wash Lights",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Hybrid Fixtures",
+        "products": [
+          {
+            "name": "Pro Series Hybrid Fixtures",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Hybrid Fixtures",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Profile Lights",
+        "products": [
+          {
+            "name": "Pro Series Profile Lights",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Profile Lights",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Outdoor IP Lighting",
+        "products": [
+          {
+            "name": "Pro Series Outdoor IP Lighting",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Outdoor IP Lighting",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Architectural Lighting",
+        "products": [
+          {
+            "name": "Pro Series Architectural Lighting",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Architectural Lighting",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Effect Lighting",
+        "products": [
+          {
+            "name": "Pro Series Effect Lighting",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Effect Lighting",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Follow Spots",
+        "products": [
+          {
+            "name": "Pro Series Follow Spots",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Follow Spots",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "DMX & Control Systems",
+        "products": [
+          {
+            "name": "Pro Series DMX & Control Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite DMX & Control Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "PROFESSIONAL AUDIO SYSTEMS",
+    "href": "/products/professional-audio-systems",
+    "subcategories": [
+      {
+        "name": "Line Array Systems",
+        "products": [
+          {
+            "name": "Pro Series Line Array Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Line Array Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Professional Speakers",
+        "products": [
+          {
+            "name": "Pro Series Professional Speakers",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Professional Speakers",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Subwoofers",
+        "products": [
+          {
+            "name": "Pro Series Subwoofers",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Subwoofers",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Amplifiers",
+        "products": [
+          {
+            "name": "Pro Series Amplifiers",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Amplifiers",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "DSP Systems",
+        "products": [
+          {
+            "name": "Pro Series DSP Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite DSP Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Installation Audio",
+        "products": [
+          {
+            "name": "Pro Series Installation Audio",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Installation Audio",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Conference Audio Systems",
+        "products": [
+          {
+            "name": "Pro Series Conference Audio Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Conference Audio Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Portable Sound Systems",
+        "products": [
+          {
+            "name": "Pro Series Portable Sound Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Portable Sound Systems",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Wireless Audio Solutions",
+        "products": [
+          {
+            "name": "Pro Series Wireless Audio Solutions",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Wireless Audio Solutions",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "POWER DISTRIBUTION & CABLE SOLUTIONS",
+    "href": "/products/power-distribution-cable-solutions",
+    "subcategories": [
+      {
+        "name": "Power Distribution Units",
+        "products": [
+          {
+            "name": "Pro Series Power Distribution Units",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Power Distribution Units",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Event Power Systems",
+        "products": [
+          {
+            "name": "Pro Series Event Power Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Event Power Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Signal Distribution Systems",
+        "products": [
+          {
+            "name": "Pro Series Signal Distribution Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Signal Distribution Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Power Cables",
+        "products": [
+          {
+            "name": "Pro Series Power Cables",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Power Cables",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Audio Cables",
+        "products": [
+          {
+            "name": "Pro Series Audio Cables",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Audio Cables",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Video & Data Cables",
+        "products": [
+          {
+            "name": "Pro Series Video & Data Cables",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Video & Data Cables",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "DMX & Signal Solutions",
+        "products": [
+          {
+            "name": "Pro Series DMX & Signal Solutions",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite DMX & Signal Solutions",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Connectors & Accessories",
+        "products": [
+          {
+            "name": "Pro Series Connectors & Accessories",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Connectors & Accessories",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      },
+      {
+        "name": "Cable Management Solutions",
+        "products": [
+          {
+            "name": "Pro Series Cable Management Solutions",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          },
+          {
+            "name": "Elite Cable Management Solutions",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/detail"
+          }
+        ]
+      }
+    ]
+  }
+]

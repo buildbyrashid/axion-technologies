@@ -13,6 +13,7 @@ const products = [
     description: "High-performance indoor and outdoor LED solutions with industry-leading refresh rates and pixel pitch precision.",
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80",
     className: "lg:col-span-2 lg:row-span-2",
+    href: "/products/led-display-systems",
   },
   {
     title: "Interactive Kiosks",
@@ -20,6 +21,7 @@ const products = [
     description: "Multi-touch interactive displays and digital signage kiosks.",
     image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80",
     className: "lg:col-span-1 lg:row-span-1",
+    href: "/products/lcd-screens-interactive-kiosks",
   },
   {
     title: "Lighting Systems",
@@ -27,6 +29,7 @@ const products = [
     description: "Professional architectural and stage lighting solutions.",
     image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80",
     className: "lg:col-span-1 lg:row-span-1",
+    href: "/products/lighting-systems",
   },
   {
     title: "Professional Audio",
@@ -34,6 +37,7 @@ const products = [
     description: "Enterprise-grade sound reinforcement systems.",
     image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80",
     className: "lg:col-span-1 lg:row-span-1",
+    href: "/products/professional-audio-systems",
   },
   {
     title: "Power Solutions",
@@ -41,6 +45,7 @@ const products = [
     description: "Robust power distribution and custom cabling.",
     image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80",
     className: "lg:col-span-1 lg:row-span-1",
+    href: "/products/power-distribution-cable-solutions",
   },
 ];
 
@@ -73,7 +78,7 @@ export default function ProductsSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[300px] sm:auto-rows-[350px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 auto-rows-[300px] sm:auto-rows-[350px]">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -119,7 +124,7 @@ export default function ProductsSection() {
                   </div>
 
                   <Link
-                    href={`/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={product.href}
                     className="h-10 w-10 bg-primary text-white flex items-center justify-center translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
                   >
                     <ArrowUpRight className="h-5 w-5" />

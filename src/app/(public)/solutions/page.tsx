@@ -136,7 +136,7 @@ export default function SolutionsPage() {
             subtitle="Core engineering systems that power our advanced visual infrastructure."
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {technologies.map((tech, idx) => (
               <motion.div
                 key={tech.title}
@@ -192,7 +192,7 @@ export default function SolutionsPage() {
             subtitle="We don't just sell products; we transform physical spaces through cinematic visual engineering."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
             {environments.map((env, idx) => {
               const isHero = env.size === "hero";
               const isWide = env.size === "wide";

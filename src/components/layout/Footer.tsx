@@ -69,16 +69,16 @@ export default function Footer() {
             </div>
             
             <div className="flex items-center space-x-4 pt-4">
-              <a href="#" className="h-9 w-9 rounded-full bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
+              <a href="#" className="h-9 w-9 rounded-none-none bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
                 <FaFacebookF className="h-4 w-4" />
               </a>
-              <a href="#" className="h-9 w-9 rounded-full bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
+              <a href="#" className="h-9 w-9 rounded-none-none bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
                 <FaTwitter className="h-4 w-4" />
               </a>
-              <a href="#" className="h-9 w-9 rounded-full bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
+              <a href="#" className="h-9 w-9 rounded-none-none bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
                 <FaLinkedinIn className="h-4 w-4" />
               </a>
-              <a href="#" className="h-9 w-9 rounded-full bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
+              <a href="#" className="h-9 w-9 rounded-none-none bg-white/5 text-white flex items-center justify-center hover:bg-accent transition-all duration-300">
                 <FaInstagram className="h-4 w-4" />
               </a>
             </div>

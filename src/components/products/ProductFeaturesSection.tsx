@@ -96,7 +96,7 @@ export default function ProductFeaturesSection() {
 
   return (
     <section className="w-full bg-white py-10 sm:py-14 md:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] bg-white p-4 sm:p-6 md:p-10 border border-blue-100 shadow-sm overflow-hidden">
+      <div className="mx-auto max-w-7xl rounded-none-[28px] bg-white p-4 sm:p-6 md:p-10 border border-blue-100 shadow-sm overflow-hidden">
         {/* Header */}
         <div className="flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
@@ -115,14 +115,14 @@ export default function ProductFeaturesSection() {
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={scrollLeft}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-200 bg-white text-[#2563eb] transition-all duration-300 hover:bg-blue-50"
+              className="flex h-12 w-12 items-center justify-center rounded-none-none border border-blue-200 bg-white text-[#2563eb] transition-all duration-300 hover:bg-blue-50"
             >
               <ChevronLeft size={20} />
             </button>
 
             <button
               onClick={scrollRight}
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2563eb] text-white transition-all duration-300 hover:bg-[#1d4ed8]"
+              className="flex h-12 w-12 items-center justify-center rounded-none-none bg-[#2563eb] text-white transition-all duration-300 hover:bg-[#1d4ed8]"
             >
               <ChevronRight size={20} />
             </button>
@@ -137,7 +137,7 @@ export default function ProductFeaturesSection() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`min-w-[85%] sm:min-w-[300px] rounded-[28px] p-5 sm:p-7 transition-all duration-300 border border-blue-100 snap-center ${
+              className={`min-w-[85%] sm:min-w-[300px] rounded-none-[28px] p-5 sm:p-7 transition-all duration-300 border border-blue-100 snap-center ${
                 feature.dark
                   ? "bg-[#2563eb] text-white"
                   : "bg-[#eff6ff] text-[#0f172a]"
@@ -172,7 +172,7 @@ export default function ProductFeaturesSection() {
 
               {/* Button */}
               <button
-                className={`mt-6 sm:mt-8 w-full sm:w-fit rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 ${
+                className={`mt-6 sm:mt-8 w-full sm:w-fit rounded-none-none px-5 py-3 text-sm font-medium transition-all duration-300 ${
                   feature.dark
                     ? "bg-white text-[#2563eb] hover:bg-blue-50"
                     : "bg-[#2563eb] text-white hover:bg-[#1d4ed8]"

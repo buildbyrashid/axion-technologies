@@ -35,7 +35,7 @@ export default function ProductHeroSection({ product }: Props) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-400/10 border border-sky-400/20 text-sky-400 text-[9px] font-bold uppercase tracking-widest mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-none-none bg-sky-400/10 border border-sky-400/20 text-sky-400 text-[9px] font-bold uppercase tracking-widest mb-8">
               <Info size={10} />
               {product.category}
             </div>
@@ -61,11 +61,11 @@ export default function ProductHeroSection({ product }: Props) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="flex items-center justify-center gap-2 rounded-full bg-sky-500 hover:bg-sky-400 h-14 px-9 text-base font-bold shadow-lg shadow-sky-500/20 transition-all duration-300 group w-full sm:w-auto">
+              <button className="flex items-center justify-center gap-2 rounded-none-none bg-sky-500 hover:bg-sky-400 h-14 px-9 text-base font-bold shadow-lg shadow-sky-500/20 transition-all duration-300 group w-full sm:w-auto">
                 Request Quote
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="flex items-center justify-center gap-2 rounded-full border border-white/20 text-white hover:bg-white/10 h-14 px-9 text-base font-bold transition-all duration-300 w-full sm:w-auto">
+              <button className="flex items-center justify-center gap-2 rounded-none-none border border-white/20 text-white hover:bg-white/10 h-14 px-9 text-base font-bold transition-all duration-300 w-full sm:w-auto">
                 Contact Specialist
               </button>
             </div>
@@ -76,7 +76,7 @@ export default function ProductHeroSection({ product }: Props) {
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: "easeOut" }}
-            className="relative aspect-[4/3] lg:h-[520px] w-full rounded-3xl overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.7)] border border-white/10"
+            className="relative aspect-[4/3] lg:h-[520px] w-full rounded-none-none overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.7)] border border-white/10"
           >
             <Image
               src={product.heroImage}
