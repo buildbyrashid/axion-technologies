@@ -86,7 +86,7 @@ export default function AboutPage() {
             </div>
             
             <div className="relative">
-              <div className="aspect-[4/3] rounded-[40px] overflow-hidden shadow-2xl relative">
+              <div className="aspect-[4/3] overflow-hidden shadow-2xl relative">
                 <Image
                   src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80"
                   alt="Axion Technology Operations"
@@ -96,7 +96,7 @@ export default function AboutPage() {
                 />
               </div>
               {/* Floating Highlight */}
-              <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-xl border border-slate-100 max-w-xs hidden sm:block">
+              <div className="absolute -bottom-10 -left-10 bg-white p-8 shadow-xl border border-slate-100 max-w-xs hidden sm:block">
                 <p className="text-sm font-medium text-slate-500 uppercase tracking-widest mb-2">Technical Reach</p>
                 <p className="text-2xl font-bold text-primary tracking-tight">Hong Kong | Shenzhen | Dubai</p>
               </div>
@@ -134,8 +134,8 @@ export default function AboutPage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {technicalCore.map((tech) => (
-              <div key={tech.title} className="bg-white p-8 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-                <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-accent/10 transition-colors">
+              <div key={tech.title} className="bg-white p-8 border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div className="h-12 w-12 bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-accent/10 transition-colors">
                   {tech.icon}
                 </div>
                 <h4 className="text-xl font-bold text-primary mb-3 font-sora">{tech.title}</h4>
@@ -156,8 +156,8 @@ export default function AboutPage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
             {hubs.map((hub) => (
-              <div key={hub.city} className="p-10 bg-slate-50 rounded-[40px] border border-slate-100 hover:bg-white hover:shadow-2xl transition-all duration-500 text-left relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/10 transition-colors" />
+              <div key={hub.city} className="p-10 bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl transition-all duration-500 text-left relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/10 transition-colors" />
                 <h3 className="text-3xl font-bold text-primary mb-2 tracking-tight">{hub.city}</h3>
                 <div className="text-xs font-bold text-accent uppercase tracking-widest mb-6">{hub.role}</div>
                 <p className="text-slate-500 leading-relaxed text-sm">{hub.desc}</p>

@@ -71,7 +71,7 @@ export default function ContactHero() {
           >
             <Button
               size="lg"
-              className="rounded-full bg-accent text-white border-none hover:bg-accent/90 transition-all duration-300 h-13 px-10 font-bold shadow-[0_0_20px_rgba(13,149,240,0.2)]"
+              className="bg-accent text-white border-none hover:bg-accent/90 transition-all duration-300 h-13 px-10 font-bold shadow-[0_0_20px_rgba(13,149,240,0.2)]"
               onClick={() => document.getElementById('contact-form-section')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Start Your Inquiry

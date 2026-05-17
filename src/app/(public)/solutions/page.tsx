@@ -145,12 +145,12 @@ export default function SolutionsPage() {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 viewport={{ once: true }}
                 className={cn(
-                  "group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 p-8 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-700",
+                  "group relative overflow-hidden bg-white border border-slate-100 p-8 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-700",
                   idx === 0 ? "lg:col-span-2" : ""
                 )}
               >
                 <div className="flex flex-col h-full">
-                  <div className="relative h-64 mb-8 overflow-hidden rounded-[2rem]">
+                  <div className="relative h-64 mb-8 overflow-hidden">
                     <Image
                       src={tech.image}
                       alt={tech.title}
@@ -163,7 +163,7 @@ export default function SolutionsPage() {
                   <div className="flex items-start justify-between">
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-slate-50 rounded-lg text-accent">
+                        <div className="p-2 bg-slate-50 text-accent">
                           <tech.icon size={20} />
                         </div>
                         <h3 className="text-xl font-bold text-primary">{tech.title}</h3>
@@ -172,7 +172,7 @@ export default function SolutionsPage() {
                         {tech.desc}
                       </p>
                     </div>
-                    <div className="h-10 w-10 rounded-full border border-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                    <div className="h-10 w-10 border border-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
                       <ArrowUpRight size={20} />
                     </div>
                   </div>
@@ -205,7 +205,7 @@ export default function SolutionsPage() {
                   transition={{ duration: 0.7, delay: idx * 0.1 }}
                   viewport={{ once: true }}
                   className={cn(
-                    "group relative min-h-[450px] overflow-hidden rounded-[3rem] bg-primary",
+                    "group relative min-h-[450px] overflow-hidden bg-primary",
                     isHero ? "md:col-span-12 lg:col-span-8 lg:row-span-2" : 
                     isWide ? "md:col-span-12" : "md:col-span-6 lg:col-span-4"
                   )}
@@ -223,7 +223,7 @@ export default function SolutionsPage() {
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <span className="px-3 py-1 bg-accent/20 backdrop-blur-md border border-accent/30 text-accent text-[10px] font-bold uppercase tracking-widest rounded-full">
+                        <span className="px-3 py-1 bg-accent/20 backdrop-blur-md border border-accent/30 text-accent text-[10px] font-bold uppercase tracking-widest">
                           {env.subtitle}
                         </span>
                       </div>
@@ -246,7 +246,7 @@ export default function SolutionsPage() {
                       <div className="pt-4 flex items-center gap-4">
                         <button className="flex items-center gap-2 text-white font-bold text-sm group/btn">
                           <span>Explore Solution</span>
-                          <div className="h-8 w-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:scale-110 transition-all duration-300">
+                          <div className="h-8 w-8 bg-white/10 backdrop-blur-md flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:scale-110 transition-all duration-300">
                             <ArrowUpRight size={16} />
                           </div>
                         </button>
@@ -255,7 +255,7 @@ export default function SolutionsPage() {
                   </div>
 
                   {/* Decorative Icon */}
-                  <div className="absolute top-10 right-10 p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white/50 group-hover:text-accent group-hover:bg-white/10 transition-all duration-500">
+                  <div className="absolute top-10 right-10 p-4 bg-white/5 backdrop-blur-md border border-white/10 text-white/50 group-hover:text-accent group-hover:bg-white/10 transition-all duration-500">
                     <env.icon size={24} />
                   </div>
                 </motion.div>
@@ -298,7 +298,7 @@ export default function SolutionsPage() {
                   }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6">
-                    <div className="h-12 w-12 shrink-0 rounded-2xl bg-primary flex items-center justify-center border border-white/10">
+                    <div className="h-12 w-12 shrink-0 bg-primary flex items-center justify-center border border-white/10">
                       <item.icon className="text-accent h-6 w-6" />
                     </div>
                     <div>
@@ -315,7 +315,7 @@ export default function SolutionsPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="relative aspect-square rounded-[3rem] overflow-hidden border border-white/10"
+              className="relative aspect-square overflow-hidden border border-white/10"
             >
               <Image
                 src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80"

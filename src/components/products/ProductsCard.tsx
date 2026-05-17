@@ -228,7 +228,7 @@ export default function ProductsCard() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Heading */}
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <span className="mb-4 inline-block rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-[10px] font-semibold tracking-wide text-blue-700">
+          <span className="mb-4 inline-block border border-blue-200 bg-blue-50 px-4 py-1 text-[10px] font-semibold tracking-wide text-blue-700">
             OUR PRODUCTS
           </span>
 
@@ -236,7 +236,7 @@ export default function ProductsCard() {
             {currentTitle}
           </h2>
 
-          <div className="mx-auto mt-6 h-1 w-28 rounded-full bg-gradient-to-r from-blue-500 to-blue-700" />
+          <div className="mx-auto mt-6 h-1 w-28 bg-gradient-to-r from-blue-500 to-blue-700" />
         </div>
 
         {/* Navigation Controls */}
@@ -244,7 +244,7 @@ export default function ProductsCard() {
           {view.level !== "groups" && (
             <button
               onClick={handleBack}
-              className="flex sm:hidden items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-xl w-fit"
+              className="flex sm:hidden items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 w-fit"
             >
               <ArrowLeft size={16} />
               Back
@@ -254,7 +254,7 @@ export default function ProductsCard() {
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
               onClick={() => setView({ level: "groups" })}
-              className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full transition-all ${
+              className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all ${
                 view.level === "groups" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
               }`}
             >
@@ -265,7 +265,7 @@ export default function ProductsCard() {
                 <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
                 <button
                   onClick={() => setView({ level: "categories", groupIndex: view.groupIndex })}
-                  className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full transition-all ${
+                  className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all ${
                     view.level === "categories" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
                   }`}
                 >
@@ -277,7 +277,7 @@ export default function ProductsCard() {
               <>
                 <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
                 <button
-                  className="text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 rounded-full bg-blue-600 text-white shadow-lg"
+                  className="text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 bg-blue-600 text-white shadow-lg"
                 >
                   {productGroups[view.groupIndex!].categories[view.categoryIndex].name}
                 </button>
@@ -288,7 +288,7 @@ export default function ProductsCard() {
           {view.level !== "groups" && (
             <button
               onClick={handleBack}
-              className="hidden sm:flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-xl"
+              className="hidden sm:flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2"
             >
               <ArrowLeft size={16} />
               Back
@@ -304,7 +304,7 @@ export default function ProductsCard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+              className="group relative flex h-full flex-col overflow-hidden border border-slate-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
             >
               {/* Image Section */}
               <div className="relative h-64 overflow-hidden">
@@ -330,7 +330,7 @@ export default function ProductsCard() {
 
                 {/* Level Indicator */}
                 <div className="absolute top-4 right-4">
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 text-[9px] font-bold text-white uppercase">
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 text-[9px] font-bold text-white uppercase">
                     {view.level === "groups" ? "Group" : view.level === "categories" ? "Category" : "Series"}
                   </div>
                 </div>
@@ -348,7 +348,7 @@ export default function ProductsCard() {
                     {(item.categories || item.subcategories || item.features || []).slice(0, 4).map((feat: any, idx: number) => (
                       <span
                         key={idx}
-                        className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[9px] font-medium text-blue-700"
+                        className="border border-blue-100 bg-blue-50 px-3 py-1 text-[9px] font-medium text-blue-700"
                       >
                         {typeof feat === 'string' ? feat : feat.name}
                       </span>
@@ -361,7 +361,7 @@ export default function ProductsCard() {
                   {view.level === "subcategories" ? (
                     <Link
                       href={item.href}
-                      className="inline-flex w-full items-center justify-center px-4 border rounded-xl gap-2 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-all font-bold text-[12px] shadow-lg shadow-blue-200"
+                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-all font-bold text-[12px] shadow-lg shadow-blue-200"
                     >
                       Explore Products
                       <ArrowUpRight className="h-4 w-4" />
@@ -379,7 +379,7 @@ export default function ProductsCard() {
                           });
                         }
                       }}
-                      className="inline-flex w-full items-center justify-center px-4 border rounded-xl gap-2 py-3 bg-white text-blue-600 border-blue-100 hover:bg-blue-50 transition-all font-bold text-[12px]"
+                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-white text-blue-600 border-blue-100 hover:bg-blue-50 transition-all font-bold text-[12px]"
                     >
                       View Details
                       <ChevronRight className="h-4 w-4" />

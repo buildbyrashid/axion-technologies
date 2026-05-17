@@ -81,7 +81,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-[900px] bg-white rounded-lg shadow-2xl overflow-hidden"
+            className="relative w-full max-w-[900px] bg-white shadow-2xl overflow-hidden"
           >
             {/* Close Button */}
             <button
@@ -108,7 +108,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       required
                       value={formData.projectStatus}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
                       <option value="">Select Project Status</option>
                       <option value="Concept / Planning">Concept / Planning</option>
@@ -131,7 +131,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       placeholder="e.g. name@company.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
@@ -146,7 +146,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       placeholder="e.g. +1 234 567 890"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
@@ -162,7 +162,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       placeholder="Enter country"
                       value={formData.country}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300"
                     />
                   </div>
 
@@ -178,7 +178,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       value={formData.width}
                       onChange={handleChange}
                       disabled={formData.uncertainSize}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
                     />
                   </div>
 
@@ -194,7 +194,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       value={formData.height}
                       onChange={handleChange}
                       disabled={formData.uncertainSize}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-sm font-medium disabled:opacity-50 placeholder:text-slate-300"
                     />
                     <div className="flex items-center space-x-2.5 pt-1.5">
                       <input
@@ -203,7 +203,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                         name="uncertainSize"
                         checked={formData.uncertainSize}
                         onChange={handleChange}
-                        className="h-4 w-4 text-accent border-slate-300 rounded-md focus:ring-accent/20 transition-all cursor-pointer"
+                        className="h-4 w-4 text-accent border-slate-300 focus:ring-accent/20 transition-all cursor-pointer"
                       />
                       <label htmlFor="uncertainSize" className="text-xs font-semibold text-slate-500 cursor-pointer">
                         Size not yet confirmed
@@ -221,7 +221,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       required
                       value={formData.installationMethod}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
                       <option value="">Select Installation Method</option>
                       <option value="Fixed Installation">Fixed Installation</option>
@@ -242,7 +242,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       required
                       value={formData.type}
                       onChange={handleChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all text-slate-700 text-sm font-medium"
                     >
                       <option value="">Select Solution Type</option>
                       <option value="LED Display Systems">LED Display Systems</option>
@@ -265,7 +265,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                     placeholder="Describe your project requirements here. Include details like environment, pixel pitch preference, or specific technical needs for a more accurate quote."
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all resize-none text-sm font-medium placeholder:text-slate-300"
+                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all resize-none text-sm font-medium placeholder:text-slate-300"
                   />
                 </div>
 
@@ -276,7 +276,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                       * Verify you're human
                     </label>
                     <div className="flex items-center space-x-3">
-                      <div className="text-sm font-bold text-primary bg-slate-100 px-4 py-2.5 rounded-lg border border-slate-200">
+                      <div className="text-sm font-bold text-primary bg-slate-100 px-4 py-2.5 border border-slate-200">
                         {captchaQuestion.num1} + {captchaQuestion.num2} =
                       </div>
                       <input
@@ -285,14 +285,14 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                         required
                         value={formData.captcha}
                         onChange={handleChange}
-                        className="w-20 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-accent transition-all text-sm font-bold"
+                        className="w-20 px-3 py-2.5 bg-slate-50 border border-slate-200 focus:outline-none focus:border-accent transition-all text-sm font-bold"
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary rounded-full hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95"
+                    className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95"
                   >
                     <span className="relative">Submit Request Now</span>
                   </button>

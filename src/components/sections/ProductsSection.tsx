@@ -54,7 +54,7 @@ export default function ProductsSection() {
             whileInView={{ opacity: 1 }}
             className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block"
           >
-            Product Categories
+            Our Products
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -82,7 +82,7 @@ export default function ProductsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               className={cn(
-                "group relative overflow-hidden rounded-3xl bg-white border border-slate-100 flex flex-col p-0 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]",
+                "group relative overflow-hidden bg-white border border-slate-100 flex flex-col p-0 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]",
                 product.className
               )}
             >
@@ -94,8 +94,8 @@ export default function ProductsSection() {
                   fill
                   className="object-cover transition-all duration-700 group-hover:scale-105"
                 />
-                {/* Subtle gradient to ensure text readability if needed, but keeping it light */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent opacity-90 group-hover:opacity-40 transition-opacity duration-500" />
+                {/* Dark gradient to ensure white text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
               </div>
 
               {/* Content Overlay */}
@@ -106,21 +106,21 @@ export default function ProductsSection() {
                       {product.category}
                     </span>
                     <h3 className={cn(
-                      "font-sora font-bold text-primary tracking-tight leading-tight",
+                      "font-sora font-bold text-white tracking-tight leading-tight",
                       index === 0 ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
                     )}>
                       {product.title}
                     </h3>
                     {index === 0 && (
-                      <p className="text-slate-500 text-xs sm:text-sm max-w-sm leading-relaxed mt-4 hidden sm:block line-clamp-2 lg:line-clamp-none">
+                      <p className="text-white/80 text-xs sm:text-sm max-w-sm leading-relaxed mt-4 hidden sm:block line-clamp-2 lg:line-clamp-none">
                         {product.description}
                       </p>
                     )}
                   </div>
-                  
+
                   <Link
                     href={`/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
+                    className="h-10 w-10 bg-primary text-white flex items-center justify-center translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
                   >
                     <ArrowUpRight className="h-5 w-5" />
                   </Link>
