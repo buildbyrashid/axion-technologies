@@ -68,9 +68,9 @@ export default function ProductInquirySection() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 p-3.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-sky-400/40 transition-all group"
+                  className="flex items-center gap-3 p-3.5 bg-white/5 border border-white/10 rounded-none-none hover:bg-white/10 hover:border-sky-400/40 transition-all group"
                 >
-                  <div className="w-9 h-9 rounded-lg bg-sky-400/10 flex items-center justify-center text-sky-400 group-hover:bg-sky-400 group-hover:text-white transition-all flex-shrink-0">
+                  <div className="w-9 h-9 rounded-none-none bg-sky-400/10 flex items-center justify-center text-sky-400 group-hover:bg-sky-400 group-hover:text-white transition-all flex-shrink-0">
                     {item.icon}
                   </div>
                   <span className="font-semibold text-white text-xs">{item.label}</span>
@@ -79,7 +79,7 @@ export default function ProductInquirySection() {
             </div>
 
             {/* Regional office note */}
-            <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-xl">
+            <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-none-none">
               <div className="text-[10px] font-bold uppercase tracking-widest text-sky-400 mb-1.5">
                 Regional Offices
               </div>
@@ -97,7 +97,7 @@ export default function ProductInquirySection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-6 lg:p-8 h-full flex flex-col"
+            className="bg-white/5 border border-white/10 rounded-none-none p-6 lg:p-8 h-full flex flex-col"
           >
             <h3 className="text-base font-extrabold text-white mb-1">
               Quick Inquiry
@@ -118,7 +118,7 @@ export default function ProductInquirySection() {
                     value={form.firstName}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
+                    className="w-full px-3 py-2.5 rounded-none-none bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
                   />
                 </div>
                 <div className="space-y-1">
@@ -131,7 +131,7 @@ export default function ProductInquirySection() {
                     value={form.lastName}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
+                    className="w-full px-3 py-2.5 rounded-none-none bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
                   />
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function ProductInquirySection() {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
+                  className="w-full px-3 py-2.5 rounded-none-none bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
                 />
               </div>
 
@@ -159,7 +159,7 @@ export default function ProductInquirySection() {
                   name="company"
                   value={form.company}
                   onChange={handleChange}
-                  className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
+                  className="w-full px-3 py-2.5 rounded-none-none bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all placeholder:text-white/20"
                 />
               </div>
 
@@ -173,13 +173,13 @@ export default function ProductInquirySection() {
                   value={form.details}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all resize-none placeholder:text-white/20"
+                  className="w-full px-3 py-2.5 rounded-none-none bg-white/5 border border-white/10 focus:ring-2 focus:ring-sky-400 focus:bg-white/10 outline-none text-white text-xs font-medium transition-all resize-none placeholder:text-white/20"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 h-10 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-sky-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-center gap-2 h-10 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs rounded-none-none shadow-lg shadow-sky-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <Send size={13} />
                 Submit Technical Inquiry

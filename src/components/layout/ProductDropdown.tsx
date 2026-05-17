@@ -3,22 +3,19 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-interface ProductSpec {
-  label: string;
-  value: string;
+interface Product {
+  name: string;
+  image: string;
+  href: string;
 }
 
 interface SubCategory {
   name: string;
-  tagline: string;
-  href: string;
-  image: string;
-  specs: ProductSpec[];
-  features: string[];
+  products: Product[];
 }
 
 interface Category {
@@ -27,495 +24,974 @@ interface Category {
   subcategories: SubCategory[];
 }
 
-interface ProductGroup {
-  name: string;
-  href: string;
-  categories: Category[];
-}
-
-const productGroups: ProductGroup[] = [
+const productCategories: Category[] = [
   {
-    name: "VISUAL DISPLAY SOLUTIONS",
-    href: "/products/visual-display-solutions",
-    categories: [
+    "name": "LED DISPLAY SYSTEMS",
+    "href": "/products/led-display-systems",
+    "subcategories": [
       {
-        name: "LED DISPLAY SYSTEMS",
-        href: "/products/led-display-systems",
-        subcategories: [
+        "name": "Indoor Rental LED Displays",
+        "products": [
           {
-            name: "Indoor Rental LED Displays",
-            tagline: "Brilliant Visuals for Indoor Event Environments",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Application", value: "Events & Exhibitions" },
-              { label: "Pixel Pitch", value: "P1.9 – P4.8" },
-            ],
-            features: [
-              "Lightweight rental cabinets",
-              "Fast installation system",
-              "High refresh rate visuals",
-              "Seamless panel alignment",
-            ],
+            "name": "Pro Series Indoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/indoor-rental-led-displays/pro-series"
           },
           {
-            name: "Outdoor Rental LED Displays",
-            tagline: "High Brightness Displays for Outdoor Productions",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Brightness", value: "5000–8000 nits" },
-              { label: "Protection", value: "IP65 Rated" },
-            ],
-            features: [
-              "Weatherproof design",
-              "High-impact outdoor visuals",
-              "Quick-lock cabinet system",
-              "Wide viewing angles",
-            ],
+            "name": "Elite Indoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/indoor-rental-led-displays/elite"
           },
           {
-            name: "Fine Pitch LED Displays",
-            tagline: "Ultra Fine Pixel Precision for Premium Spaces",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Pixel Pitch", value: "P0.9 – P1.8" },
-              { label: "Usage", value: "Control Rooms & Corporate" },
-            ],
-            features: [
-              "Ultra-sharp image quality",
-              "Front maintenance access",
-              "HDR visual performance",
-              "Accurate color calibration",
-            ],
-          },
-          {
-            name: "COB LED Displays",
-            tagline: "Advanced Chip-on-Board LED Technology",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Technology", value: "COB Packaging" },
-              { label: "Durability", value: "High Protection Surface" },
-            ],
-            features: [
-              "Enhanced durability",
-              "Superior heat dissipation",
-              "Anti-collision surface",
-              "High contrast visuals",
-            ],
-          },
-          {
-            name: "MIP LED Displays",
-            tagline: "Micro LED Innovation for Premium Installations",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Technology", value: "Micro LED Packaging" },
-              { label: "Display", value: "Ultra Fine Resolution" },
-            ],
-            features: [
-              "Energy efficient technology",
-              "Improved visual consistency",
-              "Enhanced black levels",
-              "Long operational lifespan",
-            ],
-          },
-          {
-            name: "Creative LED Displays",
-            tagline: "Custom LED Concepts for Immersive Experiences",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Design", value: "Custom Configurations" },
-              { label: "Application", value: "Experiential Installations" },
-            ],
-            features: [
-              "Flexible display structures",
-              "Custom creative shapes",
-              "Immersive visual experiences",
-              "Modular design systems",
-            ],
-          },
-          {
-            name: "Curved & Transparent LED Displays",
-            tagline: "Architectural LED Innovation with Transparency",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Transparency", value: "Up to 85%" },
-              { label: "Design", value: "Curved Structures" },
-            ],
-            features: [
-              "Transparent visual effects",
-              "Curved installation support",
-              "Lightweight cabinet design",
-              "Modern architectural aesthetics",
-            ],
-          },
-          {
-            name: "All-in-One LED Displays",
-            tagline: "Integrated LED Systems for Collaboration Spaces",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1522199710521-72d69614c702?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Integration", value: "Built-in System" },
-              { label: "Usage", value: "Meeting & Presentation Rooms" },
-            ],
-            features: [
-              "Plug-and-play operation",
-              "Integrated audio system",
-              "Wireless connectivity",
-              "Corporate collaboration ready",
-            ],
-          },
-          {
-            name: "Fixed Installation LED Systems",
-            tagline: "Permanent LED Solutions for Professional Spaces",
-            href: "/products/led-display-systems",
-            image:
-              "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Installation", value: "Fixed Mounting" },
-              { label: "Application", value: "Retail & Corporate" },
-            ],
-            features: [
-              "Front service accessibility",
-              "Long-term reliability",
-              "Slim cabinet structure",
-              "High brightness output",
-            ],
-          },
-        ],
+            "name": "Ultra Indoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/indoor-rental-led-displays/ultra"
+          }
+        ]
       },
       {
-        name: "LCD SCREENS & INTERACTIVE KIOSKS",
-        href: "/products/lcd-screens-&-interactive-kiosks",
-        subcategories: [
+        "name": "Outdoor Rental LED Displays",
+        "products": [
           {
-            name: "Interactive Touch Screens",
-            tagline: "Smart Collaboration & Interactive Communication",
-            href: "/products/lcd-screens-&-interactive-kiosks",
-            image:
-              "https://images.unsplash.com/photo-1588702547919-26089e690ecc?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Touch", value: "20 Point Multi-Touch" },
-              { label: "Resolution", value: "4K UHD" },
-            ],
-            features: [
-              "Smooth touch interaction",
-              "Wireless screen sharing",
-              "Integrated collaboration tools",
-              "Anti-glare display surface",
-            ],
+            "name": "Pro Series Outdoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-rental-led-displays/pro-series"
           },
           {
-            name: "Digital Signage Displays",
-            tagline: "Dynamic Digital Communication Solutions",
-            href: "/products/lcd-screens-&-interactive-kiosks",
-            image:
-              "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Operation", value: "24/7 Commercial Use" },
-              { label: "Brightness", value: "700 nits" },
-            ],
-            features: [
-              "Cloud content management",
-              "Remote display monitoring",
-              "Portrait & landscape modes",
-              "Commercial-grade panels",
-            ],
+            "name": "Elite Outdoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-rental-led-displays/elite"
           },
           {
-            name: "Interactive Kiosks",
-            tagline: "Self-Service Interactive Engagement Systems",
-            href: "/products/lcd-screens-&-interactive-kiosks",
-            image:
-              "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Usage", value: "Retail & Public Spaces" },
-              { label: "Touch", value: "Multi-Touch Interface" },
-            ],
-            features: [
-              "Self-service interaction",
-              "Custom branding support",
-              "Integrated hardware options",
-              "Modern slim design",
-            ],
-          },
-          {
-            name: "OLED Displays",
-            tagline: "Premium OLED Visual Performance",
-            href: "/products/lcd-screens-&-interactive-kiosks",
-            image:
-              "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Display", value: "OLED Technology" },
-              { label: "Contrast", value: "Infinite Contrast" },
-            ],
-            features: [
-              "True black color output",
-              "Ultra-thin design",
-              "Exceptional image clarity",
-              "Premium visual aesthetics",
-            ],
-          },
-          {
-            name: "Transparent OLED Systems",
-            tagline: "Next-Generation Transparent Display Solutions",
-            href: "/products/lcd-screens-&-interactive-kiosks",
-            image:
-              "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Transparency", value: "High Transparency" },
-              { label: "Application", value: "Retail & Museums" },
-            ],
-            features: [
-              "Transparent viewing experience",
-              "Futuristic visual presentation",
-              "Interactive integration ready",
-              "Architectural compatibility",
-            ],
-          },
-        ],
+            "name": "Ultra Outdoor Rental LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-rental-led-displays/ultra"
+          }
+        ]
       },
-    ],
+      {
+        "name": "Fine Pitch LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Fine Pitch LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fine-pitch-led-displays/pro-series"
+          },
+          {
+            "name": "Elite Fine Pitch LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fine-pitch-led-displays/elite"
+          },
+          {
+            "name": "Ultra Fine Pitch LED Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fine-pitch-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "COB LED Displays",
+        "products": [
+          {
+            "name": "Pro Series COB LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cob-led-displays/pro-series"
+          },
+          {
+            "name": "Elite COB LED Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cob-led-displays/elite"
+          },
+          {
+            "name": "Ultra COB LED Displays",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cob-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "MIP LED Displays",
+        "products": [
+          {
+            "name": "Pro Series MIP LED Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/mip-led-displays/pro-series"
+          },
+          {
+            "name": "Elite MIP LED Displays",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/mip-led-displays/elite"
+          },
+          {
+            "name": "Ultra MIP LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/mip-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Creative LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Creative LED Displays",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/creative-led-displays/pro-series"
+          },
+          {
+            "name": "Elite Creative LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/creative-led-displays/elite"
+          },
+          {
+            "name": "Ultra Creative LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/creative-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Curved & Transparent LED Displays",
+        "products": [
+          {
+            "name": "Pro Series Curved & Transparent LED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/curved-transparent-led-displays/pro-series"
+          },
+          {
+            "name": "Elite Curved & Transparent LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/curved-transparent-led-displays/elite"
+          },
+          {
+            "name": "Ultra Curved & Transparent LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/curved-transparent-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "All-in-One LED Displays",
+        "products": [
+          {
+            "name": "Pro Series All-in-One LED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/all-in-one-led-displays/pro-series"
+          },
+          {
+            "name": "Elite All-in-One LED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/all-in-one-led-displays/elite"
+          },
+          {
+            "name": "Ultra All-in-One LED Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/all-in-one-led-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Fixed Installation LED Systems",
+        "products": [
+          {
+            "name": "Pro Series Fixed Installation LED Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fixed-installation-led-systems/pro-series"
+          },
+          {
+            "name": "Elite Fixed Installation LED Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fixed-installation-led-systems/elite"
+          },
+          {
+            "name": "Ultra Fixed Installation LED Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/fixed-installation-led-systems/ultra"
+          }
+        ]
+      }
+    ]
   },
   {
-    name: "EVENT TECHNOLOGY",
-    href: "/products/event-technology",
-    categories: [
+    "name": "LCD SCREENS & INTERACTIVE KIOSKS",
+    "href": "/products/lcd-screens-interactive-kiosks",
+    "subcategories": [
       {
-        name: "LIGHTING SYSTEMS",
-        href: "/products/lighting-systems",
-        subcategories: [
+        "name": "Interactive Touch Screens",
+        "products": [
           {
-            name: "Moving Head Lights",
-            tagline: "Dynamic Intelligent Lighting Systems",
-            href: "/products/lighting-systems",
-            image:
-              "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Control", value: "DMX512" },
-              { label: "Usage", value: "Events & Stages" },
-            ],
-            features: [
-              "High-speed movement",
-              "Advanced beam control",
-              "Programmable effects",
-              "Professional stage lighting",
-            ],
+            "name": "Pro Series Interactive Touch Screens",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-touch-screens/pro-series"
           },
           {
-            name: "Beam Lights",
-            tagline: "Powerful Focused Beam Lighting",
-            href: "/products/lighting-systems",
-            image:
-              "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Beam Angle", value: "Ultra Narrow" },
-              { label: "Application", value: "Live Events" },
-            ],
-            features: [
-              "Sharp beam projection",
-              "Long-distance output",
-              "High brightness intensity",
-              "Professional touring ready",
-            ],
+            "name": "Elite Interactive Touch Screens",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-touch-screens/elite"
           },
           {
-            name: "Wash Lights",
-            tagline: "Wide Coverage Stage Wash Lighting",
-            href: "/products/lighting-systems",
-            image:
-              "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Color", value: "RGBW Mixing" },
-              { label: "Coverage", value: "Wide Wash" },
-            ],
-            features: [
-              "Smooth color blending",
-              "Wide-area illumination",
-              "Flicker-free operation",
-              "Silent cooling system",
-            ],
-          },
-        ],
+            "name": "Ultra Interactive Touch Screens",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-touch-screens/ultra"
+          }
+        ]
       },
       {
-        name: "PROFESSIONAL AUDIO SYSTEMS",
-        href: "/products/professional-audio-systems",
-        subcategories: [
+        "name": "Digital Signage Displays",
+        "products": [
           {
-            name: "Line Array Systems",
-            tagline: "Scalable Professional Audio Coverage",
-            href: "/products/professional-audio-systems",
-            image:
-              "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Application", value: "Concert & Events" },
-              { label: "Coverage", value: "Large Venues" },
-            ],
-            features: [
-              "High SPL performance",
-              "Scalable system design",
-              "Consistent sound coverage",
-              "Touring-grade construction",
-            ],
+            "name": "Pro Series Digital Signage Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/digital-signage-displays/pro-series"
           },
           {
-            name: "Professional Speakers",
-            tagline: "High Fidelity Professional Sound Systems",
-            href: "/products/professional-audio-systems",
-            image:
-              "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Output", value: "High Power Audio" },
-              { label: "Usage", value: "Live & Installed Audio" },
-            ],
-            features: [
-              "Clear vocal reproduction",
-              "Durable cabinet design",
-              "Wide frequency response",
-              "Professional acoustic tuning",
-            ],
+            "name": "Elite Digital Signage Displays",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/digital-signage-displays/elite"
           },
-        ],
+          {
+            "name": "Ultra Digital Signage Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/digital-signage-displays/ultra"
+          }
+        ]
       },
-    ],
+      {
+        "name": "Interactive Kiosks",
+        "products": [
+          {
+            "name": "Pro Series Interactive Kiosks",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-kiosks/pro-series"
+          },
+          {
+            "name": "Elite Interactive Kiosks",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-kiosks/elite"
+          },
+          {
+            "name": "Ultra Interactive Kiosks",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/interactive-kiosks/ultra"
+          }
+        ]
+      },
+      {
+        "name": "OLED Displays",
+        "products": [
+          {
+            "name": "Pro Series OLED Displays",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/oled-displays/pro-series"
+          },
+          {
+            "name": "Elite OLED Displays",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/oled-displays/elite"
+          },
+          {
+            "name": "Ultra OLED Displays",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/oled-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Transparent OLED Systems",
+        "products": [
+          {
+            "name": "Pro Series Transparent OLED Systems",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/transparent-oled-systems/pro-series"
+          },
+          {
+            "name": "Elite Transparent OLED Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/transparent-oled-systems/elite"
+          },
+          {
+            "name": "Ultra Transparent OLED Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/transparent-oled-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Self-Service Kiosks",
+        "products": [
+          {
+            "name": "Pro Series Self-Service Kiosks",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/self-service-kiosks/pro-series"
+          },
+          {
+            "name": "Elite Self-Service Kiosks",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/self-service-kiosks/elite"
+          },
+          {
+            "name": "Ultra Self-Service Kiosks",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/self-service-kiosks/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Enterprise Collaboration Displays",
+        "products": [
+          {
+            "name": "Pro Series Enterprise Collaboration Displays",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/enterprise-collaboration-displays/pro-series"
+          },
+          {
+            "name": "Elite Enterprise Collaboration Displays",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/enterprise-collaboration-displays/elite"
+          },
+          {
+            "name": "Ultra Enterprise Collaboration Displays",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/enterprise-collaboration-displays/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Meeting Room Solutions",
+        "products": [
+          {
+            "name": "Pro Series Meeting Room Solutions",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/meeting-room-solutions/pro-series"
+          },
+          {
+            "name": "Elite Meeting Room Solutions",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/meeting-room-solutions/elite"
+          },
+          {
+            "name": "Ultra Meeting Room Solutions",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/meeting-room-solutions/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Information & Wayfinding Systems",
+        "products": [
+          {
+            "name": "Pro Series Information & Wayfinding Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/information-wayfinding-systems/pro-series"
+          },
+          {
+            "name": "Elite Information & Wayfinding Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/information-wayfinding-systems/elite"
+          },
+          {
+            "name": "Ultra Information & Wayfinding Systems",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/information-wayfinding-systems/ultra"
+          }
+        ]
+      }
+    ]
   },
   {
-    name: "INFRASTRUCTURE & CONNECTIVITY",
-    href: "/products/infrastructure-connectivity",
-    categories: [
+    "name": "LIGHTING SYSTEMS",
+    "href": "/products/lighting-systems",
+    "subcategories": [
       {
-        name: "POWER DISTRIBUTION & CABLE SOLUTIONS",
-        href: "/products/power-distribution-&-cable-solutions",
-        subcategories: [
+        "name": "Moving Head Lights",
+        "products": [
           {
-            name: "Power Distribution Units",
-            tagline: "Reliable Event Power Management Systems",
-            href: "/products/power-distribution-&-cable-solutions",
-            image:
-              "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Capacity", value: "32A – 400A" },
-              { label: "Protection", value: "Industrial Grade" },
-            ],
-            features: [
-              "Safe power distribution",
-              "Industrial-grade components",
-              "Portable rack systems",
-              "Event-ready reliability",
-            ],
+            "name": "Pro Series Moving Head Lights",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/moving-head-lights/pro-series"
           },
           {
-            name: "Power Cables",
-            tagline: "Professional Grade Electrical Connectivity",
-            href: "/products/power-distribution-&-cable-solutions",
-            image:
-              "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Application", value: "Event & AV Systems" },
-              { label: "Build", value: "Heavy Duty" },
-            ],
-            features: [
-              "High durability insulation",
-              "Flexible cable design",
-              "Industrial safety standards",
-              "Reliable power transmission",
-            ],
+            "name": "Elite Moving Head Lights",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/moving-head-lights/elite"
           },
           {
-            name: "Audio Cables",
-            tagline: "High Quality Professional Audio Connectivity",
-            href: "/products/power-distribution-&-cable-solutions",
-            image:
-              "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Signal", value: "Balanced Audio" },
-              { label: "Connector", value: "XLR / TRS" },
-            ],
-            features: [
-              "Low noise transmission",
-              "Professional shielding",
-              "Durable connector quality",
-              "Reliable signal performance",
-            ],
-          },
-        ],
+            "name": "Ultra Moving Head Lights",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/moving-head-lights/ultra"
+          }
+        ]
       },
       {
-        name: "SIGNAL & VIDEO PROCESSING",
-        href: "/products/signal-video-processing",
-        subcategories: [
+        "name": "Beam Lights",
+        "products": [
           {
-            name: "LED Video Processors",
-            tagline: "Precision Signal Processing for LED Walls",
-            href: "/products/signal-video-processing",
-            image:
-              "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Input", value: "HDMI / SDI / DP" },
-              { label: "Resolution", value: "Up to 8K" },
-            ],
-            features: [
-              "Multi-input signal routing",
-              "Real-time image processing",
-              "Seamless input switching",
-              "Low latency output",
-            ],
+            "name": "Pro Series Beam Lights",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/beam-lights/pro-series"
           },
           {
-            name: "Video Switchers & Scalers",
-            tagline: "Flexible AV Signal Management Systems",
-            href: "/products/signal-video-processing",
-            image:
-              "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
-            specs: [
-              { label: "Channels", value: "Up to 16 Inputs" },
-              { label: "Output", value: "Multi-format" },
-            ],
-            features: [
-              "Live event switching",
-              "Broadcast-grade quality",
-              "Flexible output formats",
-              "Compact rack design",
-            ],
+            "name": "Elite Beam Lights",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/beam-lights/elite"
           },
-        ],
+          {
+            "name": "Ultra Beam Lights",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/beam-lights/ultra"
+          }
+        ]
       },
-    ],
+      {
+        "name": "Wash Lights",
+        "products": [
+          {
+            "name": "Pro Series Wash Lights",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wash-lights/pro-series"
+          },
+          {
+            "name": "Elite Wash Lights",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wash-lights/elite"
+          },
+          {
+            "name": "Ultra Wash Lights",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wash-lights/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Hybrid Fixtures",
+        "products": [
+          {
+            "name": "Pro Series Hybrid Fixtures",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/hybrid-fixtures/pro-series"
+          },
+          {
+            "name": "Elite Hybrid Fixtures",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/hybrid-fixtures/elite"
+          },
+          {
+            "name": "Ultra Hybrid Fixtures",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/hybrid-fixtures/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Profile Lights",
+        "products": [
+          {
+            "name": "Pro Series Profile Lights",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/profile-lights/pro-series"
+          },
+          {
+            "name": "Elite Profile Lights",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/profile-lights/elite"
+          },
+          {
+            "name": "Ultra Profile Lights",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/profile-lights/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Outdoor IP Lighting",
+        "products": [
+          {
+            "name": "Pro Series Outdoor IP Lighting",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-ip-lighting/pro-series"
+          },
+          {
+            "name": "Elite Outdoor IP Lighting",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-ip-lighting/elite"
+          },
+          {
+            "name": "Ultra Outdoor IP Lighting",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/outdoor-ip-lighting/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Architectural Lighting",
+        "products": [
+          {
+            "name": "Pro Series Architectural Lighting",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/architectural-lighting/pro-series"
+          },
+          {
+            "name": "Elite Architectural Lighting",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/architectural-lighting/elite"
+          },
+          {
+            "name": "Ultra Architectural Lighting",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/architectural-lighting/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Effect Lighting",
+        "products": [
+          {
+            "name": "Pro Series Effect Lighting",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/effect-lighting/pro-series"
+          },
+          {
+            "name": "Elite Effect Lighting",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/effect-lighting/elite"
+          },
+          {
+            "name": "Ultra Effect Lighting",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/effect-lighting/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Follow Spots",
+        "products": [
+          {
+            "name": "Pro Series Follow Spots",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/follow-spots/pro-series"
+          },
+          {
+            "name": "Elite Follow Spots",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/follow-spots/elite"
+          },
+          {
+            "name": "Ultra Follow Spots",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/follow-spots/ultra"
+          }
+        ]
+      },
+      {
+        "name": "DMX & Control Systems",
+        "products": [
+          {
+            "name": "Pro Series DMX & Control Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-control-systems/pro-series"
+          },
+          {
+            "name": "Elite DMX & Control Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-control-systems/elite"
+          },
+          {
+            "name": "Ultra DMX & Control Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-control-systems/ultra"
+          }
+        ]
+      }
+    ]
   },
+  {
+    "name": "PROFESSIONAL AUDIO SYSTEMS",
+    "href": "/products/professional-audio-systems",
+    "subcategories": [
+      {
+        "name": "Line Array Systems",
+        "products": [
+          {
+            "name": "Pro Series Line Array Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/line-array-systems/pro-series"
+          },
+          {
+            "name": "Elite Line Array Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/line-array-systems/elite"
+          },
+          {
+            "name": "Ultra Line Array Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/line-array-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Professional Speakers",
+        "products": [
+          {
+            "name": "Pro Series Professional Speakers",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/professional-speakers/pro-series"
+          },
+          {
+            "name": "Elite Professional Speakers",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/professional-speakers/elite"
+          },
+          {
+            "name": "Ultra Professional Speakers",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/professional-speakers/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Subwoofers",
+        "products": [
+          {
+            "name": "Pro Series Subwoofers",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/subwoofers/pro-series"
+          },
+          {
+            "name": "Elite Subwoofers",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/subwoofers/elite"
+          },
+          {
+            "name": "Ultra Subwoofers",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/subwoofers/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Amplifiers",
+        "products": [
+          {
+            "name": "Pro Series Amplifiers",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/amplifiers/pro-series"
+          },
+          {
+            "name": "Elite Amplifiers",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/amplifiers/elite"
+          },
+          {
+            "name": "Ultra Amplifiers",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/amplifiers/ultra"
+          }
+        ]
+      },
+      {
+        "name": "DSP Systems",
+        "products": [
+          {
+            "name": "Pro Series DSP Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dsp-systems/pro-series"
+          },
+          {
+            "name": "Elite DSP Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dsp-systems/elite"
+          },
+          {
+            "name": "Ultra DSP Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dsp-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Installation Audio",
+        "products": [
+          {
+            "name": "Pro Series Installation Audio",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/installation-audio/pro-series"
+          },
+          {
+            "name": "Elite Installation Audio",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/installation-audio/elite"
+          },
+          {
+            "name": "Ultra Installation Audio",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/installation-audio/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Conference Audio Systems",
+        "products": [
+          {
+            "name": "Pro Series Conference Audio Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/conference-audio-systems/pro-series"
+          },
+          {
+            "name": "Elite Conference Audio Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/conference-audio-systems/elite"
+          },
+          {
+            "name": "Ultra Conference Audio Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/conference-audio-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Portable Sound Systems",
+        "products": [
+          {
+            "name": "Pro Series Portable Sound Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/portable-sound-systems/pro-series"
+          },
+          {
+            "name": "Elite Portable Sound Systems",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/portable-sound-systems/elite"
+          },
+          {
+            "name": "Ultra Portable Sound Systems",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/portable-sound-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Wireless Audio Solutions",
+        "products": [
+          {
+            "name": "Pro Series Wireless Audio Solutions",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wireless-audio-solutions/pro-series"
+          },
+          {
+            "name": "Elite Wireless Audio Solutions",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wireless-audio-solutions/elite"
+          },
+          {
+            "name": "Ultra Wireless Audio Solutions",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/wireless-audio-solutions/ultra"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "POWER DISTRIBUTION & CABLE SOLUTIONS",
+    "href": "/products/power-distribution-cable-solutions",
+    "subcategories": [
+      {
+        "name": "Power Distribution Units",
+        "products": [
+          {
+            "name": "Pro Series Power Distribution Units",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-distribution-units/pro-series"
+          },
+          {
+            "name": "Elite Power Distribution Units",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-distribution-units/elite"
+          },
+          {
+            "name": "Ultra Power Distribution Units",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-distribution-units/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Event Power Systems",
+        "products": [
+          {
+            "name": "Pro Series Event Power Systems",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/event-power-systems/pro-series"
+          },
+          {
+            "name": "Elite Event Power Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/event-power-systems/elite"
+          },
+          {
+            "name": "Ultra Event Power Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/event-power-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Signal Distribution Systems",
+        "products": [
+          {
+            "name": "Pro Series Signal Distribution Systems",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/signal-distribution-systems/pro-series"
+          },
+          {
+            "name": "Elite Signal Distribution Systems",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/signal-distribution-systems/elite"
+          },
+          {
+            "name": "Ultra Signal Distribution Systems",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/signal-distribution-systems/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Power Cables",
+        "products": [
+          {
+            "name": "Pro Series Power Cables",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-cables/pro-series"
+          },
+          {
+            "name": "Elite Power Cables",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-cables/elite"
+          },
+          {
+            "name": "Ultra Power Cables",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/power-cables/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Audio Cables",
+        "products": [
+          {
+            "name": "Pro Series Audio Cables",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/audio-cables/pro-series"
+          },
+          {
+            "name": "Elite Audio Cables",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/audio-cables/elite"
+          },
+          {
+            "name": "Ultra Audio Cables",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/audio-cables/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Video & Data Cables",
+        "products": [
+          {
+            "name": "Pro Series Video & Data Cables",
+            "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/video-data-cables/pro-series"
+          },
+          {
+            "name": "Elite Video & Data Cables",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/video-data-cables/elite"
+          },
+          {
+            "name": "Ultra Video & Data Cables",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/video-data-cables/ultra"
+          }
+        ]
+      },
+      {
+        "name": "DMX & Signal Solutions",
+        "products": [
+          {
+            "name": "Pro Series DMX & Signal Solutions",
+            "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-signal-solutions/pro-series"
+          },
+          {
+            "name": "Elite DMX & Signal Solutions",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-signal-solutions/elite"
+          },
+          {
+            "name": "Ultra DMX & Signal Solutions",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/dmx-signal-solutions/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Connectors & Accessories",
+        "products": [
+          {
+            "name": "Pro Series Connectors & Accessories",
+            "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/connectors-accessories/pro-series"
+          },
+          {
+            "name": "Elite Connectors & Accessories",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/connectors-accessories/elite"
+          },
+          {
+            "name": "Ultra Connectors & Accessories",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/connectors-accessories/ultra"
+          }
+        ]
+      },
+      {
+        "name": "Cable Management Solutions",
+        "products": [
+          {
+            "name": "Pro Series Cable Management Solutions",
+            "image": "https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cable-management-solutions/pro-series"
+          },
+          {
+            "name": "Elite Cable Management Solutions",
+            "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cable-management-solutions/elite"
+          },
+          {
+            "name": "Ultra Cable Management Solutions",
+            "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
+            "href": "/products/cable-management-solutions/ultra"
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
-  const [activeGroupIndex, setActiveGroupIndex] = useState(0);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeSubIndex, setActiveSubIndex] = useState(0);
+  const [mobileExpandedCat, setMobileExpandedCat] = useState<number | null>(0);
 
-  const activeGroup = productGroups[activeGroupIndex];
-  const activeCategory = activeGroup?.categories[activeCategoryIndex];
+  const activeCategory = productCategories[activeCategoryIndex];
   const activeSub = activeCategory?.subcategories[activeSubIndex];
-
-  const handleGroupClick = (i: number) => {
-    setActiveGroupIndex(i);
-    setActiveCategoryIndex(0);
-    setActiveSubIndex(0);
-  };
 
   const handleCategoryClick = (i: number) => {
     setActiveCategoryIndex(i);
     setActiveSubIndex(0);
+  };
+
+  const toggleMobileCat = (i: number) => {
+    setMobileExpandedCat(mobileExpandedCat === i ? null : i);
   };
 
   return (
@@ -530,55 +1006,68 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
         style={{ maxHeight: "calc(100vh - 72px)" }}
       >
         <div className="py-2 divide-y divide-black/[0.04]">
-          {productGroups.map((group) => (
-            <div key={group.name} className="flex flex-col">
-              {/* Product Group */}
-              <Link
-                href={group.href}
-                onClick={() => onClose?.()}
-                className="flex items-center justify-between px-6 py-4 bg-slate-100/80 text-black/90 hover:bg-black/5 transition-all duration-200"
+          {productCategories.map((cat, i) => (
+            <div key={cat.name} className="flex flex-col">
+              {/* Category */}
+              <button
+                onClick={() => toggleMobileCat(i)}
+                className="flex items-center justify-between px-6 py-4 bg-slate-900 text-white hover:bg-slate-800 transition-all duration-200"
               >
-                <span className="text-[13px] font-black tracking-tight">{group.name}</span>
-                <ChevronRight size={14} className="text-black/20" />
-              </Link>
+                <span className="text-[13px] font-black tracking-tight">{cat.name}</span>
+                {mobileExpandedCat === i ? (
+                  <ChevronDown size={14} className="text-white/50" />
+                ) : (
+                  <ChevronRight size={14} className="text-white/50" />
+                )}
+              </button>
 
-              {group.categories.map((cat) => (
-                <div key={cat.name} className="flex flex-col">
-                  {/* Category */}
-                  <Link
-                    href={cat.href}
-                    onClick={() => onClose?.()}
-                    className="flex items-center justify-between px-8 py-3 bg-slate-50/50 text-black/80 hover:bg-black/5 transition-all duration-200"
+              {/* Subcategories */}
+              <AnimatePresence>
+                {mobileExpandedCat === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="bg-white overflow-hidden"
                   >
-                    <span className="text-[13px] font-bold tracking-tight">{cat.name}</span>
-                    <ChevronRight size={12} className="text-black/20" />
-                  </Link>
-
-                  {/* Subcategories */}
-                  <div className="bg-white">
                     <Link
                       href={cat.href}
                       onClick={() => onClose?.()}
-                      className="flex items-center px-12 py-3 text-blue-600 font-bold border-b border-black/[0.02]"
+                      className="flex items-center px-8 py-3 text-blue-600 font-bold border-b border-black/[0.02]"
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mr-3 shrink-0" />
+                      <div className="w-1.5 h-1.5 bg-blue-600 mr-3 shrink-0" />
                       <span className="text-[12px] uppercase tracking-wider">All {cat.name}</span>
                     </Link>
 
                     {cat.subcategories.map((sub) => (
-                      <Link
-                        key={sub.name}
-                        href={sub.href}
-                        onClick={() => onClose?.()}
-                        className="flex items-center px-12 py-3 text-black/60 hover:text-blue-600 transition-colors border-b border-black/[0.02] last:border-0"
-                      >
-                        <div className="w-1 h-1 rounded-full bg-blue-500/40 mr-3 shrink-0" />
-                        <span className="text-[12px] font-medium leading-tight">{sub.name}</span>
-                      </Link>
+                      <div key={sub.name} className="border-b border-black/[0.02] last:border-0">
+                        <div className="px-8 py-3 text-[12px] font-bold text-black/80 bg-slate-50/50">
+                          {sub.name}
+                        </div>
+                        <div className="pl-12 pr-6 py-2 grid grid-cols-1 gap-2">
+                          {sub.products.map(prod => {
+                            const categorySlug = cat.href.split('/').pop();
+                            const subcategorySlug = sub.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                            const productSlug = prod.href.split('/').pop();
+                            const dynamicHref = `/products/${categorySlug}/${subcategorySlug}/${productSlug}`;
+                            return (
+                              <Link 
+                                key={prod.name}
+                                href={dynamicHref}
+                                onClick={() => onClose?.()}
+                                className="text-[11px] text-black/60 hover:text-blue-600 py-1.5 flex items-center"
+                              >
+                                <ChevronRight size={10} className="mr-2 opacity-50" />
+                                {prod.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
                     ))}
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>
@@ -590,79 +1079,43 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 15, scale: 0.98 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute top-[40px] left-[-480px] -translate-x-1/2 w-[min(1180px,calc(100vw-48px))] max-h-[calc(100vh-120px)] z-[100] mt-4 hidden md:block rounded-2xl overflow-hidden border border-black/10 shadow-[0_25px_80px_-10px_rgba(0,0,0,0.15)] backdrop-blur-xl"
+        className="absolute top-[40px] left-[-480px] -translate-x-1/2 w-[min(1280px,calc(100vw-48px))] max-h-[calc(100vh-120px)] z-[100] mt-4 hidden md:block overflow-hidden border border-black/10 shadow-[0_25px_80px_-10px_rgba(0,0,0,0.15)] backdrop-blur-xl rounded-none-none"
       >
-        <div className="flex min-h-[380px] max-h-[calc(100vh-120px)]">
+        <div className="flex min-h-[500px] max-h-[calc(100vh-120px)] bg-white">
 
-          {/* PANEL 1 — Product Groups */}
-          <div className="w-[190px] flex-shrink-0 flex flex-col py-3 bg-slate-900 overflow-y-auto">
+          {/* PANEL 1 — Categories */}
+          <div className="w-[280px] flex-shrink-0 py-3 bg-slate-900 overflow-y-auto border-r border-white/[0.06] rounded-none-none">
             <div className="px-5 py-2 mb-1">
-              <span className="text-[10px] font-bold text-white/30 tracking-widest uppercase">Product Groups</span>
+              <span className="text-[10px] font-bold text-white/30 tracking-widest uppercase">Categories</span>
             </div>
-            {productGroups.map((group, i) => {
-              const isActive = activeGroupIndex === i;
+            {productCategories.map((cat, i) => {
+              const isActive = activeCategoryIndex === i;
               return (
                 <button
-                  key={group.name}
-                  onClick={() => handleGroupClick(i)}
-                  onMouseEnter={() => handleGroupClick(i)}
+                  key={cat.name}
+                  onClick={() => handleCategoryClick(i)}
+                  onMouseEnter={() => handleCategoryClick(i)}
                   className={`w-full text-left px-5 py-4 flex items-center justify-between transition-all duration-200 border-l-[3px] ${
                     isActive
                       ? "bg-white/10 border-blue-400 text-white"
                       : "border-transparent text-white/50 hover:bg-white/5 hover:text-white/80"
                   }`}
                 >
-                  <span className="text-[12px] font-bold leading-tight">{group.name}</span>
+                  <span className="text-[12px] font-bold leading-tight">{cat.name}</span>
                   <ChevronRight size={12} className={`flex-shrink-0 ml-2 transition-opacity ${isActive ? "opacity-100" : "opacity-0"}`} />
                 </button>
               );
             })}
           </div>
 
-          {/* PANEL 2 — Categories */}
-          <div className="w-[210px] flex-shrink-0 py-3 overflow-y-auto bg-slate-800 border-r border-white/[0.06]">
-            <div className="px-5 py-2 mb-1">
-              <span className="text-[10px] font-bold text-white/30 tracking-widest uppercase">Categories</span>
-            </div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeGroupIndex}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.18 }}
-              >
-                {activeGroup?.categories.map((cat, i) => {
-                  const isActive = activeCategoryIndex === i;
-                  return (
-                    <button
-                      key={cat.name}
-                      onClick={() => handleCategoryClick(i)}
-                      onMouseEnter={() => handleCategoryClick(i)}
-                      className={`w-full text-left px-5 py-4 border-l-[3px] transition-all duration-200 ${
-                        isActive
-                          ? "border-blue-400 bg-white/10 text-white"
-                          : "border-transparent text-white/50 hover:border-blue-400/30 hover:bg-white/5 hover:text-white/80"
-                      }`}
-                    >
-                      <div className={`text-[12px] font-bold mb-0.5 ${isActive ? "text-white" : "text-white/70"}`}>
-                        {cat.name}
-                      </div>
-                    </button>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* PANEL 3 — Subcategories */}
-          <div className="w-[260px] flex-shrink-0 py-4 overflow-y-auto custom-scrollbar bg-gray-50 border-r border-black/[0.06]">
+          {/* PANEL 2 — Subcategories */}
+          <div className="w-[320px] flex-shrink-0 py-4 overflow-y-auto custom-scrollbar bg-slate-50 border-r border-black/[0.06] rounded-none-none">
             <div className="px-5 py-2 mb-1">
               <span className="text-[10px] font-bold text-black/30 tracking-widest uppercase">Sub Categories</span>
             </div>
             <AnimatePresence mode="wait">
               <motion.div
-                key={`${activeGroupIndex}-${activeCategoryIndex}`}
+                key={activeCategoryIndex}
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
@@ -679,74 +1132,61 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
                         : "border-transparent hover:border-blue-500/30 hover:bg-black/5"
                     }`}
                   >
-                    <div className={`text-[13px] font-bold mb-0.5 ${activeSubIndex === i ? "text-blue-600" : "text-black/80"}`}>
+                    <div className={`text-[13px] font-bold ${activeSubIndex === i ? "text-blue-600" : "text-black/80"}`}>
                       {sub.name}
                     </div>
-                    <div className="text-[11px] text-black/40 leading-tight">{sub.tagline}</div>
                   </button>
                 ))}
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* PANEL 4 — Detail Preview */}
-          <div className="flex-1 bg-white p-6 overflow-y-auto">
+          {/* PANEL 3 — Products Grid */}
+          <div className="flex-1 bg-white p-8 overflow-y-auto rounded-none-none">
+            <div className="mb-6 pb-4 border-b border-black/[0.05]">
+              <h3 className="text-2xl font-bold text-slate-900">{activeSub?.name}</h3>
+              <p className="text-slate-500 text-sm mt-1">Explore our range of {activeSub?.name.toLowerCase()}</p>
+            </div>
+            
             <AnimatePresence mode="wait">
               {activeSub && (
                 <motion.div
-                  key={`${activeGroupIndex}-${activeCategoryIndex}-${activeSubIndex}`}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 12 }}
+                  key={`${activeCategoryIndex}-${activeSubIndex}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 12 }}
                   transition={{ duration: 0.2 }}
-                  className="h-full flex flex-col"
+                  className="grid grid-cols-2 gap-6"
                 >
-                  {/* Image */}
-                  <div className="relative w-full h-40 rounded-xl overflow-hidden mb-5 flex-shrink-0">
-                    <Image
-                      src={activeSub.image}
-                      alt={activeSub.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute bottom-4 left-4">
-                      <div className="text-white font-bold text-lg">{activeSub.name}</div>
-                      <div className="text-white/80 text-xs">{activeSub.tagline}</div>
-                    </div>
-                  </div>
-
-                  {/* Specs */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    {activeSub.specs.map((spec) => (
-                      <div key={spec.label}>
-                        <div className="text-[11px] font-bold text-black/80 mb-0.5">{spec.label}</div>
-                        <div className="text-[12px] text-black/40">{spec.value}</div>
+                  {activeSub.products.map(prod => {
+                    const categorySlug = activeCategory?.href.split('/').pop();
+                    const subcategorySlug = activeSub?.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                    const productSlug = prod.href.split('/').pop();
+                    const dynamicHref = `/products/${categorySlug}/${subcategorySlug}/${productSlug}`;
+                    return (
+                      <Link
+                        key={prod.name}
+                        href={dynamicHref}
+                        onClick={() => onClose?.()}
+                        className="group block bg-white border border-slate-100 hover:border-blue-500/30 hover:shadow-lg transition-all duration-300 rounded-none-none"
+                      >
+                      <div className="relative w-full h-40 overflow-hidden bg-slate-100 rounded-none-none">
+                        <Image
+                          src={prod.image}
+                          alt={prod.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105 rounded-none-none"
+                        />
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Features */}
-                  <div className="mb-5">
-                    <div className="text-[11px] font-bold text-black/80 mb-2">Features</div>
-                    <ul className="space-y-1">
-                      {activeSub.features.map((f) => (
-                        <li key={f} className="text-[12px] text-black/50 flex items-start gap-1.5">
-                          <span className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* CTA */}
-                  <div className="mt-auto">
-                    <Button asChild className="w-full rounded-lg bg-blue-500 hover:bg-[#021752] border border-blue-500 text-white text-[13px] font-bold h-10 transition-all duration-200">
-                      <Link href={activeSub.href} onClick={() => onClose?.()}>
-                        View Detail
-                        <ArrowRight size={14} className="ml-1.5" />
-                      </Link>
-                    </Button>
-                  </div>
+                      <div className="p-4">
+                        <h4 className="font-bold text-slate-900 text-sm mb-1 group-hover:text-blue-600 transition-colors">{prod.name}</h4>
+                        <div className="text-[11px] text-blue-600 font-semibold flex items-center mt-3">
+                          View Detail <ArrowRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </Link>
+                    );
+                  })}
                 </motion.div>
               )}
             </AnimatePresence>

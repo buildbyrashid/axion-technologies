@@ -107,7 +107,7 @@ export default function IndustriesPage() {
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
                   className={cn(
-                    "group relative min-h-[450px] overflow-hidden rounded-[2.5rem] bg-slate-900",
+                    "group relative min-h-[450px] overflow-hidden bg-slate-900",
                     isWide ? "md:col-span-12 lg:col-span-8" : "md:col-span-6 lg:col-span-4"
                   )}
                 >
@@ -124,7 +124,7 @@ export default function IndustriesPage() {
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-accent/20 backdrop-blur-md rounded-lg text-accent">
+                        <div className="p-2 bg-accent/20 backdrop-blur-md text-accent">
                           <ind.icon size={18} />
                         </div>
                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
@@ -143,7 +143,7 @@ export default function IndustriesPage() {
 
                       <div className="pt-4 flex flex-wrap gap-2">
                         {ind.applications.map((app) => (
-                          <span key={app} className="text-[9px] uppercase tracking-wider font-bold bg-white/5 border border-white/10 text-white/70 px-3 py-1 rounded-full backdrop-blur-sm">
+                          <span key={app} className="text-[9px] uppercase tracking-wider font-bold bg-white/5 border border-white/10 text-white/70 px-3 py-1 backdrop-blur-sm">
                             {app}
                           </span>
                         ))}
@@ -152,7 +152,7 @@ export default function IndustriesPage() {
                       <div className="pt-6">
                         <Link href="/solutions" className="flex items-center gap-2 text-white font-bold text-sm group/btn">
                           <span>View Industry Solutions</span>
-                          <div className="h-8 w-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:scale-110 transition-all duration-300">
+                          <div className="h-8 w-8 bg-white/10 backdrop-blur-md flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:scale-110 transition-all duration-300">
                             <ArrowUpRight size={16} />
                           </div>
                         </Link>
@@ -203,9 +203,9 @@ export default function IndustriesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500"
+                className="bg-white p-10 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500"
               >
-                <div className="h-14 w-14 rounded-2xl bg-slate-50 flex items-center justify-center text-accent mb-6">
+                <div className="h-14 w-14 bg-slate-50 flex items-center justify-center text-accent mb-6">
                   <item.icon size={28} />
                 </div>
                 <h4 className="text-xl font-bold text-primary mb-4">{item.title}</h4>

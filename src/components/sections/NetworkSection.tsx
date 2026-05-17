@@ -58,8 +58,8 @@ export default function NetworkSection() {
         >
           <span className="inline-flex items-center gap-2 text-xs font-semibold
                            tracking-widest uppercase text-accent bg-accent/10
-                           border border-accent/20 px-4 py-2 rounded-full mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                           border border-accent/20 px-4 py-2 mb-5">
+            <span className="w-1.5 h-1.5 bg-accent" />
             Global Operations
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">
@@ -91,7 +91,7 @@ export default function NetworkSection() {
                   {/* Circle */}
                   <div
                     className={cn(
-                      "w-14 h-14 rounded-full flex items-center justify-center mb-4 border-2 transition-all",
+                      "w-14 h-14 flex items-center justify-center mb-4 border-2 transition-all",
                       loc.isHQ
                         ? "bg-accent border-accent"
                         : "bg-white border-accent"
@@ -109,7 +109,7 @@ export default function NetworkSection() {
                   {loc.badge && (
                     <span className="text-xs font-semibold bg-accent/10 
                                      text-accent border border-accent/20 
-                                     px-3 py-1 rounded-full mb-3">
+                                     px-3 py-1 mb-3">
                       {loc.badge}
                     </span>
                   )}
@@ -179,7 +179,7 @@ export default function NetworkSection() {
                   {loc.badge && (
                     <span className="text-xs font-semibold bg-accent/10
                                      text-accent border border-accent/20
-                                     px-3 py-1 rounded-full mb-2 inline-block">
+                                     px-3 py-1 mb-2 inline-block">
                       {loc.badge}
                     </span>
                   )}

@@ -17,7 +17,7 @@ export default function IndustryCard({ name, image, index }: IndustryCardProps) 
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="group relative min-h-[180px] rounded-2xl overflow-hidden cursor-pointer"
+      className="group relative min-h-[180px] overflow-hidden cursor-pointer"
     >
       <Image
         src={image}

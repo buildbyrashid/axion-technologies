@@ -51,12 +51,12 @@ export default function CTASection() {
                 <Button
                   onClick={() => setIsQuoteModalOpen(true)}
                   size="lg"
-                  className="rounded-full bg-accent hover:bg-white hover:text-primary transition-all duration-500 px-10 h-14 text-base lg:text-lg font-bold shadow-[0_0_30px_rgba(13,149,240,0.4)] border-none"
+                  className="bg-accent hover:bg-white hover:text-primary transition-all duration-500 px-10 h-14 text-base lg:text-lg font-bold shadow-[0_0_30px_rgba(13,149,240,0.4)] border-none"
                 >
                   Request a Consultation
                   <ArrowUpRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-primary hover:border-transparent px-10 h-14 text-base lg:text-lg font-bold transition-all duration-500">
+                <Button size="lg" variant="outline" className="border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-primary hover:border-transparent px-10 h-14 text-base lg:text-lg font-bold transition-all duration-500">
                   Contact Our Team
                 </Button>
               </div>
@@ -71,7 +71,7 @@ export default function CTASection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[40px] p-8 sm:p-12 shadow-2xl relative overflow-hidden group">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 sm:p-12 shadow-2xl relative overflow-hidden group">
               {/* Card Decoration */}
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent/20 rounded-full blur-[100px] group-hover:bg-accent/30 transition-colors duration-700" />
 
@@ -79,7 +79,7 @@ export default function CTASection() {
 
               <div className="space-y-8">
                 <div className="flex items-start">
-                  <div className="h-12 w-12 rounded-2xl bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
+                  <div className="h-12 w-12 bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
                     <Mail className="h-6 w-6 text-accent" />
                   </div>
                   <div>
@@ -91,7 +91,7 @@ export default function CTASection() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="h-12 w-12 rounded-2xl bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
+                  <div className="h-12 w-12 bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
                     <Globe className="h-6 w-6 text-accent" />
                   </div>
                   <div>
@@ -103,7 +103,7 @@ export default function CTASection() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="h-12 w-12 rounded-2xl bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
+                  <div className="h-12 w-12 bg-accent/10 flex items-center justify-center mr-6 shrink-0 border border-accent/20">
                     <MapPin className="h-6 w-6 text-accent" />
                   </div>
                   <div>
@@ -119,8 +119,8 @@ export default function CTASection() {
               <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
                 <div className="flex items-center">
                   <span className="relative flex h-3 w-3 mr-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full bg-accent opacity-75"></span>
+                    <span className="relative inline-flex h-3 w-3 bg-accent"></span>
                   </span>
                   <span className="text-sm text-slate-400 font-medium">Engineering Support Online</span>
                 </div>

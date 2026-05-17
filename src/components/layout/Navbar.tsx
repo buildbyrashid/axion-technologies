@@ -252,7 +252,7 @@ export default function Navbar() {
                 <Button
                   onClick={() => setIsQuoteModalOpen(true)}
                   className={cn(
-                    "rounded-full px-8 py-6 font-bold text-[14px] transition-all",
+                    "rounded-none-none px-8 py-6 font-bold text-[14px] transition-all",
                     isScrolled
                       ? "bg-accent text-white hover:bg-[#021752]"
                       : "bg-white text-primary hover:bg-accent hover:text-white"
@@ -266,7 +266,7 @@ export default function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               className={cn(
-                "lg:hidden p-2 rounded-lg transition-colors",
+                "lg:hidden p-2 rounded-none-none transition-colors",
                 isScrolled ? "text-slate-900 hover:bg-slate-100" : "text-white hover:bg-white/10"
               )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -321,7 +321,7 @@ export default function Navbar() {
                         <button
                           onClick={() => setIsMobileProductsOpen((prev) => !prev)}
                           className={cn(
-                            "w-full flex items-center justify-between p-4 rounded-xl text-base font-bold transition-all",
+                            "w-full flex items-center justify-between p-4 rounded-none-none text-base font-bold transition-all",
                             isActive ? "bg-accent/10 text-accent" : "text-slate-900 hover:bg-slate-50"
                           )}
                         >
@@ -371,7 +371,7 @@ export default function Navbar() {
                                       setIsMobileMenuOpen(false);
                                       setIsMobileProductsOpen(false);
                                     }}
-                                    className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-bold text-blue-600 bg-blue-50/50 mb-1"
+                                    className="flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-bold text-blue-600 bg-blue-50/50 mb-1"
                                   >
                                     All Products
                                     <ChevronRight className="h-4 w-4" />
@@ -380,7 +380,7 @@ export default function Navbar() {
                                     <button
                                       key={group.name}
                                       onClick={() => setMobileProductLevel({ level: "categories", groupId: idx })}
-                                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
+                                      className="w-full flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
                                     >
                                       {group.name}
                                       <ChevronRight className="h-4 w-4 text-slate-400" />
@@ -403,7 +403,7 @@ export default function Navbar() {
                                         groupId: mobileProductLevel.groupId,
                                         catId: idx 
                                       })}
-                                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all"
+                                      className="w-full flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all"
                                     >
                                       {cat.name}
                                       <ChevronRight className="h-4 w-4 text-slate-400" />
@@ -418,20 +418,26 @@ export default function Navbar() {
                                   <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                                     {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].name}
                                   </div>
-                                  {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].subcategories.map((sub) => (
-                                    <Link
-                                      key={sub.name}
-                                      href={sub.href}
-                                      onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        setIsMobileProductsOpen(false);
-                                      }}
-                                      className="flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
-                                    >
-                                      {sub.name}
-                                      <ChevronRight className="h-4 w-4 text-slate-400" />
-                                    </Link>
-                                  ))}
+                                  {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].subcategories.map((sub) => {
+                                    const groupCat = mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!];
+                                    const catSlug = groupCat.href.split('/').pop();
+                                    const subSlug = sub.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                                    const dynamicHref = `/products/${catSlug}/${subSlug}`;
+                                    return (
+                                      <Link
+                                        key={sub.name}
+                                        href={dynamicHref}
+                                        onClick={() => {
+                                          setIsMobileMenuOpen(false);
+                                          setIsMobileProductsOpen(false);
+                                        }}
+                                        className="flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
+                                      >
+                                        {sub.name}
+                                        <ChevronRight className="h-4 w-4 text-slate-400" />
+                                      </Link>
+                                    );
+                                  })}
                                 </>
                               )}
                             </motion.div>
@@ -448,7 +454,7 @@ export default function Navbar() {
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
-                        "flex items-center p-4 rounded-xl text-base font-bold transition-all",
+                        "flex items-center p-4 rounded-none-none text-base font-bold transition-all",
                         isActive ? "bg-accent/10 text-accent" : "text-slate-900 hover:bg-slate-50"
                       )}
                     >
@@ -474,7 +480,7 @@ export default function Navbar() {
                     setIsQuoteModalOpen(true);
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full rounded-full h-14 bg-accent text-white font-bold text-lg"
+                  className="w-full rounded-none-none h-14 bg-accent text-white font-bold text-lg"
                 >
                   Get a Quote Now
                 </Button>

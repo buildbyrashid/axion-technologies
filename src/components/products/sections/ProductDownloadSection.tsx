@@ -92,13 +92,13 @@ export default function ProductDownloadSection({ downloads }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.06 }}
-                className="group relative flex flex-row items-center justify-between gap-3 py-3.5 px-3 border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200 rounded-sm"
+                className="group relative flex flex-row items-center justify-between gap-3 py-3.5 px-3 border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200 rounded-none-none"
               >
                 {/* Left: type badge + title */}
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   {/* Type pill */}
                   <div className="flex-shrink-0 flex items-center gap-1.5">
-                    <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+                    <span className={`w-1.5 h-1.5 rounded-none-none ${cfg.dot}`} />
                     <span className={`text-[9px] font-bold tracking-[0.15em] uppercase ${cfg.color}`}>
                       {cfg.label}
                     </span>
@@ -123,7 +123,7 @@ export default function ProductDownloadSection({ downloads }: Props) {
 
                   <div className="flex items-center gap-1.5 text-sky-500 font-semibold text-xs group-hover:text-sky-600 transition-colors duration-150">
                     <span className="inline">Download</span>
-                    <span className="relative flex items-center justify-center w-7 h-7 rounded-full border border-sky-200 group-hover:border-sky-400 group-hover:bg-sky-50 transition-all duration-200">
+                    <span className="relative flex items-center justify-center w-7 h-7 rounded-none-none border border-sky-200 group-hover:border-sky-400 group-hover:bg-sky-50 transition-all duration-200">
                       <Download size={12} className="hidden group-hover:block absolute transition-all duration-150" />
                       <ArrowUpRight size={12} className="block group-hover:hidden absolute transition-all duration-150" />
                     </span>
@@ -131,7 +131,7 @@ export default function ProductDownloadSection({ downloads }: Props) {
                 </div>
 
                 {/* Hover left accent bar */}
-                <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-sky-500 group-hover:h-8 transition-all duration-300 rounded-full" />
+                <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-sky-500 group-hover:h-8 transition-all duration-300 rounded-none-none" />
               </motion.a>
             );
           })}
