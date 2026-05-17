@@ -53,7 +53,7 @@ export default function ProductSpecificationsTab({ specifications }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="rounded-xl overflow-hidden border border-slate-200 shadow-sm"
+          className="rounded-none-none overflow-hidden border border-slate-200 shadow-sm"
         >
           <table className="w-full text-left border-collapse">
             <thead>

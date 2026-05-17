@@ -1,22 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { 
-  Settings, 
-  ShieldCheck, 
-  Globe, 
-  Factory, 
-  Cpu, 
-  Users 
+import {
+  Settings,
+  ShieldCheck,
+  Globe,
+  Factory,
+  Cpu,
+  Users
 } from "lucide-react";
 import { motion } from "framer-motion";
-import SectionHeader from "@/components/ui/SectionHeader";
 import { COMPANY_STATS, getYearsExperience } from "@/lib/constants";
 
 const expertise = [
   {
     icon: Settings,
-    title: `${getYearsExperience()}+ Years Experience`,
+    title: "Deep Experience",
     description: "Decades of deep industry knowledge and engineering heritage.",
   },
   {
@@ -48,81 +46,88 @@ const expertise = [
 
 export default function ExpertiseSection() {
   return (
-    <section className="section-padding bg-white">
+    <section className="py-24 bg-slate-50 overflow-hidden">
       <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-center">
-          <div className="order-2 lg:order-1 grid grid-cols-2 gap-3 sm:gap-4">
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80"
-                  alt="Engineering"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
-              <div className="relative h-36 sm:h-48 rounded-2xl overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80"
-                  alt="Production"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
+        {/* Header - Matches ProductsSection precisely */}
+        <div className="mb-16">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block"
+          >
+            Our Expertise
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl lg:text-5xl font-sora font-extrabold text-primary tracking-tighter"
+          >
+            Engineering Excellence
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-slate-500 mt-4 max-w-2xl text-lg"
+          >
+            We don't just supply products; we engineer integrated visual ecosystems that define modern infrastructure for mission-critical and enterprise environments.
+          </motion.p>
+        </div>
+
+        {/* Metrics Row with Dotted Pattern Background */}
+        <div className="relative py-16 lg:py-24 mb-16 bg-white border border-slate-100 overflow-hidden">
+          {/* World Map Background Image */}
+          <div
+            className="absolute inset-0 z-0 pointer-events-none opacity-40 bg-center bg-no-repeat bg-cover"
+            style={{ backgroundImage: 'url("/images/world-map-dotted.png")' }}
+          />
+
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-6 text-center divide-x-0 md:divide-x divide-slate-100">
+            <div className="flex flex-col justify-center px-4">
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">2006</span>
+              <span className="text-sm text-primary font-bold">Founded</span>
             </div>
-            <div className="space-y-3 sm:space-y-4 pt-6 sm:pt-8">
-              <div className="relative h-36 sm:h-48 rounded-2xl overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80"
-                  alt="Quality Control"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
-              <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80"
-                  alt="Manufacturing"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
+            <div className="flex flex-col justify-center px-4 border-l border-slate-100 md:border-l-0">
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.PROJECTS_DELIVERED}</span>
+              <span className="text-sm text-primary font-bold">Projects</span>
+            </div>
+            <div className="flex flex-col justify-center px-4 pt-8 md:pt-0 border-t border-slate-100 md:border-t-0">
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.MANUFACTURING_AREA}</span>
+              <span className="text-sm text-primary font-bold">Factory Area (m²)</span>
+            </div>
+            <div className="flex flex-col justify-center px-4 pt-8 md:pt-0 border-t border-l border-slate-100 md:border-t-0 md:border-l-0">
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.GLOBAL_LOCATIONS}</span>
+              <span className="text-sm text-primary font-bold">Global Hubs</span>
             </div>
           </div>
+        </div>
 
-          <div className="order-1 lg:order-2">
-            <SectionHeader
-              badge="Our Expertise"
-              title="Built on Foundation of Engineering Excellence"
-              align="left"
-              subtitle="We don't just supply products; we engineer integrated visual ecosystems that define modern infrastructure."
-            />
+        {/* Features Grid - Matches ProductsSection grid spacing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {expertise.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white border border-slate-200 p-8 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all duration-500 group relative overflow-hidden flex flex-col"
+            >
+              {/* Decorative background icon */}
+              <div className="absolute top-0 right-0 p-8 opacity-5 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-500 pointer-events-none">
+                <item.icon className="w-32 h-32 text-primary" />
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {expertise.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex space-x-4"
-                >
-                  <div className="bg-slate-50 p-3 rounded-xl h-fit">
-                    <item.icon className="h-6 w-6 text-accent" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary mb-1">{item.title}</h4>
-                    <p className="text-slate-500 text-sm">{item.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+              <div className="h-14 w-14 bg-slate-50 flex items-center justify-center mb-8 border border-slate-100 group-hover:bg-primary transition-colors duration-300">
+                <item.icon className="h-6 w-6 text-accent group-hover:text-white transition-colors" />
+              </div>
+
+              <div className="relative z-10 mt-auto">
+                <h4 className="font-bold text-primary mb-3 text-xl font-sora tracking-tight">{item.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

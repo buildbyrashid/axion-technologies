@@ -69,7 +69,7 @@ export default function ProductFeaturesSection({ features }: Props) {
             <button
               onClick={scrollLeft}
               aria-label="Scroll left"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-xl border border-slate-100 text-slate-600 active:scale-95 transition-all"
+              className="flex h-10 w-10 items-center justify-center rounded-none-none bg-white shadow-xl border border-slate-100 text-slate-600 active:scale-95 transition-all"
             >
               <ChevronLeft size={20} />
             </button>
@@ -79,7 +79,7 @@ export default function ProductFeaturesSection({ features }: Props) {
             <button
               onClick={scrollRight}
               aria-label="Scroll right"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 shadow-xl text-white active:scale-95 transition-all"
+              className="flex h-10 w-10 items-center justify-center rounded-none-none bg-blue-600 shadow-xl text-white active:scale-95 transition-all"
             >
               <ChevronRight size={20} />
             </button>
@@ -96,7 +96,7 @@ export default function ProductFeaturesSection({ features }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.07 }}
-                className="min-w-[85%] snap-center flex flex-col items-center text-center px-6 py-10 border border-slate-100 bg-white rounded-2xl shadow-sm"
+                className="min-w-[85%] snap-center flex flex-col items-center text-center px-6 py-10 border border-slate-100 bg-white rounded-none-none shadow-sm"
               >
                 {/* Icon placeholder */}
                 <div className="mb-6 text-orange-400">
@@ -113,7 +113,7 @@ export default function ProductFeaturesSection({ features }: Props) {
         </div>
 
         {/* Desktop Grid */}
-        <div className="hidden sm:block border border-slate-200 rounded-2xl overflow-hidden">
+        <div className="hidden sm:block border border-slate-200 rounded-none-none overflow-hidden">
           {features.map((feature, index) => {
             const row = Math.floor(index / 3);
             const col = index % 3;

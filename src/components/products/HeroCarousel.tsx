@@ -137,7 +137,7 @@ export default function HeroCarousel() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="mt-10"
           >
-            <button className="rounded-2xl  hover:bg-white px-10 py-4 text-sm font-bold hover:text-black transition-all duration-300 hover:scale-105 bg-blue-500 text-white">
+            <button className="hover:bg-white px-10 py-4 text-sm font-bold hover:text-black transition-all duration-300 hover:scale-105 bg-blue-500 text-white">
               {slides[current].button}
             </button>
           </motion.div>
@@ -150,7 +150,7 @@ export default function HeroCarousel() {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
+            className={`h-2 transition-all duration-300 ${
               current === index
                 ? "w-5 bg-white"
                 : "w-2 bg-white/40 hover:bg-white/70"

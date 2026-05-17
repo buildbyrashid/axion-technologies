@@ -408,7 +408,7 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, onChange, highlight 
                     if (e.key === "Enter") commit();
                     if (e.key === "Escape") { setLocalVal(value); setEditing(false); }
                 }}
-                className="w-full bg-[#002B49]/5 px-2 py-1 font-mono text-xs text-[#002B49] outline-none border border-[#002B49]/30 rounded-sm"
+                className="w-full bg-[#002B49]/5 px-2 py-1 font-mono text-xs text-[#002B49] outline-none border border-[#002B49]/30 rounded-none-none"
             />
         );
     }
@@ -418,7 +418,7 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, onChange, highlight 
             onClick={() => { setLocalVal(value); setEditing(true); }}
             title="Click to edit"
             className={`
-                group/cell relative cursor-pointer select-none rounded-sm px-2 py-1 font-mono text-xs
+                group/cell relative cursor-pointer select-none rounded-none-none px-2 py-1 font-mono text-xs
                 transition-colors duration-150
                 ${highlight
                     ? "text-[#002B49] font-bold"
@@ -644,13 +644,13 @@ const SpecificationTab: React.FC = () => {
                             <div className="flex gap-3">
                                 <button
                                     type="button"
-                                    className="rounded-sm bg-[#002B49] px-6 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-white transition hover:opacity-90"
+                                    className="rounded-none-none bg-[#002B49] px-6 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-white transition hover:opacity-90"
                                 >
                                     Download PDF
                                 </button>
                                 <button
                                     type="button"
-                                    className="rounded-sm border border-slate-300 bg-white px-6 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-600 transition hover:bg-slate-100"
+                                    className="rounded-none-none border border-slate-300 bg-white px-6 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-600 transition hover:bg-slate-100"
                                 >
                                     Export CSV
                                 </button>

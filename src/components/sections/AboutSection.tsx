@@ -48,13 +48,13 @@ export default function AboutSection() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Button className="rounded-full px-8">Company Profile</Button>
-              <Button variant="outline" className="rounded-full px-8">Our Capabilities</Button>
+              <Button className="px-8">Company Profile</Button>
+              <Button variant="outline" className="px-8">Our Capabilities</Button>
             </div>
           </div>
 
           <div className="relative">
-            <div className="relative h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-[500px] w-full overflow-hidden shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80"
                 alt="Axion Technology Showroom"
@@ -62,7 +62,7 @@ export default function AboutSection() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-[rgb(2,23,82)] p-8 rounded-2xl shadow-xl hidden md:block">
+            <div className="absolute -bottom-6 -left-6 bg-[rgb(2,23,82)] p-8 shadow-xl hidden md:block">
               <div className="text-white">
                 <div className="text-4xl font-black mb-1">{getYearsExperience()}+</div>
                 <div className="text-xs uppercase tracking-widest font-bold opacity-80">Years of History</div>

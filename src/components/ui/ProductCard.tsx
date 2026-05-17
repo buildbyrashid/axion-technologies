@@ -32,7 +32,7 @@ export default function ProductCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={cn(
-        "group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer hover:border-[rgb(2,23,82)]/30",
+        "group bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer hover:border-[rgb(2,23,82)]/30",
         className
       )}
     >
@@ -47,7 +47,7 @@ export default function ProductCard({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-accent text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full shadow-lg">
+          <span className="bg-accent text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1 shadow-lg">
             {category}
           </span>
         </div>

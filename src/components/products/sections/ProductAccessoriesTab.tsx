@@ -58,10 +58,10 @@ export default function ProductAccessoriesTab({ accessories }: Props) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.06 }}
-              className="flex items-start gap-4 p-4 sm:p-5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition-all duration-200"
+              className="flex items-start gap-4 p-4 sm:p-5 rounded-none-none border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition-all duration-200"
             >
               {/* Icon box */}
-              <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-50">
+              <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-none-none bg-indigo-50">
                 <Package size={18} className="text-indigo-400" />
               </div>
 
