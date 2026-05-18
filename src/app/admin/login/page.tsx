@@ -3,50 +3,43 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield, Zap, Terminal, Activity, ShieldCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function AdminLoginPage() {
   const router = useRouter()
-  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      if (email === 'admin@axion.com' && password === 'admin123') {
-        setTimeout(() => {
-          router.push('/admin')
-          router.refresh()
-        }, 1500)
-        return
-      } else {
-        setError('Unauthorized: Credentials invalid in demo protocol.')
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Access Denied: Authentication failure.');
         setLoading(false)
         return
       }
-    }
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-
-    if (error) {
-      setError('Access Denied: Authentication failure.')
+      router.push('/admin')
+      router.refresh()
+    } catch (err) {
+      setError('System Error: Could not connect to authentication server.')
       setLoading(false)
-      return
     }
-
-    router.push('/admin')
-    router.refresh()
   }
 
   return (
