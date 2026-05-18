@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { createClient } from '@/lib/supabase/client'
 import { useAdmin } from '@/app/admin/layout'
 import {
   LayoutDashboard,
@@ -65,14 +64,17 @@ const navSections = [
 export default function AdminSidebar() {
   const pathname = usePathname()
   const router = useRouter()
-  const supabase = createClient()
   const { sidebarCollapsed, setSidebarCollapsed } = useAdmin()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
-    router.push('/admin/login')
-    router.refresh()
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' })
+      router.push('/admin/login')
+      router.refresh()
+    } catch (err) {
+      console.error('Logout failed:', err)
+    }
   }
 
   const isActive = (href: string) => {
@@ -161,8 +163,8 @@ export default function AdminSidebar() {
               </div>
               <div>
                 <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">Infrastructure</div>
-                <div className={cn("text-[10px] font-black uppercase tracking-widest", process.env.NEXT_PUBLIC_SUPABASE_URL ? "text-emerald-400" : "text-[#0D95F0]")}>
-                  {process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Live Production' : 'Local Sandbox'}
+                <div className="text-[10px] font-black uppercase tracking-widest text-[#0D95F0]">
+                  MySQL Native
                 </div>
               </div>
             </div>
@@ -170,16 +172,16 @@ export default function AdminSidebar() {
             <div className="space-y-2.5 relative z-10">
                <div className="flex items-center justify-between text-[8px] font-black uppercase tracking-[0.2em] text-white/20">
                   <span>Resource Pulse</span>
-                  <span className={cn(process.env.NEXT_PUBLIC_SUPABASE_URL ? "text-emerald-400" : "text-[#0D95F0]")}>
-                    {process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Sync 100%' : 'Mock 60%'}
+                  <span className="text-[#0D95F0]">
+                    Connected 100%
                   </span>
                </div>
                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden p-[2px]">
                   <motion.div 
                     initial={{ width: '0%' }}
-                    animate={{ width: process.env.NEXT_PUBLIC_SUPABASE_URL ? '100%' : '60%' }}
+                    animate={{ width: '100%' }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
-                    className={cn("h-full rounded-full", process.env.NEXT_PUBLIC_SUPABASE_URL ? "bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.4)]" : "bg-[#0D95F0] shadow-[0_0_12px_rgba(13,149,240,0.4)]")}
+                    className="h-full rounded-full bg-[#0D95F0] shadow-[0_0_12px_rgba(13,149,240,0.4)]"
                   />
                </div>
             </div>

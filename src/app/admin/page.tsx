@@ -2,18 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Package, FolderTree, MessageSquare, TrendingUp,
-  Plus, ArrowRight, Clock, User, Building2, Mail,
-  Zap, Eye, Globe2, ChevronRight, ArrowUpRight, Activity,
-  Sparkles, ShieldCheck, Terminal, Cpu, Layers, BarChart3,
-  Search,
-  Box
+  Plus, ArrowRight, Globe2, ArrowUpRight, Activity,
+  Sparkles, ShieldCheck, Terminal, BarChart3, Box
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { MOCK_STATS, MOCK_INQUIRIES } from '@/lib/mock-data'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 
 interface DashboardStats {
@@ -26,7 +21,7 @@ interface DashboardStats {
 
 interface RecentInquiry {
   id: string
-  full_name: string
+  name: string
   company: string
   email: string
   status: string
@@ -35,51 +30,22 @@ interface RecentInquiry {
 }
 
 export default function AdminDashboard() {
-  const supabase = createClient()
   const [stats, setStats] = useState<DashboardStats>({
     totalProducts: 0, totalCategories: 0, totalInquiries: 0, newInquiries: 0, activeProducts: 0
   })
   const [recentInquiries, setRecentInquiries] = useState<RecentInquiry[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadDashboard()
-  }, [])
+  useEffect(() => { loadDashboard() }, [])
 
   async function loadDashboard() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-
-    if (isDemo) {
-      setStats(MOCK_STATS)
-      setRecentInquiries(MOCK_INQUIRIES as any)
-      setLoading(false)
-      return
-    }
-
     try {
-      const [products, categories, inquiries, newInq, activeProds] = await Promise.all([
-        supabase.from('products').select('id', { count: 'exact', head: true }),
-        supabase.from('categories').select('id', { count: 'exact', head: true }),
-        supabase.from('inquiries').select('id', { count: 'exact', head: true }),
-        supabase.from('inquiries').select('id', { count: 'exact', head: true }).eq('status', 'new'),
-        supabase.from('products').select('id', { count: 'exact', head: true }).eq('is_active', true),
-      ])
-
-      setStats({
-        totalProducts: products.count || 0,
-        totalCategories: categories.count || 0,
-        totalInquiries: inquiries.count || 0,
-        newInquiries: newInq.count || 0,
-        activeProducts: activeProds.count || 0,
-      })
-
-      const { data: recent } = await supabase
-        .from('inquiries')
-        .select('id, full_name, company, email, status, created_at, country')
-        .order('created_at', { ascending: false })
-        .limit(8)
-
-      setRecentInquiries(recent || [])
+      const res = await fetch('/api/admin/dashboard')
+      const json = await res.json()
+      if (json.success) {
+        setStats(json.data.stats)
+        setRecentInquiries(json.data.recentInquiries)
+      }
     } catch (err) {
       console.error('Dashboard load error:', err)
     } finally {
@@ -378,10 +344,10 @@ export default function AdminDashboard() {
                   <td className="px-12 py-10">
                     <div className="flex items-center gap-6">
                       <div className="w-14 h-14 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-black text-sm group-hover:scale-110 transition-transform duration-700">
-                        {inq.full_name?.charAt(0)}
+                        {inq.name?.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.full_name}</div>
+                        <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.name}</div>
                         <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private Node'}</div>
                       </div>
                     </div>

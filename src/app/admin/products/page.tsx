@@ -3,36 +3,13 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
 import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Edit2, 
-  Trash2, 
-  Eye, 
-  EyeOff, 
-  Loader2,
-  Package,
-  ExternalLink,
-  ChevronRight,
-  MoreVertical,
-  Star,
-  Activity,
-  Box,
-  Layers,
-  ArrowUpRight,
-  Sparkles,
-  SearchCode,
-  SlidersHorizontal,
-  LayoutGrid,
-  List,
-  Database
+  Plus, Search, Edit2, Trash2, Loader2, Package, ExternalLink,
+  Box, ArrowUpRight, Sparkles, SlidersHorizontal, LayoutGrid, List, Database
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
-import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
 
 interface Product {
@@ -40,19 +17,11 @@ interface Product {
   name: string
   slug: string
   category_id: string
+  category_name: string | null
   is_active: boolean
   is_featured: boolean
+  featured_image: string | null
   created_at: string
-  categories: {
-    name: string
-  } | null
-  subcategories: {
-    name: string
-  } | null
-  product_images: {
-    image_url: string
-    is_primary: boolean
-  }[]
 }
 
 interface Category {
@@ -61,7 +30,6 @@ interface Category {
 }
 
 export default function ProductsPage() {
-  const supabase = createClient()
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
@@ -69,77 +37,45 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useEffect(() => { fetchData() }, [])
 
   async function fetchData() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      setProducts(MOCK_PRODUCTS as any)
-      setCategories(MOCK_CATEGORIES as any)
-      setLoading(false)
-      return
-    }
-
     setLoading(true)
-    const [productsRes, categoriesRes] = await Promise.all([
-      supabase
-        .from('products')
-        .select(`
-          *,
-          categories(name),
-          subcategories(name),
-          product_images(image_url, is_primary)
-        `)
-        .order('created_at', { ascending: false }),
-      supabase
-        .from('categories')
-        .select('id, name')
-        .order('name')
-    ])
-
-    if (productsRes.error) toast.error('Failed to load products')
-    else setProducts(productsRes.data || [])
-
-    if (categoriesRes.error) toast.error('Failed to load categories')
-    else setCategories(categoriesRes.data || [])
-
+    try {
+      const [productsRes, categoriesRes] = await Promise.all([
+        fetch('/api/admin/products'),
+        fetch('/api/admin/categories'),
+      ])
+      const [pJson, cJson] = await Promise.all([productsRes.json(), categoriesRes.json()])
+      if (pJson.success) setProducts(pJson.data)
+      else toast.error('Failed to load products')
+      if (cJson.success) setCategories(cJson.data)
+      else toast.error('Failed to load categories')
+    } catch { toast.error('Connection error') }
     setLoading(false)
   }
 
   async function handleToggleActive(id: string, active: boolean) {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (!isDemo) {
-      const { error } = await supabase
-        .from('products')
-        .update({ is_active: active })
-        .eq('id', id)
-      if (error) {
-        toast.error('Update failed')
-        return
-      }
-    }
-    setProducts(products.map(p => p.id === id ? { ...p, is_active: active } : p))
-    toast.success(active ? 'Asset Synchronized' : 'Asset Hidden')
+    const res = await fetch(`/api/admin/products/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_active: active }),
+    })
+    const json = await res.json()
+    if (json.success) {
+      setProducts(products.map(p => p.id === id ? { ...p, is_active: active } : p))
+      toast.success(active ? 'Asset Synchronized' : 'Asset Hidden')
+    } else { toast.error('Update failed') }
   }
 
   async function handleDelete(id: string) {
     if (!confirm('Permanently decommission this asset?')) return
-    
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (!isDemo) {
-      const { error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', id)
-      if (error) {
-        toast.error('Decommission failed')
-        return
-      }
-    }
-    setProducts(products.filter(p => p.id !== id))
-    toast.success('Asset removed from core')
+    const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' })
+    const json = await res.json()
+    if (json.success) {
+      setProducts(products.filter(p => p.id !== id))
+      toast.success('Asset removed from core')
+    } else { toast.error('Decommission failed') }
   }
 
   const filteredProducts = products.filter(p => {
@@ -247,7 +183,6 @@ export default function ProductsPage() {
             </div>
           ) : (
             filteredProducts.map((product, index) => {
-              const primaryImage = product.product_images.find(img => img.is_primary) || product.product_images[0]
               
               return (
                 <motion.div
@@ -268,9 +203,9 @@ export default function ProductsPage() {
                     viewMode === 'grid' ? "aspect-[4/3]" : "w-64 h-full shrink-0"
                   )}>
                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10" />
-                     {primaryImage ? (
+                     {product.featured_image ? (
                         <Image 
-                           src={primaryImage.image_url} 
+                           src={product.featured_image} 
                            alt={product.name} 
                            fill 
                            className="object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-out"
@@ -328,7 +263,7 @@ export default function ProductsPage() {
                         <div className="flex items-center gap-2.5 mb-3">
                            <div className="w-1.5 h-1.5 rounded-full bg-[#0D95F0]" />
                            <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">
-                              {product.categories?.name || 'Unmapped Protocol'}
+                              {product.category_name || 'Unmapped Protocol'}
                            </span>
                         </div>
                         <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter leading-tight group-hover:text-[#0D95F0] transition-colors duration-500">

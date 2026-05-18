@@ -1,33 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Save, 
-  Settings as SettingsIcon, 
-  Globe2, 
-  MessageCircle, 
-  Mail, 
-  Phone, 
-  Share2, 
-  ShieldCheck,
-  Search,
-  Loader2,
-  Info,
-  Cpu,
-  Zap,
-  Globe,
-  Lock,
-  ArrowUpRight,
-  Activity
+  Settings as SettingsIcon, Globe2, MessageCircle, Mail, Phone, Share2,
+  ShieldCheck, Search, Loader2, Info, Cpu, Zap, Globe, Lock, Activity
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 import { cn } from '@/lib/utils'
 
 export default function SettingsPage() {
-  const supabase = createClient()
   const [activeTab, setActiveTab] = useState('general')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -38,52 +21,39 @@ export default function SettingsPage() {
   }, [])
 
   async function fetchSettings() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      setSettings({
-        id: '1',
-        whatsapp_number: '+971501234567',
-        contact_email: 'inquiry@axion.ae',
-        office_phone: '+971 4 123 4567',
-        default_language: 'en',
-        site_title: 'Axion Technology | Premium Visual Solutions',
-        site_description: 'Global engineering excellence in LED and interactive systems.',
-        meta_keywords: 'LED, AV, Integration, Display',
-        social_linkedin: 'https://linkedin.com/company/axion',
-        social_instagram: 'https://instagram.com/axion',
-      } as any)
-      setLoading(false)
-      return
+    setLoading(true)
+    try {
+      const res = await fetch('/api/admin/settings')
+      const json = await res.json()
+      if (json.success) {
+        setSettings(json.data)
+      } else {
+        toast.error('Failed to load settings')
+      }
+    } catch {
+      toast.error('Connection error')
     }
-
-    const { data, error } = await supabase
-      .from('settings')
-      .select('*')
-      .single()
-
-    if (error) toast.error('Failed to load settings')
-    else setSettings(data)
     setLoading(false)
   }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-    
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (!isDemo) {
-      const { error } = await supabase
-        .from('settings')
-        .update(settings)
-        .eq('id', settings.id)
-      if (error) {
-        toast.error('Update failed: ' + error.message)
-        setSaving(false)
-        return
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      })
+      const json = await res.json()
+      if (json.success) {
+        toast.success('System Parameters Synchronized')
+      } else {
+        toast.error('Update failed: ' + (json.error || 'Unknown error'))
       }
+    } catch {
+      toast.error('Connection error')
     }
-    
-    toast.success('System Parameters Synchronized')
     setSaving(false)
   }
 
@@ -168,7 +138,7 @@ export default function SettingsPage() {
                    <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp Interface</label>
                       <div className="relative group">
-                        <MessageCircle size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-emerald-500 group-focus-within:scale-110 transition-transform" />
+                        <MessageCircle size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-emerald-500" />
                         <input 
                           value={settings.whatsapp_number || ''}
                           onChange={(e) => setSettings({ ...settings, whatsapp_number: e.target.value })}
@@ -181,7 +151,7 @@ export default function SettingsPage() {
                    <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Central Inquiry Node</label>
                       <div className="relative group">
-                        <Mail size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-[#0D95F0] group-focus-within:scale-110 transition-transform" />
+                        <Mail size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-[#0D95F0]" />
                         <input 
                           value={settings.contact_email || ''}
                           onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
@@ -194,7 +164,7 @@ export default function SettingsPage() {
                    <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">HQ Voice Terminal</label>
                       <div className="relative group">
-                        <Phone size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:scale-110 transition-transform" />
+                        <Phone size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input 
                           value={settings.office_phone || ''}
                           onChange={(e) => setSettings({ ...settings, office_phone: e.target.value })}
@@ -206,7 +176,7 @@ export default function SettingsPage() {
                    <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Linguistic Protocol</label>
                       <div className="relative group">
-                        <Globe size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:scale-110 transition-transform" />
+                        <Globe size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" />
                         <select 
                           value={settings.default_language || 'en'}
                           onChange={(e) => setSettings({ ...settings, default_language: e.target.value })}
@@ -298,7 +268,7 @@ export default function SettingsPage() {
                     <ShieldCheck size={48} className="relative z-10" />
                  </div>
                  <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Enterprise Shield Active</h3>
-                 <p className="text-slate-500 max-w-sm mx-auto font-medium text-lg leading-relaxed">System-wide encryption, session management, and 2FA protocols are managed via the secure Supabase core infrastructure.</p>
+                 <p className="text-slate-500 max-w-sm mx-auto font-medium text-lg leading-relaxed">System-wide encryption, session management, and 2FA protocols are managed via the secure database core infrastructure.</p>
                  
                  <div className="mt-12 flex justify-center">
                     <SpatialBadge variant="blue" pulse>Full Encryption Enabled</SpatialBadge>

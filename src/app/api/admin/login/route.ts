@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { findOne } from '@/lib/db-helpers';
+import { query } from '@/lib/db-helpers';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
 
@@ -12,9 +12,8 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     // 1. Find user in MySQL
-    // Note: You need to create this table: 
-    // CREATE TABLE admins (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) UNIQUE, password VARCHAR(255));
-    const user: any = await findOne('SELECT * FROM admins WHERE email = ?', [email]);
+    const users: any = await query('SELECT * FROM admins WHERE email = ? LIMIT 1', [email]);
+    const user = Array.isArray(users) && users.length > 0 ? users[0] : null;
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

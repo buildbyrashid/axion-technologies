@@ -3,15 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Save, 
   ArrowLeft, 
   Loader2, 
   Info, 
   Image as ImageIcon, 
-  Settings, 
   Sparkles, 
   Box, 
   Download, 
@@ -28,7 +25,7 @@ import {
   Terminal,
   Database
 } from 'lucide-react'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { toast } from 'sonner'
@@ -37,7 +34,6 @@ import Link from 'next/link'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 import MediaUploader from '@/components/admin/MediaUploader'
 import RichTextEditor from '@/components/admin/RichTextEditor'
-import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
 
 // Zod Schema for validation
@@ -66,13 +62,11 @@ export default function ProductEditorPage() {
   const { id } = useParams()
   const router = useRouter()
   const isNew = id === 'new'
-  const supabase = createClient()
 
   const [activeTab, setActiveTab] = useState('basic')
   const [loading, setLoading] = useState(!isNew)
   const [saving, setSaving] = useState(false)
   const [categories, setCategories] = useState<{id: string, name: string}[]>([])
-  const [subcategories, setSubcategories] = useState<{id: string, name: string, category_id: string}[]>([])
   
   const [images, setImages] = useState<any[]>([])
   const [specs, setSpecs] = useState<{id?: string, spec_key: string, spec_value: string}[]>([])
@@ -100,171 +94,120 @@ export default function ProductEditorPage() {
   }, [id])
 
   async function fetchFormData() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      setCategories(MOCK_CATEGORIES as any)
-      setSubcategories([
-        { id: 's1', name: 'Indoor LED', category_id: '1' },
-        { id: 's2', name: 'Outdoor LED', category_id: '1' },
-        { id: 's3', name: 'Touch Kiosks', category_id: '2' },
-      ] as any)
-      return
-    }
-
-    const [catRes, subRes] = await Promise.all([
-      supabase.from('categories').select('id, name').order('name'),
-      supabase.from('subcategories').select('id, name, category_id').order('name')
-    ])
-
-    if (catRes.data) setCategories(catRes.data)
-    if (subRes.data) setSubcategories(subRes.data)
+    try {
+      const res = await fetch('/api/admin/categories')
+      const json = await res.json()
+      if (json.success) setCategories(json.data)
+    } catch { toast.error('Failed to load categories') }
   }
 
   async function fetchProductData() {
-    let product: any
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-
-    if (isDemo) {
-      product = MOCK_PRODUCTS.find(p => p.id === id) || MOCK_PRODUCTS[0]
-    } else {
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          product_images(*),
-          product_specifications(*),
-          product_features(*),
-          product_documents(*),
-          product_applications(*)
-        `)
-        .eq('id', id)
-        .single()
-
-      if (error) {
+    try {
+      const res = await fetch(`/api/admin/products/${id}`)
+      const json = await res.json()
+      if (!json.success) {
         toast.error('Portal connection failed')
         router.push('/admin/products')
         return
       }
-      product = data
+      const product = json.data
+
+      setValue('name', product.name)
+      setValue('slug', product.slug)
+      setValue('category_id', product.category_id || '')
+      setValue('subcategory_id', '')
+      setValue('short_description', product.short_description || '')
+      setValue('full_description', product.full_description || '')
+      setValue('is_active', product.is_active)
+      setValue('is_featured', product.is_featured)
+
+      // Map JSON column data to state
+      const gallery = Array.isArray(product.gallery) ? product.gallery : []
+      setImages(gallery.map((img: any, i: number) => ({
+        id: String(i),
+        url: img.url || img,
+        is_primary: img.is_primary || i === 0,
+        sort_order: i
+      })))
+
+      const specs = Array.isArray(product.specifications) ? product.specifications : 
+        Object.entries(product.specifications || {}).map(([k, v]) => ({ spec_key: k, spec_value: v as string }))
+      setSpecs(specs)
+
+      setFeatures(Array.isArray(product.features) ? product.features : [])
+      setDownloads(Array.isArray(product.downloads) ? product.downloads : [])
+
+      const apps = Array.isArray(product.applications) ? product.applications : []
+      setApplications(apps.map((app: any) => ({
+        id: app.id || String(Math.random()),
+        url: app.url || app.image_url,
+        caption: app.caption,
+        location: app.location
+      })))
+    } catch {
+      toast.error('Failed to load product data')
     }
-
-    // Set form values
-    setValue('name', product.name)
-    setValue('slug', product.slug)
-    setValue('category_id', product.category_id)
-    setValue('subcategory_id', product.subcategory_id || '')
-    setValue('short_description', product.short_description || '')
-    setValue('full_description', product.full_description || '')
-    setValue('is_active', product.is_active)
-    setValue('is_featured', product.is_featured)
-
-    // Set relational states
-    setImages((product.product_images || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)).map((img: any) => ({
-      id: img.id,
-      url: img.image_url,
-      is_primary: img.is_primary,
-      sort_order: img.sort_order
-    })))
-    setSpecs((product.product_specifications || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)))
-    setFeatures((product.product_features || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)))
-    setDownloads(product.product_documents || [])
-    setApplications((product.product_applications || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)).map((app: any) => ({
-      id: app.id,
-      url: app.image_url,
-      caption: app.caption,
-      location: app.location
-    })))
-
     setLoading(false)
   }
 
   async function onSubmit(values: z.infer<typeof productSchema>) {
     setSaving(true)
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    
     try {
-      if (isDemo) {
-        toast.success('Local configuration synchronized')
-        setSaving(false)
-        return
-      }
+      const productId = id as string
+      const gallery = images.map((img, i) => ({
+        url: img.url,
+        is_primary: img.is_primary || i === 0,
+        sort_order: i
+      }))
+      const primaryImage = images.find(img => img.is_primary) || images[0]
 
-      let productId = id as string
-      const dataToSave = {
+      const payload = {
         ...values,
-        subcategory_id: values.subcategory_id || null
-      }
-      
-      // 1. Save main product info
-      if (isNew) {
-        const { data, error } = await supabase.from('products').insert([dataToSave]).select().single()
-        if (error) throw error
-        productId = data.id
-      } else {
-        const { error } = await supabase.from('products').update(dataToSave).eq('id', id)
-        if (error) throw error
-      }
-
-      // 2. Save Images
-      await supabase.from('product_images').delete().eq('product_id', productId)
-      if (images.length > 0) {
-        await supabase.from('product_images').insert(images.map((img, i) => ({
-          product_id: productId,
-          image_url: img.url,
-          is_primary: img.is_primary,
-          sort_order: i
-        })))
-      }
-
-      // 3. Save Specs
-      await supabase.from('product_specifications').delete().eq('product_id', productId)
-      if (specs.length > 0) {
-        await supabase.from('product_specifications').insert(specs.map((s, i) => ({
-          product_id: productId,
-          spec_key: s.spec_key,
-          spec_value: s.spec_value,
-          sort_order: i
-        })))
-      }
-
-      // 4. Save Features
-      await supabase.from('product_features').delete().eq('product_id', productId)
-      if (features.length > 0) {
-        await supabase.from('product_features').insert(features.map((f, i) => ({
-          product_id: productId,
-          title: f.title,
-          description: f.description,
-          sort_order: i
-        })))
-      }
-
-      // 5. Save Downloads
-      await supabase.from('product_documents').delete().eq('product_id', productId)
-      if (downloads.length > 0) {
-        await supabase.from('product_documents').insert(downloads.map(d => ({
-          product_id: productId,
-          name: d.name,
-          document_type: d.document_type,
-          file_url: d.file_url
-        })))
-      }
-
-      // 6. Save Application Gallery
-      await supabase.from('product_applications').delete().eq('product_id', productId)
-      if (applications.length > 0) {
-        await supabase.from('product_applications').insert(applications.map((app, i) => ({
-          product_id: productId,
-          image_url: app.url,
+        subcategory_id: values.subcategory_id || null,
+        featured_image: primaryImage?.url || null,
+        gallery,
+        specifications: specs,
+        features,
+        downloads,
+        applications: applications.map((app, i) => ({
+          url: app.url,
           caption: app.caption,
           location: app.location,
           sort_order: i
-        })))
+        })),
       }
 
-      toast.success(isNew ? 'Asset Initialized' : 'Architecture Synchronized')
-      if (isNew) router.push(`/admin/products/${productId}`)
-      else fetchProductData()
-      
+      let res
+      if (isNew) {
+        // Create then update with full data
+        const createRes = await fetch('/api/admin/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        })
+        const createJson = await createRes.json()
+        if (!createJson.success) throw new Error(createJson.error || 'Create failed')
+        const newId = createJson.data.id
+        res = await fetch(`/api/admin/products/${newId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload }),
+        })
+        const json = await res.json()
+        if (!json.success) throw new Error(json.error || 'Save failed')
+        toast.success('Asset Initialized')
+        router.push(`/admin/products/${newId}`)
+      } else {
+        res = await fetch(`/api/admin/products/${productId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        const json = await res.json()
+        if (!json.success) throw new Error(json.error || 'Save failed')
+        toast.success('Architecture Synchronized')
+        fetchProductData()
+      }
     } catch (err: any) {
       toast.error('Sync failed: ' + err.message)
     } finally {
@@ -410,20 +353,6 @@ export default function ProductEditorPage() {
                     </select>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub-Cluster Layer</label>
-                    <select 
-                      {...register('subcategory_id')}
-                      disabled={!watch('category_id')}
-                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none disabled:opacity-40"
-                    >
-                      <option value="">No Layer Assigned</option>
-                      {subcategories
-                        .filter(s => s.category_id === watch('category_id'))
-                        .map(s => <option key={s.id} value={s.id}>{s.name}</option>)
-                      }
-                    </select>
-                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[1.5rem] border border-black/5">
