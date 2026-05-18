@@ -18,13 +18,13 @@ interface SubCategory {
   products: Product[];
 }
 
-interface Category {
+export interface Category {
   name: string;
   href: string;
   subcategories: SubCategory[];
 }
 
-const productCategories: Category[] = [
+export const productCategories: Category[] = [
   {
     "name": "LED DISPLAY SYSTEMS",
     "href": "/products/led-display-systems",

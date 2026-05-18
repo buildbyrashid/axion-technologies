@@ -23,7 +23,7 @@ import {
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import ProductDropdown from "./ProductDropdown";
+import ProductDropdown, { productCategories } from "./ProductDropdown";
 import QuoteModal from "@/components/modals/QuoteModal";
 
 const navLinks = [
@@ -34,65 +34,6 @@ const navLinks = [
   { name: "Contact", href: "/contact", hasDropdown: false },
 ];
 
-const mobileProductGroups = [
-  {
-    name: "VISUAL DISPLAY SOLUTIONS",
-    categories: [
-      {
-        name: "LED DISPLAY SYSTEMS",
-        href: "/products/led-display-systems",
-        subcategories: [
-          { name: "Indoor Rental LED Displays", href: "/products/led-display-systems" },
-          { name: "Outdoor Rental LED Displays", href: "/products/led-display-systems" },
-          { name: "Fine Pitch LED Displays", href: "/products/led-display-systems" },
-          { name: "COB LED Displays", href: "/products/led-display-systems" },
-        ],
-      },
-      {
-        name: "LCD SCREENS & KIOSKS",
-        href: "/products/lcd-screens-&-interactive-kiosks",
-        subcategories: [
-          { name: "Interactive Touch Screens", href: "/products/lcd-screens-&-interactive-kiosks" },
-          { name: "Digital Signage Displays", href: "/products/lcd-screens-&-interactive-kiosks" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "EVENT TECHNOLOGY",
-    categories: [
-      {
-        name: "LIGHTING SYSTEMS",
-        href: "/products/lighting-systems",
-        subcategories: [
-          { name: "Moving Head Lights", href: "/products/lighting-systems" },
-          { name: "Beam Lights", href: "/products/lighting-systems" },
-        ],
-      },
-      {
-        name: "PROFESSIONAL AUDIO",
-        href: "/products/professional-audio-systems",
-        subcategories: [
-          { name: "Line Array Systems", href: "/products/professional-audio-systems" },
-          { name: "Professional Speakers", href: "/products/professional-audio-systems" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "INFRASTRUCTURE",
-    categories: [
-      {
-        name: "POWER & CABLING",
-        href: "/products/power-distribution-&-cable-solutions",
-        subcategories: [
-          { name: "Power Distribution Units", href: "/products/power-distribution-&-cable-solutions" },
-          { name: "Signal Distribution", href: "/products/power-distribution-&-cable-solutions" },
-        ],
-      },
-    ],
-  },
-];
 
 function TopBar() {
   return (
@@ -167,10 +108,10 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [mobileProductLevel, setMobileProductLevel] = useState<{
-    level: "groups" | "categories" | "subcategories";
-    groupId?: number;
+    level: "categories" | "subcategories" | "products";
     catId?: number;
-  }>({ level: "groups" });
+    subId?: number;
+  }>({ level: "categories" });
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   useEffect(() => {
@@ -338,75 +279,24 @@ export default function Navbar() {
                         <AnimatePresence mode="wait">
                           {isMobileProductsOpen && (
                             <motion.div
-                              key={`${mobileProductLevel.level}-${mobileProductLevel.groupId}-${mobileProductLevel.catId}`}
+                              key={`${mobileProductLevel.level}-${mobileProductLevel.catId}-${mobileProductLevel.subId}`}
                               initial={{ opacity: 0, x: 10 }}
                               animate={{ opacity: 1, x: 0 }}
                               exit={{ opacity: 0, x: -10 }}
                               transition={{ duration: 0.2 }}
                               className="overflow-hidden pl-3 space-y-1"
                             >
-                              {/* Back Button for Drill-down */}
-                              {mobileProductLevel.level !== "groups" && (
-                                <button
-                                  onClick={() => {
-                                    if (mobileProductLevel.level === "subcategories") {
-                                      setMobileProductLevel({ level: "categories", groupId: mobileProductLevel.groupId });
-                                    } else {
-                                      setMobileProductLevel({ level: "groups" });
-                                    }
-                                  }}
-                                  className="flex items-center gap-2 px-4 py-2 text-[12px] font-bold text-blue-600 hover:text-accent transition-all"
-                                >
-                                  <ArrowLeft size={14} />
-                                  Back
-                                </button>
-                              )}
-
-                              {/* Level: Groups */}
-                              {mobileProductLevel.level === "groups" && (
-                                <>
-                                  <Link
-                                    href="/products"
-                                    onClick={() => {
-                                      setIsMobileMenuOpen(false);
-                                      setIsMobileProductsOpen(false);
-                                    }}
-                                    className="flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-bold text-blue-600 bg-blue-50/50 mb-1"
-                                  >
-                                    All Products
-                                    <ChevronRight className="h-4 w-4" />
-                                  </Link>
-                                  {mobileProductGroups.map((group, idx) => (
-                                    <button
-                                      key={group.name}
-                                      onClick={() => setMobileProductLevel({ level: "categories", groupId: idx })}
-                                      className="w-full flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
-                                    >
-                                      {group.name}
-                                      <ChevronRight className="h-4 w-4 text-slate-400" />
-                                    </button>
-                                  ))}
-                                </>
-                              )}
-
                               {/* Level: Categories */}
                               {mobileProductLevel.level === "categories" && (
                                 <>
-                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    {mobileProductGroups[mobileProductLevel.groupId!].name}
-                                  </div>
-                                  {mobileProductGroups[mobileProductLevel.groupId!].categories.map((cat, idx) => (
+                                  {productCategories.map((cat, idx) => (
                                     <button
                                       key={cat.name}
-                                      onClick={() => setMobileProductLevel({ 
-                                        level: "subcategories", 
-                                        groupId: mobileProductLevel.groupId,
-                                        catId: idx 
-                                      })}
-                                      className="w-full flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all"
+                                      onClick={() => setMobileProductLevel({ level: "subcategories", catId: idx })}
+                                      className="w-full flex items-center justify-between px-4 py-3.5 rounded-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
                                     >
-                                      {cat.name}
-                                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                                      <span className="text-left">{cat.name}</span>
+                                      <ChevronRight className="h-4 w-4 text-slate-400 flex-shrink-0 ml-2" />
                                     </button>
                                   ))}
                                 </>
@@ -415,26 +305,88 @@ export default function Navbar() {
                               {/* Level: Subcategories */}
                               {mobileProductLevel.level === "subcategories" && (
                                 <>
-                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].name}
+                                  {/* Back Button */}
+                                  <button
+                                    onClick={() => setMobileProductLevel({ level: "categories" })}
+                                    className="flex items-center gap-2 px-4 py-2 text-[12px] font-bold text-blue-600 hover:text-accent transition-all mb-2"
+                                  >
+                                    <ArrowLeft size={14} />
+                                    Back to Categories
+                                  </button>
+
+                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 mb-1">
+                                    {productCategories[mobileProductLevel.catId!].name}
                                   </div>
-                                  {mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!].subcategories.map((sub) => {
-                                    const groupCat = mobileProductGroups[mobileProductLevel.groupId!].categories[mobileProductLevel.catId!];
-                                    const catSlug = groupCat.href.split('/').pop();
-                                    const subSlug = sub.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-                                    const dynamicHref = `/products/${catSlug}/${subSlug}`;
+
+                                  {productCategories[mobileProductLevel.catId!].subcategories.map((sub, idx) => {
+                                    return (
+                                      <button
+                                        key={sub.name}
+                                        onClick={() => setMobileProductLevel({ level: "products", catId: mobileProductLevel.catId, subId: idx })}
+                                        className="w-full flex items-center justify-between px-4 py-3 rounded-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 transition-all border-b border-slate-50 last:border-0"
+                                      >
+                                        <span className="text-left">{sub.name}</span>
+                                        <ChevronRight className="h-4 w-4 text-slate-400 flex-shrink-0 ml-2" />
+                                      </button>
+                                    );
+                                  })}
+                                </>
+                              )}
+
+                              {/* Level: Products */}
+                              {mobileProductLevel.level === "products" && (
+                                <>
+                                  {/* Back Button */}
+                                  <button
+                                    onClick={() => setMobileProductLevel({ level: "subcategories", catId: mobileProductLevel.catId })}
+                                    className="flex items-center gap-2 px-4 py-2 text-[12px] font-bold text-blue-600 hover:text-accent transition-all mb-2"
+                                  >
+                                    <ArrowLeft size={14} />
+                                    Back to Subcategories
+                                  </button>
+
+                                  <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 mb-1">
+                                    {productCategories[mobileProductLevel.catId!].subcategories[mobileProductLevel.subId!].name}
+                                  </div>
+
+                                  {/* "All [Subcategory] Products" link */}
+                                  {(() => {
+                                    const catSlug = productCategories[mobileProductLevel.catId!].href.split('/').pop();
+                                    const subSlug = productCategories[mobileProductLevel.catId!].subcategories[mobileProductLevel.subId!].name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                                    const subcategoryHref = `/products/${catSlug}/${subSlug}`;
                                     return (
                                       <Link
-                                        key={sub.name}
+                                        href={subcategoryHref}
+                                        onClick={() => {
+                                          setIsMobileMenuOpen(false);
+                                          setIsMobileProductsOpen(false);
+                                        }}
+                                        className="flex items-center justify-between px-4 py-3 rounded-none text-[14px] font-bold text-blue-600 bg-blue-50/50 mb-2 border-b border-blue-100"
+                                      >
+                                        <span>All {productCategories[mobileProductLevel.catId!].subcategories[mobileProductLevel.subId!].name}</span>
+                                        <ChevronRight className="h-4 w-4 text-blue-600 flex-shrink-0 ml-2" />
+                                      </Link>
+                                    );
+                                  })()}
+
+                                  {/* Individual Products List */}
+                                  {productCategories[mobileProductLevel.catId!].subcategories[mobileProductLevel.subId!].products.map((prod) => {
+                                    const categorySlug = productCategories[mobileProductLevel.catId!].href.split('/').pop();
+                                    const subcategorySlug = productCategories[mobileProductLevel.catId!].subcategories[mobileProductLevel.subId!].name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                                    const productSlug = prod.href.split('/').pop();
+                                    const dynamicHref = `/products/${categorySlug}/${subcategorySlug}/${productSlug}`;
+                                    return (
+                                      <Link
+                                        key={prod.name}
                                         href={dynamicHref}
                                         onClick={() => {
                                           setIsMobileMenuOpen(false);
                                           setIsMobileProductsOpen(false);
                                         }}
-                                        className="flex items-center justify-between px-4 py-3 rounded-none-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all"
+                                        className="flex items-center justify-between px-4 py-3 rounded-none text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent transition-all border-b border-slate-50 last:border-0"
                                       >
-                                        {sub.name}
-                                        <ChevronRight className="h-4 w-4 text-slate-400" />
+                                        <span className="text-left">{prod.name}</span>
+                                        <ChevronRight className="h-4 w-4 text-slate-400 flex-shrink-0 ml-2" />
                                       </Link>
                                     );
                                   })}
