@@ -23,7 +23,9 @@ import {
   Zap,
   Activity,
   ShieldCheck,
-  Terminal
+  Terminal,
+  Megaphone,
+  LineChart
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -46,10 +48,10 @@ const navSections = [
     title: 'Content',
     items: [
       { name: 'Homepage', href: '/admin/content', icon: Home },
+      { name: 'Global CTA', href: '/admin/content/global-cta', icon: Megaphone },
       { name: 'About Page', href: '/admin/content/about', icon: FileText },
+      { name: 'Solutions Page', href: '/admin/content/solutions', icon: Activity },
       { name: 'Industries', href: '/admin/content/industries', icon: Building2 },
-      { name: 'Why Axion', href: '/admin/content/why-axion', icon: Sparkles },
-      { name: 'Offices', href: '/admin/content/offices', icon: Globe2 },
     ],
   },
   {
@@ -87,7 +89,7 @@ export default function AdminSidebar() {
       {/* Background Decor Layer */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/80 to-[#0A1628]/40 pointer-events-none" />
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px] pointer-events-none" />
-      
+
       {/* Logo Area */}
       <div className="relative z-10 px-8 pt-10 pb-8 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-4 group">
@@ -151,64 +153,27 @@ export default function AdminSidebar() {
           </div>
         ))}
       </nav>
-      
-      {!sidebarCollapsed && (
-        <div className="relative z-10 px-6 py-8">
-          <div className="p-6 rounded-[1.5rem] bg-white/[0.02] border border-white/[0.05] relative overflow-hidden group shadow-2xl">
-            <div className="absolute inset-0 bg-[#0D95F0]/5 opacity-0 group-hover:opacity-100 transition-opacity blur-3xl duration-700" />
-            
-            <div className="relative z-10 flex items-center gap-4 mb-5">
-              <div className="w-11 h-11 rounded-2xl bg-[#0D95F0]/10 flex items-center justify-center shadow-inner">
-                 <Terminal size={20} className="text-[#0D95F0]" />
-              </div>
-              <div>
-                <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">Infrastructure</div>
-                <div className="text-[10px] font-black uppercase tracking-widest text-[#0D95F0]">
-                  MySQL Native
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-2.5 relative z-10">
-               <div className="flex items-center justify-between text-[8px] font-black uppercase tracking-[0.2em] text-white/20">
-                  <span>Resource Pulse</span>
-                  <span className="text-[#0D95F0]">
-                    Connected 100%
-                  </span>
-               </div>
-               <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden p-[2px]">
-                  <motion.div 
-                    initial={{ width: '0%' }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
-                    className="h-full rounded-full bg-[#0D95F0] shadow-[0_0_12px_rgba(13,149,240,0.4)]"
-                  />
-               </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Bottom Actions */}
       <div className="relative z-10 p-5 border-t border-white/[0.05] bg-black/40">
         <div className="flex flex-col gap-2">
-           <button
-             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-             className="hidden lg:flex items-center gap-4 w-full px-5 py-4 rounded-[1.5rem] text-xs font-black text-white/20 hover:text-white hover:bg-white/[0.03] transition-all duration-500"
-           >
-             <ChevronLeft size={18} className={cn('transition-transform duration-700', sidebarCollapsed && 'rotate-180')} />
-             {!sidebarCollapsed && <span className="tracking-widest uppercase">Contract Interface</span>}
-           </button>
-           
-           <button
-             onClick={handleLogout}
-             className={cn(
-               'flex items-center gap-4 w-full px-5 py-4 rounded-[1.5rem] text-xs font-black text-white/10 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-500',
-             )}
-           >
-             <LogOut size={18} />
-             {!sidebarCollapsed && <span className="tracking-widest uppercase">Terminate Access</span>}
-           </button>
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="hidden lg:flex items-center gap-4 w-full px-5 py-4 rounded-[1.5rem] text-xs font-black text-white/20 hover:text-white hover:bg-white/[0.03] transition-all duration-500"
+          >
+            <ChevronLeft size={18} className={cn('transition-transform duration-700', sidebarCollapsed && 'rotate-180')} />
+            {!sidebarCollapsed && <span className="tracking-widest uppercase">Contract Interface</span>}
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className={cn(
+              'flex items-center gap-4 w-full px-5 py-4 rounded-[1.5rem] text-xs font-black text-white/10 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-500',
+            )}
+          >
+            <LogOut size={18} />
+            {!sidebarCollapsed && <span className="tracking-widest uppercase">Terminate Access</span>}
+          </button>
         </div>
       </div>
     </div>

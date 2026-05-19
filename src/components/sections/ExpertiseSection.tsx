@@ -44,7 +44,38 @@ const expertise = [
   },
 ];
 
-export default function ExpertiseSection() {
+export interface ExpertiseData {
+  section_label?: string;
+  section_title?: string;
+  description?: string;
+  stat_1_number?: string;
+  stat_1_label?: string;
+  stat_2_number?: string;
+  stat_2_label?: string;
+  stat_3_number?: string;
+  stat_3_label?: string;
+  stat_4_number?: string;
+  stat_4_label?: string;
+}
+
+export default function ExpertiseSection({ data }: { data?: ExpertiseData | null }) {
+  // Graceful fallbacks
+  const sectionLabel = data?.section_label || "Our Expertise";
+  const sectionTitle = data?.section_title || "Engineering Excellence";
+  const description = data?.description || "We don't just supply products; we engineer integrated visual ecosystems that define modern infrastructure for mission-critical and enterprise environments.";
+  
+  const stat1Num = data?.stat_1_number || "2006";
+  const stat1Label = data?.stat_1_label || "Founded";
+  
+  const stat2Num = data?.stat_2_number || COMPANY_STATS.PROJECTS_DELIVERED;
+  const stat2Label = data?.stat_2_label || "Projects";
+  
+  const stat3Num = data?.stat_3_number || COMPANY_STATS.MANUFACTURING_AREA;
+  const stat3Label = data?.stat_3_label || "Factory Area (m²)";
+  
+  const stat4Num = data?.stat_4_number || COMPANY_STATS.GLOBAL_LOCATIONS;
+  const stat4Label = data?.stat_4_label || "Global Hubs";
+
   return (
     <section className="py-24 bg-slate-50 overflow-hidden">
       <div className="container-custom">
@@ -55,14 +86,14 @@ export default function ExpertiseSection() {
             whileInView={{ opacity: 1 }}
             className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block"
           >
-            Our Expertise
+            {sectionLabel}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl lg:text-5xl font-sora font-extrabold text-primary tracking-tighter"
           >
-            Engineering Excellence
+            {sectionTitle}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -70,7 +101,7 @@ export default function ExpertiseSection() {
             transition={{ delay: 0.1 }}
             className="text-slate-500 mt-4 max-w-2xl text-lg"
           >
-            We don't just supply products; we engineer integrated visual ecosystems that define modern infrastructure for mission-critical and enterprise environments.
+            {description}
           </motion.p>
         </div>
 
@@ -84,20 +115,20 @@ export default function ExpertiseSection() {
 
           <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-6 text-center divide-x-0 md:divide-x divide-slate-100">
             <div className="flex flex-col justify-center px-4">
-              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">2006</span>
-              <span className="text-sm text-primary font-bold">Founded</span>
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{stat1Num}</span>
+              <span className="text-sm text-primary font-bold">{stat1Label}</span>
             </div>
             <div className="flex flex-col justify-center px-4 border-l border-slate-100 md:border-l-0">
-              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.PROJECTS_DELIVERED}</span>
-              <span className="text-sm text-primary font-bold">Projects</span>
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{stat2Num}</span>
+              <span className="text-sm text-primary font-bold">{stat2Label}</span>
             </div>
             <div className="flex flex-col justify-center px-4 pt-8 md:pt-0 border-t border-slate-100 md:border-t-0">
-              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.MANUFACTURING_AREA}</span>
-              <span className="text-sm text-primary font-bold">Factory Area (m²)</span>
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{stat3Num}</span>
+              <span className="text-sm text-primary font-bold">{stat3Label}</span>
             </div>
             <div className="flex flex-col justify-center px-4 pt-8 md:pt-0 border-t border-l border-slate-100 md:border-t-0 md:border-l-0">
-              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{COMPANY_STATS.GLOBAL_LOCATIONS}</span>
-              <span className="text-sm text-primary font-bold">Global Hubs</span>
+              <span className="text-5xl lg:text-6xl font-bold text-accent font-sora mb-3">{stat4Num}</span>
+              <span className="text-sm text-primary font-bold">{stat4Label}</span>
             </div>
           </div>
         </div>

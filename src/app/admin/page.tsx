@@ -84,10 +84,10 @@ export default function AdminDashboard() {
               <div className="w-12 h-12 rounded-[1.5rem] bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0] shadow-inner">
                  <Terminal size={24} />
               </div>
-              <SpatialBadge variant="blue" pulse>Live Operational Core</SpatialBadge>
+              <SpatialBadge variant="blue">Business Operations</SpatialBadge>
            </div>
-           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Command Center</h1>
-           <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Global telemetry hub for asset configuration and enterprise intelligence.</p>
+           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Corporate Dashboard</h1>
+           <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Manage corporate products, business inquiries, and digital assets.</p>
         </div>
         
         <div className="flex items-center gap-6">
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
                  <Activity size={18} className="text-emerald-500" />
               </div>
               <div>
-                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">System Sync</div>
+                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">System Status</div>
                  <div className="text-sm font-black text-[#0A1628]">99.98% Uptime</div>
               </div>
            </div>
@@ -105,14 +105,14 @@ export default function AdminDashboard() {
              className="px-10 py-5 bg-[#0A1628] text-white rounded-[2.5rem] text-sm font-black uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl shadow-black/20"
            >
              <Plus size={20} />
-             Initialize Asset
+             Add New Product
            </Link>
         </div>
       </div>
 
       {/* Main Telemetry Grid */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
-        {/* Metric: Inquiries (Priority Focus) */}
+        {/* Metric: Inquiries */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -127,16 +127,16 @@ export default function AdminDashboard() {
                       <MessageSquare size={28} />
                    </div>
                    <div>
-                      <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-1.5">Lead Intelligence</div>
+                      <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-1.5">Client Relations</div>
                       <SpatialBadge variant="blue" pulse>Action Required</SpatialBadge>
                    </div>
                 </div>
                 <div>
                    <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newInquiries}</div>
-                   <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">Unprocessed Signals</div>
+                   <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Inquiries</div>
                 </div>
                 <Link href="/admin/inquiries" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
-                   Synchronize CRM <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
+                   View All Inquiries <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
                 </Link>
              </div>
              
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
                    ))}
                 </div>
                 <div className="flex justify-between items-center px-2">
-                   <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Weekly Signal Delta</div>
+                   <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Weekly Lead Activity</div>
                    <div className="text-[10px] font-black text-emerald-400">+12%</div>
                 </div>
              </div>
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
             </div>
             <div>
                <div className="text-7xl font-black text-[#0A1628] tracking-tighter mb-2 tabular-nums">{stats.totalProducts}</div>
-               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Universal Assets</div>
+               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Total Products</div>
             </div>
           </div>
         </motion.div>
@@ -192,15 +192,15 @@ export default function AdminDashboard() {
           <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-slate-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
           
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 mb-20 relative z-10">
-            <div className="space-y-3">
+             <div className="space-y-3">
               <div className="flex items-center gap-3">
                  <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
                     <BarChart3 size={18} />
                  </div>
-                 <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">Market Dynamics</span>
+                 <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">Analytics Overview</span>
               </div>
-              <h2 className="text-4xl font-black text-[#0A1628] tracking-tighter">Engagement Telemetry</h2>
-              <p className="text-slate-500 text-lg font-medium max-w-xl italic leading-relaxed">Predictive behavior analysis and inbound traffic density mapping.</p>
+              <h2 className="text-4xl font-black text-[#0A1628] tracking-tighter">Website Engagement</h2>
+              <p className="text-slate-500 text-lg font-medium max-w-xl italic leading-relaxed">Website traffic and visitor engagement behavior.</p>
             </div>
             <div className="flex items-center gap-6">
                <div className="px-6 py-3 rounded-2xl bg-slate-100/50 border border-black/5 text-slate-500 text-[10px] font-black uppercase tracking-widest">Protocol: 30-Day Window</div>
@@ -251,8 +251,8 @@ export default function AdminDashboard() {
                    <TrendingUp size={24} />
                 </div>
                 <div>
-                   <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">Sector Surge</div>
-                   <div className="text-lg font-black tracking-tighter">+248% Engagement</div>
+                   <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">Traffic Peak</div>
+                   <div className="text-lg font-black tracking-tighter">+248% Visitors</div>
                 </div>
              </div>
           </div>
@@ -271,7 +271,7 @@ export default function AdminDashboard() {
             </div>
             <div>
                <div className="text-7xl font-black text-[#0A1628] tracking-tighter mb-2 tabular-nums">{stats.totalCategories}</div>
-               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Asset Clusters</div>
+               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Product Categories</div>
             </div>
           </div>
         </motion.div>
@@ -284,9 +284,9 @@ export default function AdminDashboard() {
           className="md:col-span-4 bg-white rounded-[2.25rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
         >
            {[
-             { label: 'System Protocol', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Manage access layers' },
-             { label: 'Feature Stack', icon: Sparkles, color: 'text-amber-500', href: '/admin/categories', desc: 'Optimize asset taxonomy' },
-             { label: 'Global Registry', icon: Globe2, color: 'text-[#0D95F0]', href: '/admin/products', desc: 'Sync inventory core' },
+             { label: 'System Settings', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Configure platform' },
+             { label: 'Manage Categories', icon: Sparkles, color: 'text-amber-500', href: '/admin/categories', desc: 'Organize products' },
+             { label: 'Product Catalog', icon: Globe2, color: 'text-[#0D95F0]', href: '/admin/products', desc: 'Manage inventory' },
            ].map((action, i) => (
              <Link 
                key={i}
@@ -309,7 +309,7 @@ export default function AdminDashboard() {
         </motion.div>
       </div>
 
-      {/* Intelligence Stream Table */}
+      {/* Recent Inquiries Table */}
       <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
         <div className="absolute inset-0 bg-[#0D95F0]/[0.02] opacity-0 group-hover/table:opacity-100 transition-opacity pointer-events-none" />
         
@@ -319,12 +319,12 @@ export default function AdminDashboard() {
                  <div className="w-10 h-10 rounded-2xl bg-[#0A1628] text-white flex items-center justify-center shadow-xl">
                     <Activity size={20} />
                  </div>
-                 <h2 className="text-3xl font-black text-[#0A1628] tracking-tighter">Live Intelligence Stream</h2>
+                 <h2 className="text-3xl font-black text-[#0A1628] tracking-tighter">Recent Inquiries</h2>
               </div>
-              <p className="text-slate-400 text-base font-medium italic">High-frequency inbound signal telemetry from enterprise clusters.</p>
+              <p className="text-slate-400 text-base font-medium italic">Latest client messages, B2B connections, and quotation requests.</p>
            </div>
            <Link href="/admin/inquiries" className="px-10 py-5 bg-white border border-black/5 rounded-[2rem] text-xs font-black uppercase tracking-widest text-[#0A1628] hover:bg-[#0A1628] hover:text-white transition-all shadow-2xl shadow-black/5">
-              Initialize Full CRM
+              Open Inquiries Inbox
            </Link>
         </div>
         
@@ -332,10 +332,10 @@ export default function AdminDashboard() {
           <table className="w-full">
             <thead>
               <tr className="bg-slate-50/30 text-left border-b border-black/5">
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Partner Entity</th>
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Operational Priority</th>
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Temporal Delta</th>
-                <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Technical Core</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Date Received</th>
+                <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/5">
@@ -348,13 +348,13 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.name}</div>
-                        <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private Node'}</div>
+                        <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private'}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-12 py-10">
                      <SpatialBadge variant={inq.status === 'new' ? 'blue' : 'slate'} pulse={inq.status === 'new'}>
-                        {inq.status === 'new' ? 'Priority Alpha' : 'Signal Logged'}
+                        {inq.status === 'new' ? 'Action Required' : 'Inquiry Logged'}
                      </SpatialBadge>
                   </td>
                   <td className="px-12 py-10 text-sm font-black text-slate-400 tracking-tight uppercase">

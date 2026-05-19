@@ -115,10 +115,10 @@ export default function InquiriesPage() {
             <div className="w-12 h-12 rounded-[1.5rem] bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0] shadow-inner">
               <MessageSquare size={24} />
             </div>
-            <SpatialBadge variant="blue" pulse>Inbound Intelligence</SpatialBadge>
+            <SpatialBadge variant="blue" pulse>Client Relations</SpatialBadge>
           </div>
-          <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Partner Leads</h1>
-          <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Global lead intelligence and partner communication management.</p>
+          <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Client Inquiries</h1>
+          <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Global business inquiries and corporate communications.</p>
         </div>
       </div>
 
@@ -126,7 +126,7 @@ export default function InquiriesPage() {
         <div className="relative flex-1 max-w-xl group">
           <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
           <input 
-            type="text" placeholder="Search by partner identity or domain..." value={searchQuery}
+            type="text" placeholder="Search by client name, email, or company..." value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="relative w-full pl-16 pr-8 py-5 rounded-[2rem] border border-black/5 bg-white shadow-sm outline-none transition-all text-sm font-black tracking-tight placeholder:text-slate-300"
           />
@@ -137,8 +137,8 @@ export default function InquiriesPage() {
             value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)}
             className="bg-white border border-black/5 rounded-[2rem] pl-14 pr-10 py-4 text-sm font-black text-[#0A1628] uppercase tracking-widest focus:border-[#0D95F0] outline-none cursor-pointer min-w-[240px] appearance-none shadow-sm"
           >
-            <option value="all">All Intelligence</option>
-            <option value="new">Priority Alpha (New)</option>
+            <option value="all">All Inquiries</option>
+            <option value="new">Action Required (New)</option>
             <option value="read">Archived (Read)</option>
             <option value="contacted">In Discussion</option>
             <option value="replied">Followed Up</option>
@@ -152,10 +152,10 @@ export default function InquiriesPage() {
           <table className="w-full">
             <thead>
               <tr className="bg-slate-50/30 text-left border-b border-black/5">
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Intelligence Origin</th>
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Operational Status</th>
-                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Temporal Delta</th>
-                <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Mission Detail</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Date Received</th>
+                <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/5">
@@ -164,7 +164,7 @@ export default function InquiriesPage() {
                   <td colSpan={4} className="py-48 text-center">
                     <div className="flex flex-col items-center gap-6">
                       <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Decoding Signals...</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading Inquiries...</p>
                     </div>
                   </td>
                 </tr>
@@ -173,7 +173,7 @@ export default function InquiriesPage() {
                   <td colSpan={4} className="py-48 text-center bg-slate-50/30">
                     <div className="flex flex-col items-center gap-8 opacity-30">
                       <Activity size={80} className="text-slate-300" strokeWidth={1} />
-                      <p className="text-slate-500 font-black tracking-[0.2em] text-xl uppercase">No Signals Detected</p>
+                      <p className="text-slate-500 font-black tracking-[0.2em] text-xl uppercase">No Inquiries Found</p>
                     </div>
                   </td>
                 </tr>
@@ -195,7 +195,7 @@ export default function InquiriesPage() {
                         </div>
                         <div>
                           <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.name}</div>
-                          <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private Asset'}</div>
+                          <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private'}</div>
                         </div>
                       </div>
                     </td>
@@ -225,7 +225,7 @@ export default function InquiriesPage() {
         </div>
       </div>
 
-      <SpatialDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Intelligence Report" description="Detailed signal analysis and partner communication data.">
+      <SpatialDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Inquiry Details" description="Detailed view of client message and contact information.">
         {selectedInquiry && (
           <div className="space-y-12 py-8">
             <div className="p-10 bg-slate-950 text-white rounded-[1.75rem] relative overflow-hidden shadow-2xl">
@@ -236,25 +236,25 @@ export default function InquiriesPage() {
                     <Activity size={32} />
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Operational Protocol</div>
+                    <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Current Status</div>
                     <SpatialBadge variant={getStatusVariant(selectedInquiry.status) as any} pulse={selectedInquiry.status === 'new'}>
                       {selectedInquiry.status.toUpperCase()}
                     </SpatialBadge>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-1">Transition Status</div>
+                  <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-1">Update Status</div>
                   <select
                     value={selectedInquiry.status}
                     onChange={e => updateStatus(selectedInquiry.id, e.target.value)}
                     disabled={updating}
                     className="bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-xs font-black text-white outline-none focus:bg-white focus:text-[#0A1628] transition-all cursor-pointer min-w-[240px]"
                   >
-                    <option value="new">Priority Alpha (New)</option>
-                    <option value="read">Archive Signal (Read)</option>
-                    <option value="contacted">Initiate Comms (Contacted)</option>
-                    <option value="replied">Mission Update (Replied)</option>
-                    <option value="closed">Decommission (Closed)</option>
+                    <option value="new">Action Required (New)</option>
+                    <option value="read">Archived (Read)</option>
+                    <option value="contacted">In Discussion (Contacted)</option>
+                    <option value="replied">Followed Up (Replied)</option>
+                    <option value="closed">Closed Cases (Closed)</option>
                   </select>
                 </div>
               </div>
@@ -262,12 +262,12 @@ export default function InquiriesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: UserCircle, label: 'Asset Lead', value: selectedInquiry.name },
-                { icon: Mail, label: 'Comms Channel', value: selectedInquiry.email, link: `mailto:${selectedInquiry.email}` },
-                { icon: Phone, label: 'Direct Line', value: selectedInquiry.phone || 'N/A' },
-                { icon: Building2, label: 'Entity Identity', value: selectedInquiry.company || 'Direct Partner' },
-                { icon: Globe2, label: 'Geo-Origin', value: selectedInquiry.country || 'Global Core' },
-                { icon: Calendar, label: 'Signal Logged', value: formatDate(selectedInquiry.created_at) },
+                { icon: UserCircle, label: 'Contact Name', value: selectedInquiry.name },
+                { icon: Mail, label: 'Email Address', value: selectedInquiry.email, link: `mailto:${selectedInquiry.email}` },
+                { icon: Phone, label: 'Phone Number', value: selectedInquiry.phone || 'N/A' },
+                { icon: Building2, label: 'Company', value: selectedInquiry.company || 'N/A' },
+                { icon: Globe2, label: 'Country', value: selectedInquiry.country || 'N/A' },
+                { icon: Calendar, label: 'Date Received', value: formatDate(selectedInquiry.created_at) },
               ].map((item, i) => (
                 <div key={i} className="p-8 rounded-[1.5rem] bg-slate-50 border border-black/5 hover:bg-white hover:shadow-2xl group transition-all">
                   <div className="flex items-center gap-3 mb-4 text-slate-400 group-hover:text-[#0D95F0] transition-colors">
@@ -285,7 +285,7 @@ export default function InquiriesPage() {
 
             <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
               <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
-                {selectedInquiry.subject || 'Standard Mission Objective'}
+                {selectedInquiry.subject || 'General Inquiry'}
               </h3>
               <div className="h-px bg-black/5 w-24 mb-10" />
               <div className="text-lg leading-relaxed text-slate-500 font-medium italic">
@@ -296,14 +296,14 @@ export default function InquiriesPage() {
             <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex items-center gap-6">
                 <a href={`mailto:${selectedInquiry.email}`} className="flex items-center gap-3 px-8 py-5 bg-[#0A1628] text-white rounded-[2rem] font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20">
-                  <Send size={16} /> Dispatch Response
+                  <Send size={16} /> Reply via Email
                 </a>
               </div>
               <button
                 onClick={() => handleDelete(selectedInquiry.id)} disabled={updating}
                 className="flex items-center gap-3 px-8 py-5 rounded-[2rem] text-rose-500 hover:bg-rose-500 hover:text-white font-black text-xs uppercase tracking-widest transition-all border border-rose-500/10 active:scale-95"
               >
-                <Trash2 size={16} /> Purge Intelligence
+                <Trash2 size={16} /> Delete Inquiry
               </button>
             </div>
           </div>

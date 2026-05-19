@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronRight, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 
 interface Product {
@@ -978,11 +978,27 @@ export const productCategories: Category[] = [
 ];
 
 export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
+  const [categories, setCategories] = useState<Category[]>(productCategories);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeSubIndex, setActiveSubIndex] = useState(0);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<number | null>(0);
 
-  const activeCategory = productCategories[activeCategoryIndex];
+  useEffect(() => {
+    async function loadDynamicNav() {
+      try {
+        const res = await fetch("/api/products-nav");
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setCategories(json.data);
+        }
+      } catch (err) {
+        console.error("Dynamic navbar product tree fetch failure, using fallback:", err);
+      }
+    }
+    loadDynamicNav();
+  }, []);
+
+  const activeCategory = categories[activeCategoryIndex];
   const activeSub = activeCategory?.subcategories[activeSubIndex];
 
   const handleCategoryClick = (i: number) => {
@@ -1006,7 +1022,7 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
         style={{ maxHeight: "calc(100vh - 72px)" }}
       >
         <div className="py-2 divide-y divide-black/[0.04]">
-          {productCategories.map((cat, i) => (
+          {categories.map((cat, i) => (
             <div key={cat.name} className="flex flex-col">
               {/* Category */}
               <button
@@ -1046,14 +1062,10 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
                         </div>
                         <div className="pl-12 pr-6 py-2 grid grid-cols-1 gap-2">
                           {sub.products.map(prod => {
-                            const categorySlug = cat.href.split('/').pop();
-                            const subcategorySlug = sub.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-                            const productSlug = prod.href.split('/').pop();
-                            const dynamicHref = `/products/${categorySlug}/${subcategorySlug}/${productSlug}`;
                             return (
                               <Link 
                                 key={prod.name}
-                                href={dynamicHref}
+                                href={prod.href}
                                 onClick={() => onClose?.()}
                                 className="text-[11px] text-black/60 hover:text-blue-600 py-1.5 flex items-center"
                               >
@@ -1088,7 +1100,7 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
             <div className="px-5 py-2 mb-1">
               <span className="text-[10px] font-bold text-white/30 tracking-widest uppercase">Categories</span>
             </div>
-            {productCategories.map((cat, i) => {
+            {categories.map((cat, i) => {
               const isActive = activeCategoryIndex === i;
               return (
                 <button
@@ -1159,14 +1171,10 @@ export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
                   className="grid grid-cols-2 gap-6"
                 >
                   {activeSub.products.map(prod => {
-                    const categorySlug = activeCategory?.href.split('/').pop();
-                    const subcategorySlug = activeSub?.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-                    const productSlug = prod.href.split('/').pop();
-                    const dynamicHref = `/products/${categorySlug}/${subcategorySlug}/${productSlug}`;
                     return (
                       <Link
                         key={prod.name}
-                        href={dynamicHref}
+                        href={prod.href}
                         onClick={() => onClose?.()}
                         className="group block bg-white border border-slate-100 hover:border-blue-500/30 hover:shadow-lg transition-all duration-300 rounded-none-none"
                       >

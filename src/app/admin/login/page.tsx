@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-white relative overflow-hidden">
+    <div className="min-h-screen flex bg-white relative overflow-hidden corporate-sharp-theme">
       {/* Background Decor Layer */}
       <div className="absolute inset-0 bg-grid-black/[0.02] bg-[size:40px_40px] pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white via-slate-50 to-white opacity-80 pointer-events-none" />

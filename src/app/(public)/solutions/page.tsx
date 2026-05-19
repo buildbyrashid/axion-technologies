@@ -1,335 +1,117 @@
-"use client";
+import type { Metadata } from 'next';
+import { query } from '@/lib/db-helpers';
+import SolutionsClientContent from './SolutionsClientContent';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { 
-  Monitor, 
-  Layout, 
-  Zap, 
-  Music, 
-  Cpu, 
-  ArrowUpRight,
-  Building2,
-  Mic2,
-  Activity,
-  ShoppingBag,
-  History,
-  Tv,
-  Coffee,
-  Workflow,
-  Globe,
-  ShieldCheck
-} from 'lucide-react';
-import PageHero from '@/components/sections/PageHero';
-import SectionHeader from '@/components/ui/SectionHeader';
-import CTASection from '@/components/sections/CTASection';
-import { cn } from "@/lib/utils";
+export const dynamic = 'force-static';
 
-const technologies = [
-  {
-    title: "LED Display Systems",
-    desc: "Integrated display ecosystems engineered for modern enterprise environments.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80",
-    icon: Monitor,
-  },
-  {
-    title: "LCD & Interactive Kiosks",
-    desc: "Precision-engineered interactive touch solutions for high-traffic environments.",
-    image: "/images/solutions/kiosk.png",
-    icon: Layout,
-  },
-  {
-    title: "Professional Lighting",
-    desc: "Advanced architectural and stage lighting systems with centralized control integration.",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80",
-    icon: Zap,
-  },
-  {
-    title: "Professional Audio",
-    desc: "Acoustically engineered sound reinforcement for enterprise and venue infrastructure.",
-    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80",
-    icon: Music,
-  },
-  {
-    title: "Power & Connectivity",
-    desc: "Robust power distribution and high-bandwidth signal management ecosystems.",
-    image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&q=80",
-    icon: Cpu,
-  },
-];
+export const metadata: Metadata = {
+  title: 'Enterprise Solutions | Axion Technology',
+  description: 'Axion Technology engineers complete B2B visual ecosystems and AV infrastructure environments, moving beyond equipment to redefine professional spaces.',
+};
 
-const environments = [
-  {
-    title: "Corporate Visual Ecosystems",
-    subtitle: "Enterprise Environments",
-    desc: "Immersive collaboration environments engineered for modern enterprise communication and operational efficiency. We transform boardrooms into high-performance decision hubs.",
-    image: "/images/solutions/corporate-solutions.png",
-    size: "hero",
-    icon: Building2,
-  },
-  {
-    title: "Live Event Infrastructure",
-    subtitle: "Global Touring",
-    desc: "Cinematic visual infrastructure for world-class concerts and stadium-scale events.",
-    image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80",
-    size: "standard",
-    icon: Mic2,
-  },
-  {
-    title: "Command & Control Centers",
-    subtitle: "Critical Operations",
-    desc: "Mission-critical visualization systems for 24/7 monitoring and security operational environments.",
-    image: "/images/solutions/control-centers.png",
-    size: "standard",
-    icon: Activity,
-  },
-  {
-    title: "Retail & Digital Signage",
-    subtitle: "Experiential Retail",
-    desc: "Transforming customer journeys through immersive digital storytelling and interactive retail experiences.",
-    image: "/images/solutions/retail-experience.png",
-    size: "wide",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Museums & Experience Centers",
-    subtitle: "Immersive Storytelling",
-    desc: "Blending architectural design with interactive technology to create unforgettable narrative environments.",
-    image: "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80",
-    size: "standard",
-    icon: History,
-  },
-  {
-    title: "Broadcast & Studios",
-    subtitle: "Production Excellence",
-    desc: "High-specification studio displays and visual ecosystems for global broadcasting and content production.",
-    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80",
-    size: "standard",
-    icon: Tv,
-  },
-  {
-    title: "Hospitality & Entertainment",
-    subtitle: "Premium Guest Experiences",
-    desc: "Luxury visual integration for high-end hospitality venues, lounges, and entertainment complexes.",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80",
-    size: "standard",
-    icon: Coffee,
-  },
-];
+async function getSolutionsData() {
+  try {
+    const rows = await query<any[]>('SELECT * FROM solutions_page WHERE is_active = 1 LIMIT 1');
+    return rows[0] || null;
+  } catch (error) {
+    console.error("Error fetching solutions page database content:", error);
+    return null;
+  }
+}
 
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const dbData = await getSolutionsData();
+
+  // Fallbacks corresponding to original high-fidelity content
+  const heroBadge = dbData?.hero_badge || "Enterprise Solutions";
+  const heroTitle = dbData?.hero_title || "Engineering Integrated Visual Ecosystems";
+  const heroSubtitle = dbData?.hero_subtitle || "Moving beyond equipment to engineer complete visual environments that redefine professional infrastructure.";
+  const heroImage = dbData?.hero_image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80";
+
+  const techBadge = dbData?.tech_badge || "Technical Foundations";
+  const techTitle = dbData?.tech_title || "Integrated Engineering Technologies";
+  const techSubtitle = dbData?.tech_subtitle || "Core engineering systems that power our advanced visual infrastructure.";
+
+  // Individual Technical Foundations card Titles & Images
+  const techTitle1 = dbData?.tech_title_1 || "LED Display Systems";
+  const techImg1 = dbData?.tech_img_1 || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80";
+  
+  const techTitle2 = dbData?.tech_title_2 || "LCD & Interactive Kiosks";
+  const techImg2 = dbData?.tech_img_2 || "/images/solutions/kiosk.png";
+  
+  const techTitle3 = dbData?.tech_title_3 || "Professional Lighting";
+  const techImg3 = dbData?.tech_img_3 || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80";
+  
+  const techTitle4 = dbData?.tech_title_4 || "Professional Audio";
+  const techImg4 = dbData?.tech_img_4 || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80";
+  
+  const techTitle5 = dbData?.tech_title_5 || "Power & Connectivity";
+  const techImg5 = dbData?.tech_img_5 || "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&q=80";
+
+  const envBadge = dbData?.env_badge || "Environments";
+  const envTitle = dbData?.env_title || "Solutions Built for Real Environments";
+  const envSubtitle = dbData?.env_subtitle || "We don't just sell products; we transform physical spaces through cinematic visual engineering.";
+
+  // Individual Environments card Titles & Images
+  const envTitle1 = dbData?.env_title_1 || "Corporate Visual Ecosystems";
+  const envImg1 = dbData?.env_img_1 || "/images/solutions/corporate-solutions.png";
+  
+  const envTitle2 = dbData?.env_title_2 || "Live Event Infrastructure";
+  const envImg2 = dbData?.env_img_2 || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80";
+  
+  const envTitle3 = dbData?.env_title_3 || "Command & Control Centers";
+  const envImg3 = dbData?.env_img_3 || "/images/solutions/control-centers.png";
+  
+  const envTitle4 = dbData?.env_title_4 || "Retail & Digital Signage";
+  const envImg4 = dbData?.env_img_4 || "/images/solutions/retail-experience.png";
+  
+  const envTitle5 = dbData?.env_title_5 || "Museums & Experience Centers";
+  const envImg5 = dbData?.env_img_5 || "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80";
+  
+  const envTitle6 = dbData?.env_title_6 || "Broadcast & Studios";
+  const envImg6 = dbData?.env_img_6 || "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80";
+  
+  const envTitle7 = dbData?.env_title_7 || "Hospitality & Entertainment";
+  const envImg7 = dbData?.env_img_7 || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80";
+
   return (
     <main className="bg-white">
-      <PageHero
-        title="Engineering Integrated Visual Ecosystems"
-        subtitle="Moving beyond equipment to engineer complete visual environments that redefine professional infrastructure."
-        badge="Enterprise Solutions"
-        backgroundImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80"
+      <SolutionsClientContent
+        heroTitle={heroTitle}
+        heroSubtitle={heroSubtitle}
+        heroBadge={heroBadge}
+        heroImage={heroImage}
+        techBadge={techBadge}
+        techTitle={techTitle}
+        techSubtitle={techSubtitle}
+        techTitle1={techTitle1}
+        techImg1={techImg1}
+        techTitle2={techTitle2}
+        techImg2={techImg2}
+        techTitle3={techTitle3}
+        techImg3={techImg3}
+        techTitle4={techTitle4}
+        techImg4={techImg4}
+        techTitle5={techTitle5}
+        techImg5={techImg5}
+        envBadge={envBadge}
+        envTitle={envTitle}
+        envSubtitle={envSubtitle}
+        envTitle1={envTitle1}
+        envImg1={envImg1}
+        envTitle2={envTitle2}
+        envImg2={envImg2}
+        envTitle3={envTitle3}
+        envImg3={envImg3}
+        envTitle4={envTitle4}
+        envImg4={envImg4}
+        envTitle5={envTitle5}
+        envImg5={envImg5}
+        envTitle6={envTitle6}
+        envImg6={envImg6}
+        envTitle7={envTitle7}
+        envImg7={envImg7}
       />
-
-      {/* SECTION 1 - Integrated Engineering Technologies */}
-      <section className="section-padding bg-slate-50/50">
-        <div className="container-custom">
-          <SectionHeader
-            badge="Technical Foundations"
-            title="Integrated Engineering Technologies"
-            subtitle="Core engineering systems that power our advanced visual infrastructure."
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            {technologies.map((tech, idx) => (
-              <motion.div
-                key={tech.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                className={cn(
-                  "group relative overflow-hidden bg-white border border-slate-100 p-8 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-700",
-                  idx === 0 ? "lg:col-span-2" : ""
-                )}
-              >
-                <div className="flex flex-col h-full">
-                  <div className="relative h-64 mb-8 overflow-hidden">
-                    <Image
-                      src={tech.image}
-                      alt={tech.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
-                  </div>
-                  
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-slate-50 text-accent">
-                          <tech.icon size={20} />
-                        </div>
-                        <h3 className="text-xl font-bold text-primary">{tech.title}</h3>
-                      </div>
-                      <p className="text-slate-500 leading-relaxed text-sm max-w-md">
-                        {tech.desc}
-                      </p>
-                    </div>
-                    <div className="h-10 w-10 border border-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                      <ArrowUpRight size={20} />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 2 - Real Solutions / Environments */}
-      <section className="section-padding bg-white overflow-hidden">
-        <div className="container-custom">
-          <SectionHeader
-            badge="Environments"
-            title="Solutions Built for Real Environments"
-            subtitle="We don't just sell products; we transform physical spaces through cinematic visual engineering."
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-            {environments.map((env, idx) => {
-              const isHero = env.size === "hero";
-              const isWide = env.size === "wide";
-              
-              return (
-                <motion.div
-                  key={env.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  className={cn(
-                    "group relative min-h-[450px] overflow-hidden bg-primary",
-                    isHero ? "md:col-span-12 lg:col-span-8 lg:row-span-2" : 
-                    isWide ? "md:col-span-12" : "md:col-span-6 lg:col-span-4"
-                  )}
-                >
-                  {/* Background Image with Cinematic Overlay */}
-                  <Image
-                    src={env.image}
-                    alt={env.title}
-                    fill
-                    className="object-cover opacity-80 transition-transform duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  {/* Content */}
-                  <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <span className="px-3 py-1 bg-accent/20 backdrop-blur-md border border-accent/30 text-accent text-[10px] font-bold uppercase tracking-widest">
-                          {env.subtitle}
-                        </span>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <h3 className={cn(
-                          "font-bold text-white leading-tight",
-                          isHero ? "text-4xl" : "text-2xl"
-                        )}>
-                          {env.title}
-                        </h3>
-                        <p className={cn(
-                          "text-slate-300 leading-relaxed max-w-xl transition-all duration-500",
-                          isHero ? "text-lg" : "text-sm group-hover:text-white"
-                        )}>
-                          {env.desc}
-                        </p>
-                      </div>
-
-                      <div className="pt-4 flex items-center gap-4">
-                        <button className="flex items-center gap-2 text-white font-bold text-sm group/btn">
-                          <span>Explore Solution</span>
-                          <div className="h-8 w-8 bg-white/10 backdrop-blur-md flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:scale-110 transition-all duration-300">
-                            <ArrowUpRight size={16} />
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Decorative Icon */}
-                  <div className="absolute top-10 right-10 p-4 bg-white/5 backdrop-blur-md border border-white/10 text-white/50 group-hover:text-accent group-hover:bg-white/10 transition-all duration-500">
-                    <env.icon size={24} />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Global Capability / Engineering Value Section */}
-      <section className="section-padding bg-slate-950 text-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <span className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block">Engineering Excellence</span>
-              <h2 className="text-4xl lg:text-5xl font-extrabold mb-8 leading-tight text-white">
-                From Engineering Concept to Global Deployment
-              </h2>
-              <div className="space-y-8">
-                {[
-                  {
-                    title: "System Integration",
-                    desc: "We don't just supply hardware; we engineer entire ecosystems that integrate seamlessly with your existing infrastructure.",
-                    icon: Workflow
-                  },
-                  {
-                    title: "Deployment Logistics",
-                    desc: "Coordinated global supply chains ensuring timely delivery and precision installation in even the most complex environments.",
-                    icon: Globe
-                  },
-                  {
-                    title: "Performance Validation",
-                    desc: "Rigorous testing protocols that ensure every installation meets international enterprise standards for reliability.",
-                    icon: ShieldCheck
-                  }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-6">
-                    <div className="h-12 w-12 shrink-0 bg-primary flex items-center justify-center border border-white/10">
-                      <item.icon className="text-accent h-6 w-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold mb-2 text-white">{item.title}</h4>
-                      <p className="text-slate-400 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative aspect-square overflow-hidden border border-white/10"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80"
-                alt="Engineering Excellence"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <CTASection />
     </main>
   );
 }

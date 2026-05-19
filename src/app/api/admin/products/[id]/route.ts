@@ -43,20 +43,20 @@ export async function PUT(
     const { id } = await params
     const body = await request.json()
     const {
-      name, slug, category_id, short_description, full_description,
+      name, slug, category_id, subcategory_id, short_description, full_description,
       is_active, is_featured, featured_image,
       gallery, specifications, features, accessories, applications, downloads,
     } = body
 
     await query(
       `UPDATE products SET
-        name = ?, slug = ?, category_id = ?, short_description = ?, full_description = ?,
+        name = ?, slug = ?, category_id = ?, subcategory_id = ?, short_description = ?, full_description = ?,
         is_active = ?, is_featured = ?, featured_image = ?,
         gallery = ?, specifications = ?, features = ?, accessories = ?, applications = ?, downloads = ?,
         updated_at = NOW()
        WHERE id = ?`,
       [
-        name, slug, category_id || null, short_description || null, full_description || null,
+        name, slug, category_id || null, subcategory_id || null, short_description || null, full_description || null,
         is_active ? 1 : 0, is_featured ? 1 : 0, featured_image || null,
         gallery ? JSON.stringify(gallery) : null,
         specifications ? JSON.stringify(specifications) : null,

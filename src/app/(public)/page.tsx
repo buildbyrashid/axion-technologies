@@ -3,6 +3,9 @@ import HeroSection from "@/components/sections/HeroSection";
 import ProductsSection from "@/components/sections/ProductsSection";
 import ExpertiseSection from "@/components/sections/ExpertiseSection";
 import CTASection from "@/components/sections/CTASection";
+import { query } from "@/lib/db-helpers";
+
+export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   title: "Axion Technology | Enterprise Visual Hardware & Systems Engineering",
@@ -26,13 +29,32 @@ export const metadata: Metadata = {
   }
 };
 
-export default function Home() {
+async function getHomepageData() {
+  try {
+    const heroRows = await query<any[]>('SELECT * FROM homepage_hero WHERE is_active = 1 LIMIT 1');
+    const expertiseRows = await query<any[]>('SELECT * FROM homepage_expertise LIMIT 1');
+    const ctaRows = await query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1');
+
+    return {
+      hero: heroRows[0] || null,
+      expertise: expertiseRows[0] || null,
+      cta: ctaRows[0] || null
+    };
+  } catch (error) {
+    console.error("Error fetching homepage data:", error);
+    return { hero: null, expertise: null, cta: null };
+  }
+}
+
+export default async function Home() {
+  const data = await getHomepageData();
+
   return (
     <>
-      <HeroSection />
+      <HeroSection data={data.hero} />
       <ProductsSection />
-      <ExpertiseSection />
-      <CTASection />
+      <ExpertiseSection data={data.expertise} />
+      <CTASection data={data.cta} />
     </>
   );
 }

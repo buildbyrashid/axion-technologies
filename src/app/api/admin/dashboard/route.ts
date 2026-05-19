@@ -10,7 +10,7 @@ export async function GET() {
       query<any[]>('SELECT COUNT(*) as count FROM inquiries WHERE status = ?', ['new']),
       query<any[]>('SELECT COUNT(*) as count FROM products WHERE is_active = 1'),
       query<any[]>(
-        'SELECT id, name, company, email, status, created_at, country FROM inquiries ORDER BY created_at DESC LIMIT 8'
+        'SELECT id, name, company, email, status, created_at, country, source FROM inquiries ORDER BY created_at DESC LIMIT 8'
       ),
     ])
 
