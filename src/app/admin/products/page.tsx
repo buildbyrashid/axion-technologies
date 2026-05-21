@@ -27,6 +27,7 @@ interface Product {
 interface Category {
   id: string
   name: string
+  parent_id?: string
 }
 
 export default function ProductsPage() {
@@ -95,8 +96,7 @@ export default function ProductsPage() {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           p.slug.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesCategory = selectedCategory === 'all' || 
-                            p.category_id === selectedCategory || 
-                            p.subcategory_id === selectedCategory
+                            p.category_id === selectedCategory
     return matchesSearch && matchesCategory
   })
 

@@ -10,7 +10,6 @@ import {
   Package,
   FolderTree,
   MessageSquare,
-  Settings,
   FileText,
   Globe2,
   Building2,
@@ -58,7 +57,6 @@ const navSections = [
     title: 'Operations',
     items: [
       { name: 'Inquiries', href: '/admin/inquiries', icon: MessageSquare },
-      { name: 'Settings', href: '/admin/settings', icon: Settings },
     ],
   },
 ]

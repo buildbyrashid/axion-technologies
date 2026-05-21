@@ -14,8 +14,10 @@ import SpatialBadge from '@/components/ui/SpatialBadge'
 interface DashboardStats {
   totalProducts: number
   totalCategories: number
-  totalInquiries: number
-  newInquiries: number
+  totalQuotes: number
+  newQuotes: number
+  totalContacts: number
+  newContacts: number
   activeProducts: number
 }
 
@@ -27,11 +29,18 @@ interface RecentInquiry {
   status: string
   created_at: string
   country: string
+  source: string
 }
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats>({
-    totalProducts: 0, totalCategories: 0, totalInquiries: 0, newInquiries: 0, activeProducts: 0
+    totalProducts: 0,
+    totalCategories: 0,
+    totalQuotes: 0,
+    newQuotes: 0,
+    totalContacts: 0,
+    newContacts: 0,
+    activeProducts: 0
   })
   const [recentInquiries, setRecentInquiries] = useState<RecentInquiry[]>([])
   const [loading, setLoading] = useState(true)
@@ -112,82 +121,69 @@ export default function AdminDashboard() {
 
       {/* Main Telemetry Grid */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
-        {/* Metric: Inquiries */}
+        
+        {/* Metric: B2B Active Quotes */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="md:col-span-4 bg-slate-950 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
+          className="md:col-span-3 bg-slate-950 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
         >
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1500ms]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1500ms]" />
           
-          <div className="relative z-10 h-full flex flex-col lg:flex-row gap-16">
-             <div className="flex-1 space-y-10">
-                <div className="flex items-center gap-4">
-                   <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
-                      <MessageSquare size={28} />
-                   </div>
-                   <div>
-                      <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-1.5">Client Relations</div>
-                      <SpatialBadge variant="blue" pulse>Action Required</SpatialBadge>
-                   </div>
+          <div className="relative z-10 h-full flex flex-col justify-between space-y-10">
+             <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
+                   <TrendingUp size={28} />
                 </div>
                 <div>
-                   <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newInquiries}</div>
-                   <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Inquiries</div>
-                </div>
-                <Link href="/admin/inquiries" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
-                   View All Inquiries <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
-                </Link>
-             </div>
-             
-             {/* Telemetry Viz */}
-             <div className="w-full lg:w-72 h-full flex flex-col justify-end pt-12 space-y-6">
-                <div className="flex items-end gap-2.5 h-40">
-                   {[40, 75, 50, 95, 60, 85, 100].map((h, i) => (
-                     <motion.div 
-                        key={i}
-                        initial={{ height: 0 }}
-                        animate={{ height: `${h}%` }}
-                        transition={{ delay: 0.6 + i * 0.1, duration: 1.2, type: 'spring', stiffness: 100 }}
-                        className="flex-1 bg-white/5 rounded-t-xl group-hover:bg-[#0D95F0]/30 transition-all duration-700 relative overflow-hidden"
-                     >
-                        <div className="absolute top-0 left-0 w-full h-1 bg-white/10" />
-                     </motion.div>
-                   ))}
-                </div>
-                <div className="flex justify-between items-center px-2">
-                   <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Weekly Lead Activity</div>
-                   <div className="text-[10px] font-black text-emerald-400">+12%</div>
+                   <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-1.5">B2B Opportunities</div>
+                   <SpatialBadge variant="amber" pulse={stats.newQuotes > 0}>Action Required</SpatialBadge>
                 </div>
              </div>
+             <div>
+                <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newQuotes}</div>
+                <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Quotes ({stats.totalQuotes} Total)</div>
+             </div>
+             <Link href="/admin/inquiries?type=quotes" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
+                Manage B2B Deals <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
+             </Link>
           </div>
         </motion.div>
 
-        {/* Metric: Asset Repository */}
+        {/* Metric: General Contacts */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="md:col-span-2 bg-white rounded-[2.25rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+          className="md:col-span-3 bg-slate-900 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
         >
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1000ms]" />
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="w-16 h-16 rounded-[2rem] bg-blue-50 text-[#0D95F0] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
-              <Box size={28} />
-            </div>
-            <div>
-               <div className="text-7xl font-black text-[#0A1628] tracking-tighter mb-2 tabular-nums">{stats.totalProducts}</div>
-               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Total Products</div>
-            </div>
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-slate-500/10 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-slate-500/20 transition-colors duration-[1500ms]" />
+          
+          <div className="relative z-10 h-full flex flex-col justify-between space-y-10">
+             <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center text-slate-300 shadow-2xl">
+                   <MessageSquare size={28} />
+                </div>
+                <div>
+                   <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-1.5">General Contacts</div>
+                   <SpatialBadge variant="blue" pulse={stats.newContacts > 0}>Inbox Logged</SpatialBadge>
+                </div>
+             </div>
+             <div>
+                <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newContacts}</div>
+                <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Messages ({stats.totalContacts} Total)</div>
+             </div>
+             <Link href="/admin/inquiries?type=contacts" className="inline-flex items-center gap-4 px-8 py-4 bg-white/10 text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
+                Open Contacts Inbox <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
+             </Link>
           </div>
         </motion.div>
 
-        {/* Performance Architecture Chart */}
+        {/* Website Engagement Chart */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="md:col-span-6 bg-white rounded-[2.5rem] p-16 border border-black/5 relative overflow-hidden group shadow-sm"
+          transition={{ delay: 0.2 }}
+          className="md:col-span-4 bg-white rounded-[2.5rem] p-16 border border-black/5 relative overflow-hidden group shadow-sm"
         >
           <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-slate-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
           
@@ -196,28 +192,18 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-3">
                  <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
                     <BarChart3 size={18} />
-                 </div>
-                 <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">Analytics Overview</span>
+                  </div>
+                  <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">Analytics Overview</span>
               </div>
               <h2 className="text-4xl font-black text-[#0A1628] tracking-tighter">Website Engagement</h2>
               <p className="text-slate-500 text-lg font-medium max-w-xl italic leading-relaxed">Website traffic and visitor engagement behavior.</p>
             </div>
             <div className="flex items-center gap-6">
                <div className="px-6 py-3 rounded-2xl bg-slate-100/50 border border-black/5 text-slate-500 text-[10px] font-black uppercase tracking-widest">Protocol: 30-Day Window</div>
-               <div className="flex -space-x-4">
-                  {[1,2,3,4,5].map(i => (
-                    <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 shadow-xl overflow-hidden relative">
-                       <div className="absolute inset-0 bg-gradient-to-br from-slate-300 to-slate-400" />
-                    </div>
-                  ))}
-                  <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-950 flex items-center justify-center text-white text-[10px] font-black z-10">
-                     +28
-                  </div>
-               </div>
             </div>
           </div>
 
-          <div className="relative h-[400px] w-full z-10 bg-slate-50/30 rounded-[1.75rem] p-8 border border-black/[0.03]">
+          <div className="relative h-[250px] w-full z-10 bg-slate-50/30 rounded-[1.75rem] p-8 border border-black/[0.03]">
              <svg viewBox="0 0 1000 250" className="w-full h-full preserve-3d">
                 <defs>
                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
@@ -244,44 +230,56 @@ export default function AdminDashboard() {
                   fill="url(#chartGlow)"
                 />
              </svg>
-             
-             {/* Spotlight HUD */}
-             <div className="absolute top-12 left-[35%] -translate-x-1/2 p-6 bg-slate-950 text-white rounded-[1.25rem] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-90 group-hover:scale-100 flex items-center gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#0D95F0]">
-                   <TrendingUp size={24} />
-                </div>
-                <div>
-                   <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-1">Traffic Peak</div>
-                   <div className="text-lg font-black tracking-tighter">+248% Visitors</div>
-                </div>
-             </div>
           </div>
         </motion.div>
 
-        {/* Categories Metric */}
+        {/* Metric Stack: Asset Repository & Categories */}
+        <div className="md:col-span-2 flex flex-col gap-8 justify-between">
+           {/* Card A: Product Assets */}
+           <motion.div
+             initial={{ opacity: 0, scale: 0.95 }}
+             animate={{ opacity: 1, scale: 1 }}
+             transition={{ delay: 0.3 }}
+             className="flex-1 bg-white rounded-[2.25rem] p-10 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+           >
+             <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1000ms]" />
+             <div className="relative z-10 flex flex-col h-full justify-between">
+               <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0D95F0] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
+                 <Box size={24} />
+               </div>
+               <div>
+                  <div className="text-6xl font-black text-[#0A1628] tracking-tighter mb-1 tabular-nums">{stats.totalProducts}</div>
+                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Total Products</div>
+               </div>
+             </div>
+           </motion.div>
+
+           {/* Card B: Categories */}
+           <motion.div
+             initial={{ opacity: 0, scale: 0.95 }}
+             animate={{ opacity: 1, scale: 1 }}
+             transition={{ delay: 0.4 }}
+             className="flex-1 bg-white rounded-[2.25rem] p-10 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+           >
+             <div className="absolute -top-24 -right-24 w-64 h-64 bg-violet-500/5 rounded-full blur-[80px] group-hover:bg-violet-500/10 transition-colors duration-[1000ms]" />
+             <div className="relative z-10 flex flex-col h-full justify-between">
+               <div className="w-14 h-14 rounded-2xl bg-violet-50 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
+                 <FolderTree size={24} />
+               </div>
+               <div>
+                  <div className="text-6xl font-black text-[#0A1628] tracking-tighter mb-1 tabular-nums">{stats.totalCategories}</div>
+                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Product Categories</div>
+               </div>
+             </div>
+           </motion.div>
+        </div>
+
+        {/* Quick Operations Portal (Full Width horizontal alignment) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="md:col-span-2 bg-white rounded-[2.25rem] p-12 border border-black/5 relative overflow-hidden group shadow-sm"
-        >
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="w-16 h-16 rounded-[2rem] bg-violet-50 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-700">
-              <FolderTree size={28} />
-            </div>
-            <div>
-               <div className="text-7xl font-black text-[#0A1628] tracking-tighter mb-2 tabular-nums">{stats.totalCategories}</div>
-               <div className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Product Categories</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Quick Operations Portal */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6 }}
-          className="md:col-span-4 bg-white rounded-[2.25rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
+          className="md:col-span-6 bg-white rounded-[2.25rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
         >
            {[
              { label: 'System Settings', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Configure platform' },
@@ -333,6 +331,7 @@ export default function AdminDashboard() {
             <thead>
               <tr className="bg-slate-50/30 text-left border-b border-black/5">
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Classification</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Date Received</th>
                 <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Action</th>
@@ -353,6 +352,13 @@ export default function AdminDashboard() {
                     </div>
                   </td>
                   <td className="px-12 py-10">
+                     {inq.source === 'quote_form' ? (
+                       <SpatialBadge variant="amber">B2B Quote</SpatialBadge>
+                     ) : (
+                       <SpatialBadge variant="blue">General</SpatialBadge>
+                     )}
+                  </td>
+                  <td className="px-12 py-10">
                      <SpatialBadge variant={inq.status === 'new' ? 'blue' : 'slate'} pulse={inq.status === 'new'}>
                         {inq.status === 'new' ? 'Action Required' : 'Inquiry Logged'}
                      </SpatialBadge>
@@ -361,9 +367,9 @@ export default function AdminDashboard() {
                     {timeAgo(inq.created_at)}
                   </td>
                   <td className="px-12 py-10 text-right">
-                    <button className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 group-hover:bg-[#0D95F0] group-hover:text-white transition-all shadow-xl group-hover:shadow-[#0D95F0]/20 active:scale-90">
+                    <Link href={`/admin/inquiries?id=${inq.id}`} className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 hover:bg-[#0D95F0] hover:text-white transition-all shadow-xl hover:shadow-[#0D95F0]/20 active:scale-90 inline-flex">
                        <ArrowUpRight size={20} />
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -374,3 +380,4 @@ export default function AdminDashboard() {
     </div>
   )
 }
+

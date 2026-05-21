@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { 
   MessageSquare, Search, Trash2, Mail, Building2, Globe2, Calendar,
   ArrowUpRight, Phone, Loader2, X, Star, Activity, UserCircle, Zap,
@@ -23,18 +24,70 @@ interface Inquiry {
   message: string
   status: 'new' | 'contacted' | 'read' | 'replied' | 'closed' | 'archived'
   created_at: string
+  source?: string
 }
 
-export default function InquiriesPage() {
+interface QuotePayload {
+  projectStatus?: string
+  width?: string
+  height?: string
+  uncertainSize?: boolean
+  installationMethod?: string
+  solutionType?: string
+  requirements?: string
+}
+
+function parseQuotePayload(message: string): QuotePayload | null {
+  try {
+    const parsed = JSON.parse(message)
+    if (parsed && (parsed.solutionType || parsed.projectStatus || parsed.installationMethod)) {
+      return parsed as QuotePayload
+    }
+  } catch {
+    // Gracefully catch JSON parsing errors for general contacts
+  }
+  return null
+}
+
+function InquiriesPageContent() {
+  const searchParams = useSearchParams()
+  const typeParam = searchParams.get('type') // 'quotes' or 'contacts'
+  const idParam = searchParams.get('id') // Deep-linked Inquiry ID
+
   const [inquiries, setInquiries] = useState<Inquiry[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
+  const [selectedType, setSelectedType] = useState<'all' | 'quotes' | 'contacts'>('all')
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [updating, setUpdating] = useState(false)
 
-  useEffect(() => { fetchInquiries() }, [])
+  useEffect(() => {
+    fetchInquiries()
+  }, [])
+
+  // Synchronize state with URL search parameters
+  useEffect(() => {
+    if (typeParam === 'quotes') {
+      setSelectedType('quotes')
+    } else if (typeParam === 'contacts') {
+      setSelectedType('contacts')
+    }
+  }, [typeParam])
+
+  useEffect(() => {
+    if (idParam && inquiries.length > 0) {
+      const target = inquiries.find(inq => inq.id === idParam)
+      if (target) {
+        setSelectedInquiry(target)
+        setIsDrawerOpen(true)
+        if (target.status === 'new') {
+          updateStatus(target.id, 'read')
+        }
+      }
+    }
+  }, [idParam, inquiries])
 
   async function fetchInquiries() {
     setLoading(true)
@@ -51,18 +104,22 @@ export default function InquiriesPage() {
 
   async function updateStatus(id: string, status: string) {
     setUpdating(true)
-    const res = await fetch(`/api/admin/inquiries/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    })
-    const json = await res.json()
-    if (json.success) {
-      setInquiries(inquiries.map(inq => inq.id === id ? { ...inq, status: status as any } : inq))
-      if (selectedInquiry?.id === id) setSelectedInquiry({ ...selectedInquiry, status: status as any })
-      toast.success(`Inquiry marked as ${status}`)
-    } else {
-      toast.error('Failed to update status')
+    try {
+      const res = await fetch(`/api/admin/inquiries/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
+      const json = await res.json()
+      if (json.success) {
+        setInquiries(prev => prev.map(inq => inq.id === id ? { ...inq, status: status as any } : inq))
+        setSelectedInquiry(prev => prev && prev.id === id ? { ...prev, status: status as any } : prev)
+        toast.success(`Inquiry marked as ${status}`)
+      } else {
+        toast.error('Failed to update status')
+      }
+    } catch {
+      toast.error('Status update failed')
     }
     setUpdating(false)
   }
@@ -70,14 +127,18 @@ export default function InquiriesPage() {
   async function handleDelete(id: string) {
     if (!confirm('Delete this inquiry permanently?')) return
     setUpdating(true)
-    const res = await fetch(`/api/admin/inquiries/${id}`, { method: 'DELETE' })
-    const json = await res.json()
-    if (json.success) {
-      setInquiries(inquiries.filter(inq => inq.id !== id))
-      toast.success('Inquiry deleted')
-      setIsDrawerOpen(false)
-    } else {
-      toast.error('Delete failed')
+    try {
+      const res = await fetch(`/api/admin/inquiries/${id}`, { method: 'DELETE' })
+      const json = await res.json()
+      if (json.success) {
+        setInquiries(prev => prev.filter(inq => inq.id !== id))
+        toast.success('Inquiry deleted')
+        setIsDrawerOpen(false)
+      } else {
+        toast.error('Delete failed')
+      }
+    } catch {
+      toast.error('Delete connection error')
     }
     setUpdating(false)
   }
@@ -87,8 +148,15 @@ export default function InquiriesPage() {
       inq.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       inq.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (inq.company?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+    
     const matchesStatus = selectedStatus === 'all' || inq.status === selectedStatus
-    return matchesSearch && matchesStatus
+    
+    const matchesType =
+      selectedType === 'all' ||
+      (selectedType === 'quotes' && inq.source === 'quote_form') ||
+      (selectedType === 'contacts' && inq.source !== 'quote_form')
+
+    return matchesSearch && matchesStatus && matchesType
   })
 
   function formatDate(dateStr: string) {
@@ -107,8 +175,11 @@ export default function InquiriesPage() {
     }
   }
 
+  const quoteData = selectedInquiry ? parseQuotePayload(selectedInquiry.message) : null
+
   return (
     <div className="space-y-12 pb-24">
+      {/* Header block */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-10">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
@@ -122,6 +193,48 @@ export default function InquiriesPage() {
         </div>
       </div>
 
+      {/* Symmetrical Segmented Toggle Tabs */}
+      <div className="flex items-center p-1.5 bg-slate-100/80 backdrop-blur-md rounded-[2rem] max-w-2xl border border-black/[0.03] shadow-inner relative z-10">
+        {[
+          { id: 'all', label: 'All Inquiries', count: inquiries.length },
+          { id: 'quotes', label: 'B2B Quotations', count: inquiries.filter(i => i.source === 'quote_form').length },
+          { id: 'contacts', label: 'General Contacts', count: inquiries.filter(i => i.source !== 'quote_form').length }
+        ].map((tab) => {
+          const isActive = selectedType === tab.id
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedType(tab.id as any)}
+              className={cn(
+                "relative flex-1 py-4 px-6 rounded-[1.75rem] text-xs font-black uppercase tracking-widest text-center transition-all duration-300 flex items-center justify-center gap-2",
+                isActive ? "text-white" : "text-slate-500 hover:text-slate-900"
+              )}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeTabGlow"
+                  className={cn(
+                    "absolute inset-0 rounded-[1.75rem] shadow-lg shadow-black/[0.05]",
+                    tab.id === 'quotes' ? "bg-amber-500 shadow-amber-500/20" :
+                    tab.id === 'contacts' ? "bg-[#0D95F0] shadow-blue-500/20" :
+                    "bg-[#0A1628]"
+                  )}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+              <span className={cn(
+                "relative z-10 px-2 py-0.5 rounded-lg text-[9px] font-black transition-all",
+                isActive ? "bg-white/20 text-white" : "bg-slate-200/60 text-slate-500"
+              )}>
+                {tab.count}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Filter and Search Block */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[1.75rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
         <div className="relative flex-1 max-w-xl group">
           <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
@@ -147,12 +260,14 @@ export default function InquiriesPage() {
         </div>
       </div>
 
+      {/* Inquiries Table */}
       <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="bg-slate-50/30 text-left border-b border-black/5">
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
+                <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Classification</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Date Received</th>
                 <th className="px-12 py-8 text-right text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Action</th>
@@ -161,7 +276,7 @@ export default function InquiriesPage() {
             <tbody className="divide-y divide-black/5">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="py-48 text-center">
+                  <td colSpan={5} className="py-48 text-center">
                     <div className="flex flex-col items-center gap-6">
                       <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
                       <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading Inquiries...</p>
@@ -170,7 +285,7 @@ export default function InquiriesPage() {
                 </tr>
               ) : filteredInquiries.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-48 text-center bg-slate-50/30">
+                  <td colSpan={5} className="py-48 text-center bg-slate-50/30">
                     <div className="flex flex-col items-center gap-8 opacity-30">
                       <Activity size={80} className="text-slate-300" strokeWidth={1} />
                       <p className="text-slate-500 font-black tracking-[0.2em] text-xl uppercase">No Inquiries Found</p>
@@ -200,6 +315,13 @@ export default function InquiriesPage() {
                       </div>
                     </td>
                     <td className="px-12 py-10">
+                      {inq.source === 'quote_form' ? (
+                        <SpatialBadge variant="amber">B2B Quote</SpatialBadge>
+                      ) : (
+                        <SpatialBadge variant="blue">General</SpatialBadge>
+                      )}
+                    </td>
+                    <td className="px-12 py-10">
                       <div className="flex items-center gap-4">
                         <SpatialBadge variant={getStatusVariant(inq.status) as any} pulse={inq.status === 'new'}>
                           {inq.status}
@@ -213,7 +335,7 @@ export default function InquiriesPage() {
                     </td>
                     <td className="px-12 py-10 text-sm font-black text-slate-400 tracking-tight uppercase">{formatDate(inq.created_at)}</td>
                     <td className="px-12 py-10 text-right">
-                      <button className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 group-hover:bg-[#0D95F0] group-hover:text-white transition-all shadow-xl active:scale-90">
+                      <button className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 group-hover:bg-[#0D95F0] group-hover:text-white transition-all shadow-xl active:scale-90 inline-flex">
                         <ArrowUpRight size={20} />
                       </button>
                     </td>
@@ -283,15 +405,82 @@ export default function InquiriesPage() {
               ))}
             </div>
 
-            <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
-              <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
-                {selectedInquiry.subject || 'General Inquiry'}
-              </h3>
-              <div className="h-px bg-black/5 w-24 mb-10" />
-              <div className="text-lg leading-relaxed text-slate-500 font-medium italic">
-                {selectedInquiry.message.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)}
+            {/* Conditional specifications for B2B Quotes */}
+            {quoteData ? (
+              <div className="space-y-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+                    <Zap size={18} />
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-500">B2B Specifications</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Solution Type */}
+                  <div className="p-6 rounded-2xl bg-amber-500/[0.02] border border-amber-500/10 shadow-sm relative group hover:bg-amber-500/[0.04] transition-all">
+                    <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">Solution Type</div>
+                    <div className="text-lg font-black text-[#0A1628]">{quoteData.solutionType || 'Not Specified'}</div>
+                  </div>
+
+                  {/* Installation Method */}
+                  <div className="p-6 rounded-2xl bg-[#0D95F0]/[0.02] border border-[#0D95F0]/10 shadow-sm relative group hover:bg-[#0D95F0]/[0.04] transition-all">
+                    <div className="text-[10px] font-black text-[#0D95F0] uppercase tracking-widest mb-2">Installation Method</div>
+                    <div className="text-lg font-black text-[#0A1628]">{quoteData.installationMethod || 'Not Specified'}</div>
+                  </div>
+
+                  {/* Project Status */}
+                  <div className="p-6 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 shadow-sm relative group hover:bg-emerald-500/[0.04] transition-all">
+                    <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Project Status</div>
+                    <div className="text-lg font-black text-[#0A1628]">{quoteData.projectStatus || 'Not Specified'}</div>
+                  </div>
+
+                  {/* Physical Dimensions */}
+                  <div className="p-6 rounded-2xl bg-slate-950 border border-black/5 shadow-2xl relative group hover:scale-[1.01] transition-all md:col-span-3 text-white overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#0D95F0]/10 rounded-full blur-[60px] pointer-events-none" />
+                    <div className="relative z-10 flex items-center justify-between gap-6 flex-wrap">
+                      <div>
+                        <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Physical Dimensions</div>
+                        <div className="text-2xl font-black tracking-tight">
+                          {quoteData.width && quoteData.height ? `${quoteData.width}mm (W) x ${quoteData.height}mm (H)` : 'Dimensions Not Provided'}
+                        </div>
+                      </div>
+                      {quoteData.uncertainSize && (
+                        <SpatialBadge variant="amber" pulse>Size May Vary / Estimation Needed</SpatialBadge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Requirements */}
+                <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter leading-tight">
+                      Special Requirements & Details
+                    </h3>
+                    <SpatialBadge variant="amber">B2B Deal Details</SpatialBadge>
+                  </div>
+                  <div className="h-px bg-black/5 w-24 mb-10" />
+                  <div className="text-lg leading-relaxed text-slate-600 font-medium italic">
+                    {quoteData.requirements ? (
+                      quoteData.requirements.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)
+                    ) : (
+                      <span className="text-slate-400">No additional special requirements specified.</span>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              /* Regular Message Layout */
+              <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
+                <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
+                  {selectedInquiry.subject || 'General Inquiry'}
+                </h3>
+                <div className="h-px bg-black/5 w-24 mb-10" />
+                <div className="text-lg leading-relaxed text-slate-500 font-medium italic">
+                  {selectedInquiry.message.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)}
+                </div>
+              </div>
+            )}
 
             <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex items-center gap-6">
@@ -312,3 +501,17 @@ export default function InquiriesPage() {
     </div>
   )
 }
+
+export default function InquiriesPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
+        <div className="relative w-16 h-16 animate-spin rounded-full border-4 border-slate-100 border-t-[#0D95F0]" />
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading Inquiries...</p>
+      </div>
+    }>
+      <InquiriesPageContent />
+    </Suspense>
+  )
+}
+

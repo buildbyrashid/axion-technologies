@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
+import { toast } from "sonner";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
   });
 
   const [captchaQuestion, setCaptchaQuestion] = useState({ num1: 0, num2: 0 });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -43,16 +45,47 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validate captcha
     if (parseInt(formData.captcha) !== captchaQuestion.num1 + captchaQuestion.num2) {
-      alert("Incorrect captcha answer");
+      toast.error("Incorrect captcha answer");
       return;
     }
-    console.log("Form submitted:", formData);
-    // Add your submission logic here
-    onClose();
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        toast.success("Quote request submitted successfully!");
+        setFormData({
+          projectStatus: "",
+          email: "",
+          phone: "",
+          country: "",
+          width: "",
+          height: "",
+          uncertainSize: false,
+          installationMethod: "",
+          type: "",
+          message: "",
+          captcha: "",
+        });
+        onClose();
+      } else {
+        toast.error(json.error || "Failed to submit quote request");
+      }
+    } catch {
+      toast.error("Connection error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -292,9 +325,13 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
 
                   <button
                     type="submit"
-                    className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95"
+                    disabled={isSubmitting}
+                    className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-primary hover:bg-accent hover:shadow-[0_10px_20px_rgba(13,149,240,0.3)] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span className="relative">Submit Request Now</span>
+                    <span className="relative flex items-center gap-2">
+                      {isSubmitting && <Loader2 size={16} className="animate-spin" />}
+                      {isSubmitting ? "Submitting..." : "Submit Request Now"}
+                    </span>
                   </button>
                 </div>
               </form>
