@@ -11,7 +11,7 @@ import mysql from 'mysql2/promise';
 
 // Check required environment variables
 if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_NAME) {
-  throw new Error('❌ Missing database credentials in .env.local file (DB_HOST, DB_USER, DB_NAME are required)');
+  console.warn('⚠️ Missing database credentials in environment variables (DB_HOST, DB_USER, DB_NAME are required)');
 }
 
 // Singleton container for Next.js hot-reloading
@@ -35,15 +35,5 @@ if (process.env.NODE_ENV !== 'production') {
   globalForDb.pool = pool;
 }
 
-// Test connection on startup
-pool.getConnection()
-  .then(connection => {
-    console.log('✅ MySQL Connected:', process.env.DB_NAME);
-    connection.release();
-  })
-  .catch(err => {
-    console.error('❌ MySQL Connection Error:', err.message);
-    console.error('📋 Check your .env.local file');
-  });
 
 export default pool;
