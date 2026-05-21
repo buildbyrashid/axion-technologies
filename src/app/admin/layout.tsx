@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <AdminContext.Provider value={{ sidebarCollapsed, setSidebarCollapsed }}>
-      <div className="flex h-screen bg-[#F8FAFC] overflow-hidden relative">
+      <div className="flex h-screen bg-[#F8FAFC] overflow-hidden relative corporate-sharp-theme">
         {/* Spatial Background Architecture */}
         <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-[#0D95F0]/[0.03] rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-slate-200/[0.2] rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />

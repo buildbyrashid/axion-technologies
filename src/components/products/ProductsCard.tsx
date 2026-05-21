@@ -31,7 +31,7 @@ interface Category {
   subcategories: SubCategory[];
 }
 
-const productCategories: Category[] = [
+const rawProductCategories: Category[] = [
   {
     "name": "LED DISPLAY SYSTEMS",
     "description": "Brilliant Visuals for Every Environment",
@@ -1039,6 +1039,27 @@ const productCategories: Category[] = [
     ]
   }
 ];
+
+const productCategories = rawProductCategories.map(cat => {
+  const catSlug = cat.href.split('/').pop() || "";
+  return {
+    ...cat,
+    subcategories: cat.subcategories.map(sub => ({
+      ...sub,
+      products: sub.products.map(prod => {
+        const parts = prod.href.split('/');
+        if (parts.length === 4 && parts[1] === 'products') {
+          return {
+            ...prod,
+            href: `/products/${catSlug}/${parts[2]}/${parts[3]}`
+          };
+        }
+        return prod;
+      })
+    }))
+  };
+});
+
 
 export default function ProductsCard({ 
   initialCategorySlug,

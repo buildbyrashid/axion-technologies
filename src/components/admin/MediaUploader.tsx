@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
 import { Upload, X, Star, Loader2, ImageIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -38,7 +37,6 @@ export default function MediaUploader({
   helperText = 'Recommended size: 1920x1080px (Max 5MB)',
   accept = 'image/*',
 }: MediaUploaderProps) {
-  const supabase = createClient()
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
 
@@ -48,20 +46,26 @@ export default function MediaUploader({
       return null
     }
 
-    const ext = file.name.split('.').pop()
-    const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', folder)
 
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, file, { cacheControl: '3600', upsert: false })
-
-    if (error) {
-      toast.error('Upload failed: ' + error.message)
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const json = await res.json()
+      if (json.success) {
+        return json.url
+      } else {
+        toast.error('Upload failed: ' + (json.error || 'Unknown error'))
+        return null
+      }
+    } catch {
+      toast.error('Connection error during upload')
       return null
     }
-
-    const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
-    return urlData.publicUrl
   }
 
   const handleFiles = useCallback(async (fileList: FileList) => {

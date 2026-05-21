@@ -1,16 +1,9 @@
-import { getSupabaseClient } from '@/lib/supabase'
+import { getCategories } from '@/lib/db-helpers'
 import { handleAPIError, createSuccessResponse } from '@/lib/utils/responseFormatter'
 
 export async function GET() {
   try {
-    const supabase = getSupabaseClient()
-    const { data: categories, error } = await supabase
-      .from('categories')
-      .select('*')
-      .order('display_order', { ascending: true })
-
-    if (error) throw error
-    
+    const categories = await getCategories()
     return createSuccessResponse({ categories })
   } catch (error) {
     console.error('Categories API Error:', error)

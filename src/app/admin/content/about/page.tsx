@@ -1,193 +1,729 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Save, 
   Loader2, 
-  FileText, 
-  BarChart3, 
-  Clock, 
+  Trash2, 
+  History, 
+  Sparkles, 
+  BookOpen, 
+  Info, 
   Globe2, 
-  Trophy, 
-  Ruler,
+  Cpu, 
+  Image as ImageIcon, 
+  Layers, 
+  Eye, 
+  X, 
   Activity,
-  History,
-  Zap,
-  BookOpen
+  Check,
+  Building2,
+  Bookmark
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
-import RichTextEditor from '@/components/admin/RichTextEditor'
-import { cn } from '@/lib/utils'
 
 export default function AboutPageCMS() {
-  const supabase = createClient()
   const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
+  const [savingType, setSavingType] = useState<'draft' | 'publish' | null>(null)
+  const [uploadingField, setUploadingField] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'hero' | 'who-we-are' | 'core-strengths'>('hero')
+  
+  // Custom delete confirmation modal state
+  const [deleteTarget, setDeleteTarget] = useState<{ field: string; label: string } | null>(null)
+
+  // Full state schema corresponding to the SQL schema
   const [data, setData] = useState({
-    main_content: '',
-    years_experience: 20,
-    global_offices: 3,
-    projects_delivered: 1000,
-    manufacturing_area: 5000
+    id: 'about-default',
+    hero_title: '',
+    hero_subtitle: '',
+    hero_badge: '',
+    hero_image: '',
+    who_we_are_badge: '',
+    who_we_are_title: '',
+    who_we_are_paragraph_1: '',
+    who_we_are_paragraph_2: '',
+    who_we_are_image: '',
+    technical_reach: '',
+    global_operations_title: '',
+    global_operations_description: '',
+    visual_solutions_title: '',
+    visual_solutions_description: '',
+    is_active: 1
   })
+
+  // Deep comparison state
+  const [initialData, setInitialData] = useState<typeof data | null>(null)
+  const isDirty = initialData && JSON.stringify(data) !== JSON.stringify(initialData)
+
+  // Top header scroll tracking
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false)
 
   useEffect(() => {
     fetchData()
+
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setIsHeaderSticky(true)
+      } else {
+        setIsHeaderSticky(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   async function fetchData() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      setData({
-        main_content: '<h1>Axion Technology</h1><p>Engineering excellence in global visual systems and spatial integration.</p>',
-        years_experience: 20,
-        global_offices: 3,
-        projects_delivered: 1000,
-        manufacturing_area: 5000
-      } as any)
-      setLoading(false)
-      return
+    setLoading(true)
+    try {
+      const res = await fetch('/api/admin/about')
+      const json = await res.json()
+      if (json.success && json.data && Object.keys(json.data).length > 0) {
+        // Hydrate state
+        const fetched = {
+          id: json.data.id || 'about-default',
+          hero_title: json.data.hero_title || '',
+          hero_subtitle: json.data.hero_subtitle || '',
+          hero_badge: json.data.hero_badge || '',
+          hero_image: json.data.hero_image || '',
+          who_we_are_badge: json.data.who_we_are_badge || '',
+          who_we_are_title: json.data.who_we_are_title || '',
+          who_we_are_paragraph_1: json.data.who_we_are_paragraph_1 || '',
+          who_we_are_paragraph_2: json.data.who_we_are_paragraph_2 || '',
+          who_we_are_image: json.data.who_we_are_image || '',
+          technical_reach: json.data.technical_reach || '',
+          global_operations_title: json.data.global_operations_title || '',
+          global_operations_description: json.data.global_operations_description || '',
+          visual_solutions_title: json.data.visual_solutions_title || '',
+          visual_solutions_description: json.data.visual_solutions_description || '',
+          is_active: json.data.is_active !== undefined ? Number(json.data.is_active) : 1
+        }
+        setData(fetched)
+        setInitialData(JSON.parse(JSON.stringify(fetched)))
+      } else {
+        toast.error('Failed to load narrative or empty response')
+      }
+    } catch {
+      toast.error('Database connection error')
     }
-
-    const { data: about, error } = await supabase
-      .from('about_page')
-      .select('*')
-      .single()
-
-    if (error) toast.error('Failed to load narrative data')
-    else setData(about)
     setLoading(false)
   }
 
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault()
-    setSaving(true)
-    
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (!isDemo) {
-      const { error } = await supabase
-        .from('about_page')
-        .update(data)
-        .eq('id', (data as any).id)
-      if (error) {
-        toast.error('Update failed: ' + error.message)
-        setSaving(false)
-        return
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingField(fieldName)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'about')
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const json = await res.json()
+      if (json.success) {
+        setData(prev => ({ ...prev, [fieldName]: json.url }))
+        toast.success('Asset uploaded successfully')
+      } else {
+        toast.error('Upload failed: ' + (json.error || 'Unknown error'))
       }
+    } catch {
+      toast.error('Network error during file upload')
+    } finally {
+      setUploadingField(null)
     }
+  }
+
+  const openDeleteConfirmation = (field: string, label: string) => {
+    setDeleteTarget({ field, label })
+  }
+
+  const confirmDelete = () => {
+    if (!deleteTarget) return
+    setData(prev => ({ ...prev, [deleteTarget.field]: '' }))
+    toast.success(`${deleteTarget.label} cleared. Remember to save your draft or publish!`)
+    setDeleteTarget(null)
+  }
+
+  async function handleSave(status: 'draft' | 'published') {
+    const type = status === 'published' ? 'publish' : 'draft'
+    setSavingType(type)
     
-    toast.success('Corporate Narrative Published')
-    setSaving(false)
+    const payload = {
+      ...data,
+      is_active: status === 'published' ? 1 : 0
+    }
+
+    try {
+      const res = await fetch('/api/admin/about', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json()
+      if (json.success) {
+        toast.success(status === 'published' ? 'About page published live!' : 'About page draft saved.')
+        setData(payload)
+        setInitialData(JSON.parse(JSON.stringify(payload)))
+      } else {
+        toast.error('Update failed: ' + (json.error || 'Unknown'))
+      }
+    } catch {
+      toast.error('Connection error saving About page.')
+    } finally {
+      setSavingType(null)
+    }
   }
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
       <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Corporate Core...</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Corporate Identity...</p>
     </div>
   )
 
+  const isSaving = savingType !== null
+
   return (
-    <div className="max-w-6xl space-y-12 pb-24">
-      {/* Premium Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-        <div className="space-y-2">
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
-                 <History size={20} />
-              </div>
-              <SpatialBadge variant="blue" pulse>Corporate Identity</SpatialBadge>
-           </div>
-           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter">Narrative & Metrics</h1>
-           <p className="text-slate-500 text-lg font-medium max-w-xl">Architect the global company history and key performance indicators.</p>
+    <div className="w-full space-y-8 pb-24 relative">
+      
+      {/* Sticky Header Section */}
+      <div className="sticky top-0 z-30 bg-[#F8FAFC]/90 backdrop-blur-md py-6 border-b border-slate-200/60 -mx-10 lg:-mx-14 px-10 lg:px-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
+              <History size={16} />
+            </div>
+            <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
+          </div>
+          <h1 className="text-3xl font-extrabold text-[#0A1628] tracking-tighter">About Page CMS</h1>
         </div>
-        
-        <div className="flex items-center gap-2 px-6 py-2 bg-white border border-black/5 rounded-2xl shadow-sm">
-           <Activity size={14} className="text-[#0D95F0]" />
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Sync Enabled</span>
+
+        {/* Action / Status Controls Area */}
+        <div className="flex items-center gap-4">
+          <AnimatePresence mode="wait">
+            {isDirty ? (
+              <motion.div 
+                key="dirty-actions"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="flex items-center gap-3"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleSave('draft')}
+                  disabled={savingType !== null}
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingType === 'draft' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
+                  SAVE DRAFT
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSave('published')}
+                  disabled={savingType !== null}
+                  className="flex items-center justify-center h-12 px-6 bg-[#0A1628] hover:bg-[#0A1628]/95 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md shadow-slate-900/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingType === 'publish' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
+                  PUBLISH
+                </button>
+              </motion.div>
+            ) : (
+              data.is_active === 1 ? (
+                <motion.div
+                  key="live-published-status"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                >
+                  <div className="flex items-center gap-3 h-12 px-6 bg-emerald-50 border border-emerald-200/50 rounded-xl shadow-sm">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full bg-emerald-400 rounded-full opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 bg-emerald-500 rounded-full"></span>
+                    </span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
+                      LIVE & PUBLISHED
+                    </span>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="draft-saved-status"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                    <Check size={14} className="text-emerald-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      SAVED AS DRAFT
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleSave('published')}
+                    disabled={savingType !== null}
+                    className="flex items-center justify-center h-12 px-6 bg-[#0A1628] hover:bg-[#0A1628]/95 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md shadow-slate-900/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {savingType === 'publish' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
+                    PUBLISH
+                  </button>
+                </motion.div>
+              )
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-12">
-        {/* High-Fidelity Stats Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { label: 'Years Experience', key: 'years_experience', icon: Clock, suffix: 'Yrs' },
-            { label: 'Global Offices', key: 'global_offices', icon: Globe2, suffix: 'HQ' },
-            { label: 'Projects Delivered', key: 'projects_delivered', icon: Trophy, suffix: '+' },
-            { label: 'Manufacturing Area', key: 'manufacturing_area', icon: Ruler, suffix: 'SQM' },
-          ].map((stat, idx) => (
-            <motion.div 
-               key={stat.key} 
-               initial={{ opacity: 0, scale: 0.9 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ delay: idx * 0.05 }}
-               className="bg-white rounded-[1.5rem] border border-black/5 p-8 shadow-sm hover:shadow-xl transition-all group"
+      {/* Tabs list navigation */}
+      <div className="border-b border-black/5 flex items-center gap-2 overflow-x-auto pb-px">
+        {[
+          { id: 'hero', label: 'Hero Banner', icon: ImageIcon },
+          { id: 'who-we-are', label: 'Who We Are Story', icon: BookOpen },
+          { id: 'core-strengths', label: 'Core Strengths', icon: Layers },
+        ].map((tab) => {
+          const Icon = tab.icon
+          const isSelected = activeTab === tab.id
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex items-center gap-2 px-6 py-4 border-b-2 font-bold text-sm tracking-tight transition-all whitespace-nowrap ${
+                isSelected 
+                  ? 'border-[#0D95F0] text-[#0A1628] bg-slate-50' 
+                  : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50/50'
+              }`}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#0D95F0]/10 group-hover:text-[#0D95F0] transition-colors">
-                  <stat.icon size={18} />
-                </div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</span>
-              </div>
-              <div className="flex items-end gap-3">
+              <Icon size={16} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400'} />
+              {tab.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Form Area */}
+      <div className="bg-white rounded-[2rem] border border-black/5 p-8 lg:p-12 shadow-sm max-w-[1800px] mx-auto w-full">
+        
+        {/* Tab 1: Hero banner parameters */}
+        {activeTab === 'hero' && (
+          <div className="space-y-8">
+            <div className="border-b border-slate-100 pb-4">
+              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Hero banner controls</h3>
+              <p className="text-slate-400 text-xs mt-1">Configure primary backgrounds and initial titles displayed on the About Us page.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Badge Label</label>
                 <input 
-                  type="number"
-                  value={(data as any)[stat.key]}
-                  onChange={(e) => setData({ ...data, [stat.key]: parseInt(e.target.value) || 0 })}
-                  className="w-full text-4xl font-black text-[#0A1628] font-sora outline-none border-b-2 border-transparent focus:border-[#0D95F0] bg-transparent pb-1 tracking-tighter"
+                  type="text" 
+                  value={data.hero_badge}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, hero_badge: e.target.value })}
+                  placeholder="About Us"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
-                <span className="text-sm font-black text-slate-300 mb-2 uppercase tracking-widest">{stat.suffix}</span>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Primary Hero Title</label>
+                <input 
+                  type="text" 
+                  value={data.hero_title}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, hero_title: e.target.value })}
+                  placeholder="Engineering Technology for Modern Visual Environments"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Subtitle Narrative</label>
+              <textarea 
+                rows={3}
+                value={data.hero_subtitle}
+                disabled={isSaving}
+                onChange={e => setData({ ...data, hero_subtitle: e.target.value })}
+                placeholder="Write a brief introduction to welcome visitors..."
+                className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+              />
+            </div>
+
+            {/* Hero Background Image Picker & Preview */}
+            <div className="space-y-4">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Background Image Url / File</label>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input 
+                  type="text" 
+                  value={data.hero_image}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, hero_image: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+                
+                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
+                  {uploadingField === 'hero_image' ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <ImageIcon size={16} className="mr-2" />
+                  )}
+                  Upload Image
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={e => handleFileUpload(e, 'hero_image')}
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    disabled={isSaving || uploadingField !== null}
+                  />
+                </label>
+
+                {data.hero_image && (
+                  <button
+                    type="button"
+                    onClick={() => openDeleteConfirmation('hero_image', 'Hero Background Image')}
+                    disabled={isSaving}
+                    className="shrink-0 p-4 bg-rose-50 hover:bg-rose-100 text-rose-500 hover:text-rose-600 rounded-2xl transition-all"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                )}
+              </div>
+
+              {/* Dynamic image preview pane */}
+              {data.hero_image && (
+                <div className="relative rounded-[2rem] border border-black/5 overflow-hidden max-w-xl shadow-inner group bg-slate-50">
+                  <div className="aspect-[21/9] w-full relative">
+                    <img 
+                      src={data.hero_image} 
+                      alt="Hero Preview" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-6 text-white flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-white/50 block">Preview Context</span>
+                      <p className="text-xs font-bold truncate max-w-md">{data.hero_image}</p>
+                    </div>
+                    <a 
+                      href={data.hero_image} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-white transition-all"
+                    >
+                      <Eye size={14} />
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Tab 2: Who we are corporate storytelling */}
+        {activeTab === 'who-we-are' && (
+          <div className="space-y-8">
+            <div className="border-b border-slate-100 pb-4">
+              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Corporate Storytelling</h3>
+              <p className="text-slate-400 text-xs mt-1">Update your team background, badges, narrative text blocks, and secondary visual assets.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Badge Tagline</label>
+                <input 
+                  type="text" 
+                  value={data.who_we_are_badge}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, who_we_are_badge: e.target.value })}
+                  placeholder="Who We Are"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Headline</label>
+                <input 
+                  type="text" 
+                  value={data.who_we_are_title}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, who_we_are_title: e.target.value })}
+                  placeholder="Global Leaders in Visual Engineering"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Narrative Paragraph 1</label>
+                <textarea 
+                  rows={4}
+                  value={data.who_we_are_paragraph_1}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, who_we_are_paragraph_1: e.target.value })}
+                  placeholder="Explain who you are..."
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Narrative Paragraph 2</label>
+                <textarea 
+                  rows={4}
+                  value={data.who_we_are_paragraph_2}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, who_we_are_paragraph_2: e.target.value })}
+                  placeholder="Add experience details, partners, or global logistics info..."
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Technical Reach Summary</label>
+                <input 
+                  type="text" 
+                  value={data.technical_reach}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, technical_reach: e.target.value })}
+                  placeholder="Hong Kong | Shenzhen | Dubai"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+                <p className="text-[10px] text-slate-400">Displays inside the white floating highlight box overlaid on the side column image.</p>
+              </div>
+            </div>
+
+            {/* Who We Are Story Image */}
+            <div className="space-y-4">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Side Column Visual Graphic Url / File</label>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input 
+                  type="text" 
+                  value={data.who_we_are_image}
+                  disabled={isSaving}
+                  onChange={e => setData({ ...data, who_we_are_image: e.target.value })}
+                  placeholder="https://example.com/who-we-are.jpg"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                />
+                
+                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
+                  {uploadingField === 'who_we_are_image' ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <ImageIcon size={16} className="mr-2" />
+                  )}
+                  Upload Image
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={e => handleFileUpload(e, 'who_we_are_image')}
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    disabled={isSaving || uploadingField !== null}
+                  />
+                </label>
+
+                {data.who_we_are_image && (
+                  <button
+                    type="button"
+                    onClick={() => openDeleteConfirmation('who_we_are_image', 'Who We Are Graphic')}
+                    disabled={isSaving}
+                    className="shrink-0 p-4 bg-rose-50 hover:bg-rose-100 text-rose-500 hover:text-rose-600 rounded-2xl transition-all"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                )}
+              </div>
+
+              {/* Graphic preview card */}
+              {data.who_we_are_image && (
+                <div className="relative rounded-[2rem] border border-black/5 overflow-hidden max-w-xl shadow-inner group bg-slate-50">
+                  <div className="aspect-[4/3] w-full relative">
+                    <img 
+                      src={data.who_we_are_image} 
+                      alt="Who We Are Preview" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-6 text-white flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-white/50 block">Preview Context</span>
+                      <p className="text-xs font-bold truncate max-w-md">{data.who_we_are_image}</p>
+                    </div>
+                    <a 
+                      href={data.who_we_are_image} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl text-white transition-all"
+                    >
+                      <Eye size={14} />
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Tab 3: Core Strengths (Global Operations / Visual Solutions) */}
+        {activeTab === 'core-strengths' && (
+          <div className="space-y-8">
+            <div className="border-b border-slate-100 pb-4">
+              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Corporate Strategic Strengths</h3>
+              <p className="text-slate-400 text-xs mt-1">Configure titles and descriptions for the Global Operations and Visual Solutions panels.</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              
+              {/* Operations Column */}
+              <div className="bg-slate-50/50 border border-black/5 rounded-[2rem] p-8 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 text-[#0D95F0] rounded-2xl flex items-center justify-center">
+                    <Building2 size={18} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0A1628] text-base leading-tight">Global Operations</h4>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mt-0.5">Operations management</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Header</label>
+                  <input 
+                    type="text" 
+                    value={data.global_operations_title}
+                    disabled={isSaving}
+                    onChange={e => setData({ ...data, global_operations_title: e.target.value })}
+                    placeholder="Global Operations"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Operations Narrative Description</label>
+                  <textarea 
+                    rows={6}
+                    value={data.global_operations_description}
+                    disabled={isSaving}
+                    onChange={e => setData({ ...data, global_operations_description: e.target.value })}
+                    placeholder="Describe your manufacturing coordinators, logistics hubs, and quality check processes..."
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Visual Solutions Column */}
+              <div className="bg-slate-50/50 border border-black/5 rounded-[2rem] p-8 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-100 text-indigo-500 rounded-2xl flex items-center justify-center">
+                    <Bookmark size={18} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0A1628] text-base leading-tight">Visual Solutions</h4>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mt-0.5">Technology strategy</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Header</label>
+                  <input 
+                    type="text" 
+                    value={data.visual_solutions_title}
+                    disabled={isSaving}
+                    onChange={e => setData({ ...data, visual_solutions_title: e.target.value })}
+                    placeholder="Visual Solutions"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Solutions Narrative Description</label>
+                  <textarea 
+                    rows={6}
+                    value={data.visual_solutions_description}
+                    disabled={isSaving}
+                    onChange={e => setData({ ...data, visual_solutions_description: e.target.value })}
+                    placeholder="Describe your LED display specs, COB/MIP systems, and custom engineering parameters..."
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* Delete confirmation custom modal */}
+      <AnimatePresence>
+        {deleteTarget && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Blurry dim overlay */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDeleteTarget(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            
+            {/* Modal popup */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: "spring", duration: 0.4 }}
+              className="relative bg-white w-full max-w-md rounded-[2rem] border border-black/5 p-8 shadow-2xl z-10 overflow-hidden"
+            >
+              <button 
+                onClick={() => setDeleteTarget(null)}
+                className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-50 transition-all"
+              >
+                <X size={16} />
+              </button>
+
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 animate-bounce">
+                  <Trash2 size={28} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xl font-bold text-[#0A1628] tracking-tight">Confirm clear asset</h4>
+                  <p className="text-slate-400 text-xs px-2 leading-relaxed">
+                    Are you sure you want to remove the path reference for <strong className="text-slate-600 font-semibold">{deleteTarget.label}</strong>? This action will collapse the image preview.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-8">
+                <button
+                  onClick={() => setDeleteTarget(null)}
+                  className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl transition-all border border-slate-200/40"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 py-4 bg-rose-500 hover:bg-rose-600 text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  Confirm Delete
+                </button>
               </div>
             </motion.div>
-          ))}
-        </div>
-
-        {/* Narrative Section */}
-        <div className="bg-white rounded-[1.75rem] border border-black/5 p-12 lg:p-16 space-y-10 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-16 opacity-[0.03] pointer-events-none">
-             <BookOpen size={240} />
           </div>
-          
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="w-12 h-12 rounded-[1.25rem] bg-slate-950 text-white flex items-center justify-center shadow-xl shadow-black/10">
-              <FileText size={24} />
-            </div>
-            <div>
-               <h3 className="text-2xl font-black text-[#0A1628] tracking-tighter">Corporate Narrative</h3>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">High-Resolution Brand Storytelling</p>
-            </div>
-          </div>
+        )}
+      </AnimatePresence>
 
-          <div className="relative z-10">
-             <div className="mb-2 ml-1 flex items-center gap-2">
-                <Zap size={12} className="text-[#0D95F0]" />
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Main Content Interface</label>
-             </div>
-             <div className="rounded-[2rem] border border-black/5 bg-slate-50/50 p-2 focus-within:bg-white transition-all">
-                <RichTextEditor 
-                  content={data.main_content} 
-                  onChange={(val) => setData({ ...data, main_content: val })}
-                  placeholder="Tell the story of Axion Technology..."
-                />
-             </div>
-          </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={saving}
-            className="px-12 py-6 bg-[#0A1628] text-white rounded-[2rem] text-sm font-black uppercase tracking-widest flex items-center gap-4 hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20 disabled:opacity-50"
-          >
-            {saving ? <Loader2 size={20} className="animate-spin" /> : <Zap size={20} className="text-[#0D95F0]" />}
-            Sync Corporate Narrative
-          </button>
-        </div>
-      </form>
     </div>
   )
 }
