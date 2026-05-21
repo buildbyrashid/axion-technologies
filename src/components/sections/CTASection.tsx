@@ -8,15 +8,58 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import QuoteModal from "@/components/modals/QuoteModal";
 
-export default function CTASection() {
+export interface CTAData {
+  headline?: string;
+  description?: string;
+  email?: string;
+  website?: string;
+  locations?: string;
+  support_text?: string;
+  background_image?: string;
+  is_active?: boolean;
+}
+
+export default function CTASection({ data }: { data?: CTAData | null }) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+  // Graceful fallbacks
+  const isActive = data ? Boolean(data.is_active) : true;
+  if (!isActive) return null;
+
+  const headline = data?.headline || "Let's Build Your Next Visual Experience";
+  const description = data?.description || "Partner with Axion Technology for advanced visual technology solutions engineered for modern global environments.";
+  const email = data?.email || "sales@axiontechnology.com";
+  const website = data?.website || "www.axiontechnology.com";
+  const locations = data?.locations || "Hong Kong | Shenzhen | Dubai";
+  const supportText = data?.support_text || "Engineering Support Online";
+  const backgroundImage = data?.background_image || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80";
+
+  const renderHeadline = (text: string) => {
+    const target = "Visual Experience";
+    const index = text.toLowerCase().indexOf(target.toLowerCase());
+    if (index !== -1) {
+      const before = text.substring(0, index);
+      const matched = text.substring(index, index + target.length);
+      const after = text.substring(index + target.length);
+      return (
+        <>
+          {before}
+          <span className="text-accent bg-clip-text text-transparent bg-gradient-to-r from-accent to-blue-400">
+            {matched}
+          </span>
+          {after}
+        </>
+      );
+    }
+    return text;
+  };
 
   return (
     <section id="contact" className="relative py-24 lg:py-32 overflow-hidden bg-primary">
       {/* Background with Technical Image & Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80"
+          src={backgroundImage}
           alt="Technical Background"
           fill
           sizes="100vw"
@@ -38,13 +81,11 @@ export default function CTASection() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl sm:text-4xl lg:text-7xl font-[800] text-white font-sora leading-[1.1] tracking-tighter mb-8">
-                Let's Build Your <br />
-                Next <span className="text-accent bg-clip-text text-transparent bg-gradient-to-r from-accent to-blue-400">Visual Experience</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-7xl font-[800] text-white font-sora leading-[1.1] tracking-tighter mb-8 whitespace-pre-line">
+                {renderHeadline(headline)}
               </h2>
               <p className="text-lg lg:text-xl text-slate-300 mb-12 max-w-xl leading-relaxed">
-                Partner with Axion Technology for advanced visual technology solutions
-                engineered for modern global environments.
+                {description}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5">
@@ -84,8 +125,8 @@ export default function CTASection() {
                   </div>
                   <div>
                     <p className="text-sm text-slate-400 mb-1 font-bold uppercase tracking-widest">Email Address</p>
-                    <a href="mailto:sales@axiontechnology.com" className="text-md lg:text-xl text-white hover:text-accent transition-colors font-medium">
-                      sales@axiontechnology.com
+                    <a href={`mailto:${email}`} className="text-md lg:text-xl text-white hover:text-accent transition-colors font-medium">
+                      {email}
                     </a>
                   </div>
                 </div>
@@ -96,8 +137,8 @@ export default function CTASection() {
                   </div>
                   <div>
                     <p className="text-sm text-slate-400 mb-1 font-bold uppercase tracking-widest">Website</p>
-                    <a href="https://www.axiontechnology.com" className="text-md lg:text-xl text-white hover:text-accent transition-colors font-medium">
-                      www.axiontechnology.com
+                    <a href={website.startsWith('http') ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="text-md lg:text-xl text-white hover:text-accent transition-colors font-medium">
+                      {website}
                     </a>
                   </div>
                 </div>
@@ -109,7 +150,7 @@ export default function CTASection() {
                   <div>
                     <p className="text-sm text-slate-400 mb-1 font-bold uppercase tracking-widest">Global Hubs</p>
                     <p className="text-md lg:text-xl text-white font-medium">
-                      Hong Kong | Shenzhen | Dubai
+                      {locations}
                     </p>
                   </div>
                 </div>
@@ -122,7 +163,7 @@ export default function CTASection() {
                     <span className="animate-ping absolute inline-flex h-full w-full bg-accent opacity-75"></span>
                     <span className="relative inline-flex h-3 w-3 bg-accent"></span>
                   </span>
-                  <span className="text-sm text-slate-400 font-medium">Engineering Support Online</span>
+                  <span className="text-sm text-slate-400 font-medium">{supportText}</span>
                 </div>
               </div>
             </div>

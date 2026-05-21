@@ -300,6 +300,8 @@ export interface Inquiry {
   product_id?: string;
   source: string;
   status: string;
+  budget_estimate?: number;
+  priority?: string;
   created_at: Date;
   product_name?: string;
   product_slug?: string;
@@ -317,13 +319,15 @@ export async function createInquiry(data: {
   message: string;
   product_id?: string;
   source?: string;
+  budget_estimate?: number;
+  priority?: string;
 }) {
   const id = uuidv4();
 
   const sql = `
     INSERT INTO inquiries 
-    (id, name, email, phone, company, country, message, product_id, source)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (id, name, email, phone, company, country, message, product_id, source, budget_estimate, priority)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -336,6 +340,8 @@ export async function createInquiry(data: {
     data.message,
     data.product_id || null,
     data.source || 'contact_form',
+    data.budget_estimate || null,
+    data.priority || 'medium'
   ];
 
   await query(sql, params);

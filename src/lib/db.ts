@@ -3,19 +3,21 @@
 /**
  * MySQL Database Connection Pool
  * 
- * This replaces Supabase client for database operations.
- * Uses connection pooling for better performance.
+ * Reuses a global singleton pool in development to prevent connection leaks
+ * caused by Hot Module Replacement (HMR).
  */
 
 import mysql from 'mysql2/promise';
 
-// Check environment variables
-if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
-  throw new Error('❌ Missing database credentials in .env.local file');
+// Check required environment variables
+if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_NAME) {
+  console.warn('⚠️ Missing database credentials in environment variables (DB_HOST, DB_USER, DB_NAME are required)');
 }
 
-// Create connection pool
-const pool = mysql.createPool({
+// Singleton container for Next.js hot-reloading
+const globalForDb = global as unknown as { pool: mysql.Pool };
+
+const pool = globalForDb.pool || mysql.createPool({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '3306'),
   user: process.env.DB_USER,
@@ -29,15 +31,9 @@ const pool = mysql.createPool({
   timezone: '+00:00',
 });
 
-// Test connection on startup
-pool.getConnection()
-  .then(connection => {
-    console.log('✅ MySQL Connected:', process.env.DB_NAME);
-    connection.release();
-  })
-  .catch(err => {
-    console.error('❌ MySQL Connection Error:', err.message);
-    console.error('📋 Check your .env.local file');
-  });
+if (process.env.NODE_ENV !== 'production') {
+  globalForDb.pool = pool;
+}
+
 
 export default pool;

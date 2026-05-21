@@ -110,3 +110,9 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(2, 23, 82, 0.22) transparent;
 }
+
+/* Corporate Branding: Sharp Theme override (no rounded corners except search) */
+.corporate-sharp-theme *:not(.keep-rounded):not(.keep-rounded *) {
+  border-radius: 0px !important;
+}
+

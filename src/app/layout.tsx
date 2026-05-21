@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { Toaster } from 'sonner';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -45,7 +46,15 @@ export default function RootLayout({
     <html lang="en" className={`${plusJakartaSans.variable} ${sora.variable}`}>
       <body className="font-sans antialiased">
         {children}
+        <Toaster position="top-right" richColors toastOptions={{
+          style: {
+            borderRadius: '1.25rem',
+            padding: '16px 20px',
+            fontFamily: 'var(--font-plus-jakarta), sans-serif',
+          }
+        }} />
       </body>
     </html>
   );
 }
+

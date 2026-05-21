@@ -3,15 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Save, 
   ArrowLeft, 
   Loader2, 
   Info, 
   Image as ImageIcon, 
-  Settings, 
   Sparkles, 
   Box, 
   Download, 
@@ -28,7 +25,7 @@ import {
   Terminal,
   Database
 } from 'lucide-react'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { toast } from 'sonner'
@@ -37,50 +34,48 @@ import Link from 'next/link'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 import MediaUploader from '@/components/admin/MediaUploader'
 import RichTextEditor from '@/components/admin/RichTextEditor'
-import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
 
 // Zod Schema for validation
 const productSchema = z.object({
-  name: z.string().min(1, 'Product identity signature required'),
-  slug: z.string().min(1, 'Universal slug signature required'),
-  category_id: z.string().min(1, 'Sector classification required'),
+  name: z.string().min(1, 'Product name is required'),
+  slug: z.string().min(1, 'Product slug is required'),
+  category_id: z.string().min(1, 'Please select a main category'),
   subcategory_id: z.string().optional().nullable(),
-  short_description: z.string().max(250, 'Abstract context is too long'),
+  short_description: z.string().max(250, 'Short description must be under 250 characters'),
   full_description: z.string().optional(),
   is_active: z.boolean().default(true),
   is_featured: z.boolean().default(false),
 })
 
 const TABS = [
-  { id: 'basic', label: 'Protocol Core', icon: Info },
-  { id: 'media', label: 'Visual Assets', icon: ImageIcon },
-  { id: 'specs', label: 'Technical Specs', icon: Cpu },
-  { id: 'features', label: 'Feature Stack', icon: Sparkles },
-  { id: 'accessories', label: 'Peripheral Kit', icon: Box },
-  { id: 'downloads', label: 'Documentation', icon: Download },
-  { id: 'application', label: 'Field Evidence', icon: Images },
+  { id: 'basic', label: 'Basic Information', icon: Info },
+  { id: 'media', label: 'Images & Media', icon: ImageIcon },
+  { id: 'specs', label: 'Specifications', icon: Cpu },
+  { id: 'features', label: 'Features', icon: Sparkles },
+  { id: 'accessories', label: 'Accessories', icon: Box },
+  { id: 'downloads', label: 'Downloads', icon: Download },
+  { id: 'application', label: 'Case Studies', icon: Images },
 ]
 
 export default function ProductEditorPage() {
   const { id } = useParams()
   const router = useRouter()
   const isNew = id === 'new'
-  const supabase = createClient()
 
   const [activeTab, setActiveTab] = useState('basic')
   const [loading, setLoading] = useState(!isNew)
   const [saving, setSaving] = useState(false)
-  const [categories, setCategories] = useState<{id: string, name: string}[]>([])
-  const [subcategories, setSubcategories] = useState<{id: string, name: string, category_id: string}[]>([])
+  const [categories, setCategories] = useState<any[]>([])
   
   const [images, setImages] = useState<any[]>([])
   const [specs, setSpecs] = useState<{id?: string, spec_key: string, spec_value: string}[]>([])
   const [features, setFeatures] = useState<{id?: string, title: string, description: string}[]>([])
   const [downloads, setDownloads] = useState<{id?: string, name: string, document_type: string, file_url: string}[]>([])
   const [applications, setApplications] = useState<any[]>([])
+  const [initialArrays, setInitialArrays] = useState<string>('')
 
-  const { register, handleSubmit, setValue, watch, formState: { errors, isDirty } } = useForm({
+  const { register, handleSubmit, setValue, watch, reset, formState: { errors, isDirty: isFormDirty } } = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: '',
@@ -94,179 +89,146 @@ export default function ProductEditorPage() {
     }
   })
 
+  const isArraysDirty = initialArrays ? JSON.stringify({ images, specs, features, downloads, applications }) !== initialArrays : false
+  const isDirty = isFormDirty || isArraysDirty
+
   useEffect(() => {
     fetchFormData()
     if (!isNew) fetchProductData()
   }, [id])
 
   async function fetchFormData() {
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    if (isDemo) {
-      setCategories(MOCK_CATEGORIES as any)
-      setSubcategories([
-        { id: 's1', name: 'Indoor LED', category_id: '1' },
-        { id: 's2', name: 'Outdoor LED', category_id: '1' },
-        { id: 's3', name: 'Touch Kiosks', category_id: '2' },
-      ] as any)
-      return
-    }
-
-    const [catRes, subRes] = await Promise.all([
-      supabase.from('categories').select('id, name').order('name'),
-      supabase.from('subcategories').select('id, name, category_id').order('name')
-    ])
-
-    if (catRes.data) setCategories(catRes.data)
-    if (subRes.data) setSubcategories(subRes.data)
+    try {
+      const res = await fetch('/api/admin/categories')
+      const json = await res.json()
+      if (json.success) setCategories(json.data)
+    } catch { toast.error('Failed to load categories') }
   }
 
   async function fetchProductData() {
-    let product: any
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-
-    if (isDemo) {
-      product = MOCK_PRODUCTS.find(p => p.id === id) || MOCK_PRODUCTS[0]
-    } else {
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          product_images(*),
-          product_specifications(*),
-          product_features(*),
-          product_documents(*),
-          product_applications(*)
-        `)
-        .eq('id', id)
-        .single()
-
-      if (error) {
-        toast.error('Portal connection failed')
+    try {
+      const res = await fetch(`/api/admin/products/${id}`)
+      const json = await res.json()
+      if (!json.success) {
+        toast.error('Failed to connect to database')
         router.push('/admin/products')
         return
       }
-      product = data
+      const product = json.data
+
+      const gallery = Array.isArray(product.gallery) ? product.gallery : []
+      const formattedImages = gallery.map((img: any, i: number) => ({
+        id: String(i),
+        url: img.url || img,
+        is_primary: img.is_primary || i === 0,
+        sort_order: i
+      }))
+      setImages(formattedImages)
+
+      const formattedSpecs = Array.isArray(product.specifications) ? product.specifications : 
+        Object.entries(product.specifications || {}).map(([k, v]) => ({ spec_key: k, spec_value: v as string }))
+      setSpecs(formattedSpecs)
+
+      const formattedFeatures = Array.isArray(product.features) ? product.features : []
+      setFeatures(formattedFeatures)
+      
+      const formattedDownloads = Array.isArray(product.downloads) ? product.downloads : []
+      setDownloads(formattedDownloads)
+
+      const apps = Array.isArray(product.applications) ? product.applications : []
+      const formattedApps = apps.map((app: any) => ({
+        id: app.id || String(Math.random()),
+        url: app.url || app.image_url,
+        caption: app.caption,
+        location: app.location
+      }))
+      setApplications(formattedApps)
+      
+      // Reset form dirty state and save initial arrays for dirty checking
+      reset({
+        name: product.name,
+        slug: product.slug,
+        category_id: product.category_id || '',
+        subcategory_id: product.subcategory_id || '',
+        short_description: product.short_description || '',
+        full_description: product.full_description || '',
+        is_active: product.is_active,
+        is_featured: product.is_featured,
+      })
+      
+      setInitialArrays(JSON.stringify({ 
+        images: formattedImages, 
+        specs: formattedSpecs, 
+        features: formattedFeatures, 
+        downloads: formattedDownloads, 
+        applications: formattedApps 
+      }))
+    } catch {
+      toast.error('Failed to load product data')
     }
-
-    // Set form values
-    setValue('name', product.name)
-    setValue('slug', product.slug)
-    setValue('category_id', product.category_id)
-    setValue('subcategory_id', product.subcategory_id || '')
-    setValue('short_description', product.short_description || '')
-    setValue('full_description', product.full_description || '')
-    setValue('is_active', product.is_active)
-    setValue('is_featured', product.is_featured)
-
-    // Set relational states
-    setImages((product.product_images || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)).map((img: any) => ({
-      id: img.id,
-      url: img.image_url,
-      is_primary: img.is_primary,
-      sort_order: img.sort_order
-    })))
-    setSpecs((product.product_specifications || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)))
-    setFeatures((product.product_features || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)))
-    setDownloads(product.product_documents || [])
-    setApplications((product.product_applications || []).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)).map((app: any) => ({
-      id: app.id,
-      url: app.image_url,
-      caption: app.caption,
-      location: app.location
-    })))
-
     setLoading(false)
   }
 
   async function onSubmit(values: z.infer<typeof productSchema>) {
     setSaving(true)
-    const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL
-    
     try {
-      if (isDemo) {
-        toast.success('Local configuration synchronized')
-        setSaving(false)
-        return
-      }
+      const productId = id as string
+      const gallery = images.map((img, i) => ({
+        url: img.url,
+        is_primary: img.is_primary || i === 0,
+        sort_order: i
+      }))
+      const primaryImage = images.find(img => img.is_primary) || images[0]
 
-      let productId = id as string
-      const dataToSave = {
+      const payload = {
         ...values,
-        subcategory_id: values.subcategory_id || null
-      }
-      
-      // 1. Save main product info
-      if (isNew) {
-        const { data, error } = await supabase.from('products').insert([dataToSave]).select().single()
-        if (error) throw error
-        productId = data.id
-      } else {
-        const { error } = await supabase.from('products').update(dataToSave).eq('id', id)
-        if (error) throw error
-      }
-
-      // 2. Save Images
-      await supabase.from('product_images').delete().eq('product_id', productId)
-      if (images.length > 0) {
-        await supabase.from('product_images').insert(images.map((img, i) => ({
-          product_id: productId,
-          image_url: img.url,
-          is_primary: img.is_primary,
-          sort_order: i
-        })))
-      }
-
-      // 3. Save Specs
-      await supabase.from('product_specifications').delete().eq('product_id', productId)
-      if (specs.length > 0) {
-        await supabase.from('product_specifications').insert(specs.map((s, i) => ({
-          product_id: productId,
-          spec_key: s.spec_key,
-          spec_value: s.spec_value,
-          sort_order: i
-        })))
-      }
-
-      // 4. Save Features
-      await supabase.from('product_features').delete().eq('product_id', productId)
-      if (features.length > 0) {
-        await supabase.from('product_features').insert(features.map((f, i) => ({
-          product_id: productId,
-          title: f.title,
-          description: f.description,
-          sort_order: i
-        })))
-      }
-
-      // 5. Save Downloads
-      await supabase.from('product_documents').delete().eq('product_id', productId)
-      if (downloads.length > 0) {
-        await supabase.from('product_documents').insert(downloads.map(d => ({
-          product_id: productId,
-          name: d.name,
-          document_type: d.document_type,
-          file_url: d.file_url
-        })))
-      }
-
-      // 6. Save Application Gallery
-      await supabase.from('product_applications').delete().eq('product_id', productId)
-      if (applications.length > 0) {
-        await supabase.from('product_applications').insert(applications.map((app, i) => ({
-          product_id: productId,
-          image_url: app.url,
+        subcategory_id: values.subcategory_id || null,
+        featured_image: primaryImage?.url || null,
+        gallery,
+        specifications: specs,
+        features,
+        downloads,
+        applications: applications.map((app, i) => ({
+          url: app.url,
           caption: app.caption,
           location: app.location,
           sort_order: i
-        })))
+        })),
       }
 
-      toast.success(isNew ? 'Asset Initialized' : 'Architecture Synchronized')
-      if (isNew) router.push(`/admin/products/${productId}`)
-      else fetchProductData()
-      
+      let res
+      if (isNew) {
+        // Create then update with full data
+        const createRes = await fetch('/api/admin/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        })
+        const createJson = await createRes.json()
+        if (!createJson.success) throw new Error(createJson.error || 'Create failed')
+        const newId = createJson.data.id
+        res = await fetch(`/api/admin/products/${newId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload }),
+        })
+        const json = await res.json()
+        if (!json.success) throw new Error(json.error || 'Save failed')
+        toast.success('Product created successfully')
+        router.push(`/admin/products/${newId}`)
+      } else {
+        res = await fetch(`/api/admin/products/${productId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        const json = await res.json()
+        if (!json.success) throw new Error(json.error || 'Save failed')
+        toast.success('Product updated successfully')
+        fetchProductData()
+      }
     } catch (err: any) {
-      toast.error('Sync failed: ' + err.message)
+      toast.error('Save failed: ' + err.message)
     } finally {
       setSaving(false)
     }
@@ -300,7 +262,7 @@ export default function ProductEditorPage() {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
         <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Scanning Asset Metadata...</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading product details...</p>
       </div>
     )
   }
@@ -318,25 +280,102 @@ export default function ProductEditorPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <SpatialBadge variant="blue" pulse={!isNew}>{isNew ? 'New Signature' : 'Core Active'}</SpatialBadge>
+              <SpatialBadge variant="blue" pulse={!isNew}>{isNew ? 'New Product' : 'Product Editor'}</SpatialBadge>
               {!isNew && <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest font-mono opacity-60">ID: {id}</span>}
             </div>
             <h1 className="text-4xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">
-              {watch('name') || (isNew ? 'Untitled Asset' : 'Decrypting...')}
+              {watch('name') || (isNew ? 'Untitled Product' : 'Loading...')}
             </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 px-6 py-3 bg-white border border-black/5 rounded-2xl shadow-sm">
-           <Activity size={16} className={cn(watch('is_active') ? "text-emerald-500" : "text-slate-300")} />
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              {watch('is_active') ? 'Public Stream Active' : 'Protocol Hidden'}
-           </span>
+        <div className="flex items-center gap-4">
+          <AnimatePresence mode="wait">
+            {isDirty ? (
+              <motion.div 
+                key="dirty-actions"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="flex items-center gap-3"
+              >
+                <button
+                  type="button"
+                  onClick={() => { setValue('is_active', false); handleSubmit(onSubmit)(); }}
+                  disabled={saving}
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {saving && !watch('is_active') ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
+                  Save Draft
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setValue('is_active', true); handleSubmit(onSubmit)(); }}
+                  disabled={saving}
+                  className="flex items-center justify-center h-12 px-8 bg-[#0A1628] hover:bg-[#0D95F0] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed gap-2 group"
+                >
+                  {saving && watch('is_active') ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Zap size={16} className="text-[#0D95F0] group-hover:text-white transition-colors" />
+                  )}
+                  Publish
+                </button>
+              </motion.div>
+            ) : (
+              watch('is_active') ? (
+                <motion.div
+                  key="live-published-status"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                >
+                  <div className="flex items-center gap-3 h-12 px-6 bg-emerald-50 border border-emerald-200/50 rounded-xl shadow-sm">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full bg-emerald-400 rounded-full opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 bg-emerald-500 rounded-full"></span>
+                    </span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
+                      LIVE & PUBLISHED
+                    </span>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="draft-saved-status"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                    <CheckCircle2 size={14} className="text-emerald-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      SAVED AS DRAFT
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setValue('is_active', true); handleSubmit(onSubmit)(); }}
+                    disabled={saving}
+                    className="flex items-center justify-center h-12 px-6 bg-[#0A1628] hover:bg-[#0D95F0] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed gap-2 group"
+                  >
+                    {saving ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Zap size={16} className="text-[#0D95F0] group-hover:text-white transition-colors" />
+                    )}
+                    PUBLISH
+                  </button>
+                </motion.div>
+              )
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/* Spatial Tabs Navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide p-2 bg-white/40 backdrop-blur-2xl rounded-[1.5rem] border border-black/5 sticky top-24 z-30 mb-12 shadow-2xl shadow-black/[0.02]">
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-4 px-2 bg-[#F8FAFC]/90 backdrop-blur-2xl border-b border-black/5 sticky top-0 z-40 mb-12 shadow-sm -mx-10 lg:-mx-14 px-10 lg:px-14">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -371,7 +410,7 @@ export default function ProductEditorPage() {
               >
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Asset Identity</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
                     <input 
                       {...register('name')}
                       placeholder="e.g. UltraHD LED Series 2026"
@@ -386,7 +425,7 @@ export default function ProductEditorPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal Slug Signature</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">URL Slug</label>
                     <input 
                       {...register('slug')}
                       placeholder="ultrahd-led-series-2026"
@@ -396,7 +435,7 @@ export default function ProductEditorPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sector Classification</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Main Category</label>
                     <select 
                       {...register('category_id')}
                       className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
@@ -405,61 +444,61 @@ export default function ProductEditorPage() {
                         setValue('subcategory_id', '')
                       }}
                     >
-                      <option value="">Select Sector</option>
-                      {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      <option value="">Select Main Category</option>
+                      {categories.filter(c => !c.parent_id).map(c => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
                     </select>
+                    {errors.category_id && <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest ml-1">{errors.category_id.message}</p>}
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub-Cluster Layer</label>
-                    <select 
-                      {...register('subcategory_id')}
-                      disabled={!watch('category_id')}
-                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none disabled:opacity-40"
-                    >
-                      <option value="">No Layer Assigned</option>
-                      {subcategories
-                        .filter(s => s.category_id === watch('category_id'))
-                        .map(s => <option key={s.id} value={s.id}>{s.name}</option>)
-                      }
-                    </select>
-                  </div>
+                  {watch('category_id') && categories.some(c => c.parent_id === watch('category_id')) && (
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub-Category</label>
+                      <select 
+                        {...register('subcategory_id')}
+                        className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
+                      >
+                        <option value="">Select Sub-Category (Optional)</option>
+                        {categories.filter(c => c.parent_id === watch('category_id')).map(c => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                 </div>
 
                 <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[1.5rem] border border-black/5">
-                   <label className="flex items-center gap-4 cursor-pointer group">
-                      <div className="relative w-12 h-6 bg-slate-200 rounded-full transition-colors group-has-[:checked]:bg-emerald-400">
-                         <input type="checkbox" {...register('is_active')} className="sr-only peer" />
-                         <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-6" />
-                      </div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-[#0A1628] transition-colors">Visible to Public</span>
+                   <label className="flex items-center gap-4 cursor-pointer">
+                      <input type="checkbox" {...register('is_active')} className="sr-only peer" />
+                      <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-emerald-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Visible to Public</span>
                    </label>
-                   <label className="flex items-center gap-4 cursor-pointer group">
-                      <div className="relative w-12 h-6 bg-slate-200 rounded-full transition-colors group-has-[:checked]:bg-amber-400">
-                         <input type="checkbox" {...register('is_featured')} className="sr-only peer" />
-                         <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-6" />
-                      </div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-[#0A1628] transition-colors">Flagship Highlight</span>
+                   <label className="flex items-center gap-4 cursor-pointer">
+                      <input type="checkbox" {...register('is_featured')} className="sr-only peer" />
+                      <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-amber-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Featured Product</span>
                    </label>
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Asset Abstract (Listing Context)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Short Description (Preview)</label>
                   <textarea 
                     {...register('short_description')}
                     rows={4}
-                    placeholder="Engineering advanced visual technology for world-class environments..."
+                    placeholder="Write a brief overview of this product..."
                     className="w-full px-8 py-6 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold leading-relaxed tracking-tight shadow-sm resize-none"
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Universal Narrative (Detailed Context)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Description</label>
                   <div className="rounded-[1.5rem] overflow-hidden border border-black/5">
                     <RichTextEditor 
                       content={watch('full_description') || ''} 
                       onChange={(val) => setValue('full_description', val, { shouldDirty: true })}
-                      placeholder="Enter detailed technical narrative..."
+                      placeholder="Enter detailed product description..."
                     />
                   </div>
                 </div>
@@ -476,8 +515,8 @@ export default function ProductEditorPage() {
               >
                 <div className="max-w-4xl space-y-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Visual Asset Layer</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Manage high-fidelity imagery and primary listing thumbnails.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Images</h3>
+                    <p className="text-slate-400 font-medium text-lg italic">Upload and manage product photos and gallery images.</p>
                   </div>
                   
                   <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
@@ -501,8 +540,8 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Technical Parameters</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Define the engineering metrics for this hardware cluster.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Specifications</h3>
+                    <p className="text-slate-400 font-medium text-lg italic">Add key technical specifications for this product.</p>
                   </div>
                   <button 
                     type="button"
@@ -510,7 +549,7 @@ export default function ProductEditorPage() {
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
                   >
                     <Plus size={16} />
-                    Append Spec
+                    Add Specification
                   </button>
                 </div>
 
@@ -519,7 +558,7 @@ export default function ProductEditorPage() {
                     {specs.length === 0 ? (
                       <div className="py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
                         <Cpu size={64} />
-                        <p className="text-xl font-black tracking-tight">Zero parameters defined.</p>
+                        <p className="text-xl font-black tracking-tight">No specifications added yet.</p>
                       </div>
                     ) : (
                       specs.map((s, index) => (
@@ -537,7 +576,7 @@ export default function ProductEditorPage() {
                             <input 
                               value={s.spec_key} 
                               onChange={(e) => handleSpecChange(index, 'spec_key', e.target.value)}
-                              placeholder="Parameter Identity (e.g. Pixel Pitch)"
+                              placeholder="Specification Name (e.g. Pixel Pitch)"
                               className="px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                             />
                             <input 
@@ -572,8 +611,8 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Feature Signature</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Define the technical differentiators and key selling points.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Features</h3>
+                    <p className="text-slate-400 font-medium text-lg italic">Add the key selling points and features of this product.</p>
                   </div>
                   <button 
                     type="button"
@@ -581,7 +620,7 @@ export default function ProductEditorPage() {
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
                   >
                     <Plus size={16} />
-                    Initialize Feature
+                    Add Feature
                   </button>
                 </div>
 
@@ -590,7 +629,7 @@ export default function ProductEditorPage() {
                     {features.length === 0 ? (
                        <div className="md:col-span-2 py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
                         <Sparkles size={64} />
-                        <p className="text-xl font-black tracking-tight">Zero features configured.</p>
+                        <p className="text-xl font-black tracking-tight">No features added yet.</p>
                       </div>
                     ) : (
                       features.map((f, index) => (
@@ -616,13 +655,13 @@ export default function ProductEditorPage() {
                           <input 
                             value={f.title} 
                             onChange={(e) => handleFeatureChange(index, 'title', e.target.value)}
-                            placeholder="Feature Identity (e.g. Neural Dimming)"
+                            placeholder="Feature Title (e.g. Seamless Display)"
                             className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                           />
                           <textarea 
                             value={f.description} 
                             onChange={(e) => handleFeatureChange(index, 'description', e.target.value)}
-                            placeholder="Detailed technical context of this feature..."
+                            placeholder="Feature description..."
                             rows={4}
                             className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 resize-none leading-relaxed"
                           />
@@ -645,8 +684,8 @@ export default function ProductEditorPage() {
                 <div className="w-24 h-24 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-10 shadow-inner">
                   <Box size={40} />
                 </div>
-                <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Peripheral Kit Console</h3>
-                <p className="text-lg text-slate-400 font-medium max-w-sm mx-auto leading-relaxed italic">Linking maintenance protocols and global hardware accessories is currently restricted.</p>
+                <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Accessories Management</h3>
+                <p className="text-lg text-slate-400 font-medium max-w-sm mx-auto leading-relaxed italic">Managing product accessories and add-ons will be available in a future update.</p>
               </motion.div>
             )}
 
@@ -660,7 +699,7 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Technical Documents</h3>
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Downloads & Documents</h3>
                     <p className="text-slate-400 font-medium text-lg italic">Manage Datasheets, Manuals, and Technical Drawings.</p>
                   </div>
                   <button 
@@ -669,7 +708,7 @@ export default function ProductEditorPage() {
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
                   >
                     <Plus size={16} />
-                    Append Document
+                    Add Document
                   </button>
                 </div>
 
@@ -678,7 +717,7 @@ export default function ProductEditorPage() {
                     {downloads.length === 0 ? (
                       <div className="py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
                         <Download size={64} />
-                        <p className="text-xl font-black tracking-tight">Zero documents linked.</p>
+                        <p className="text-xl font-black tracking-tight">No documents added yet.</p>
                       </div>
                     ) : (
                       downloads.map((d, index) => (
@@ -702,7 +741,7 @@ export default function ProductEditorPage() {
                               />
                             </div>
                             <div className="space-y-1.5">
-                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Protocol Type</label>
+                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Document Type</label>
                                <select 
                                 value={d.document_type}
                                 onChange={(e) => handleDownloadChange(index, 'document_type', e.target.value)}
@@ -715,7 +754,7 @@ export default function ProductEditorPage() {
                               </select>
                             </div>
                             <div className="space-y-1.5">
-                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Asset URL Signature</label>
+                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">File URL</label>
                                <input 
                                 value={d.file_url} 
                                 onChange={(e) => handleDownloadChange(index, 'file_url', e.target.value)}
@@ -749,8 +788,8 @@ export default function ProductEditorPage() {
               >
                 <div className="max-w-4xl space-y-12">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Field Application Layer</h3>
-                    <p className="text-slate-400 font-medium text-lg italic text-balance">Showcase high-impact deployments of this hardware cluster in enterprise environments.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Case Studies / Applications</h3>
+                    <p className="text-slate-400 font-medium text-lg italic text-balance">Showcase real-world projects and environments where this product was used.</p>
                   </div>
                   
                   <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
@@ -770,7 +809,7 @@ export default function ProductEditorPage() {
                         </div>
                         <div className="flex-1 grid grid-cols-2 gap-8 py-2">
                           <div className="space-y-2">
-                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Deployment Context</label>
+                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Project Name</label>
                              <input 
                               value={app.caption || ''} 
                               onChange={(e) => {
@@ -783,7 +822,7 @@ export default function ProductEditorPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Geographical Layer</label>
+                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Location</label>
                              <input 
                               value={app.location || ''} 
                               onChange={(e) => {
@@ -806,54 +845,6 @@ export default function ProductEditorPage() {
         </div>
       </div>
 
-      {/* Floating Spatial Console (Save Bar) */}
-      <div className="fixed bottom-12 left-1/2 -translate-x-1/2 w-full max-w-5xl px-8 z-[60]">
-        <motion.div 
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="bg-slate-950/90 backdrop-blur-3xl border border-white/10 rounded-[1.75rem] p-6 flex items-center justify-between shadow-[0_32px_120px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#0D95F0]/20 to-transparent" />
-          
-          <div className="flex items-center gap-6 px-4">
-            <div className="w-12 h-12 rounded-[1.25rem] bg-white/5 flex items-center justify-center text-[#0D95F0]">
-               <Terminal size={22} />
-            </div>
-            <div className="flex flex-col">
-              {isDirty ? (
-                <div className="flex items-center gap-2 text-amber-400">
-                  <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Pending Synchronization</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-emerald-400">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Architecture Synchronized</span>
-                </div>
-              )}
-              <span className="text-white/40 text-[9px] font-bold uppercase tracking-widest mt-1">Spatial Sync v2.4</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-             <button
-              type="button"
-              onClick={() => router.push('/admin/products')}
-              className="px-8 py-4 rounded-[1.5rem] text-xs font-black uppercase tracking-widest text-white/30 hover:text-white transition-colors"
-            >
-              Abort
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex items-center gap-3 px-10 py-5 bg-[#0D95F0] hover:bg-[#0b82d4] text-white rounded-[2rem] text-xs font-black uppercase tracking-[0.2em] transition-all shadow-2xl shadow-[#0D95F0]/20 active:scale-95 disabled:opacity-50"
-            >
-              {saving ? <Loader2 size={18} className="animate-spin" /> : <Zap size={18} fill="currentColor" />}
-              {isNew ? 'Initialize Asset' : 'Commit Protocol'}
-            </button>
-          </div>
-        </motion.div>
-      </div>
     </form>
   )
 }

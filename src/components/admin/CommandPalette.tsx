@@ -65,16 +65,16 @@ export default function CommandPalette() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-white rounded-[1.75rem] border border-black/5 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.4)] overflow-hidden"
+            className="relative w-full max-w-2xl bg-white rounded-[1.75rem] border border-black/5 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.4)] overflow-hidden keep-rounded"
           >
-            <div className="flex items-center gap-4 px-8 py-6 border-b border-black/5">
-              <Search className="text-slate-300" size={20} />
+            <div className="flex items-center gap-4 px-8 py-6 border-b border-black/5 keep-rounded">
+              <Search className="text-slate-300 keep-rounded" size={20} />
               <Command.Input
                 placeholder="Search across enterprise intelligence..."
-                className="flex-1 bg-transparent border-none outline-none text-base font-bold text-[#0A1628] placeholder:text-slate-300"
+                className="flex-1 bg-transparent border-none outline-none text-base font-bold text-[#0A1628] placeholder:text-slate-300 keep-rounded"
               />
-              <div className="flex items-center gap-2">
-                 <div className="px-3 py-1.5 bg-slate-50 border border-black/5 rounded-xl text-[10px] font-black text-slate-400 uppercase tracking-widest">ESC TO EXIT</div>
+              <div className="flex items-center gap-2 keep-rounded">
+                 <div className="px-3 py-1.5 bg-slate-50 border border-black/5 rounded-xl text-[10px] font-black text-slate-400 uppercase tracking-widest keep-rounded">ESC TO EXIT</div>
               </div>
             </div>
 
@@ -104,6 +104,7 @@ export default function CommandPalette() {
               <Command.Group heading="Content" className="px-4 py-3">
                 <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-3 ml-2">Narrative Layer</div>
                 <Item icon={FileText} label="Edit About Narrative" onSelect={() => runCommand(() => router.push('/admin/content/about'))} />
+                <Item icon={Sparkles} label="Edit Solutions Page" onSelect={() => runCommand(() => router.push('/admin/content/solutions'))} />
                 <Item icon={Building2} label="Manage Industry Sector" onSelect={() => runCommand(() => router.push('/admin/content/industries'))} />
                 <Item icon={Globe2} label="Global Office Network" onSelect={() => runCommand(() => router.push('/admin/content/offices'))} />
               </Command.Group>
