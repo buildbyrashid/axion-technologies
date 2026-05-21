@@ -36,7 +36,7 @@ export async function GET() {
           products: subProducts.map(p => ({
             name: p.name,
             image: p.featured_image || "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
-            href: `/products/${p.slug}` // Direct public detail page url or path
+            href: `/products/${mainCat.slug}/${subCat.slug}/${p.slug}` // Direct public detail page url or path
           }))
         }
       }).filter(sub => sub.products.length > 0) // Only include subcategories with products

@@ -977,8 +977,29 @@ export const productCategories: Category[] = [
   }
 ];
 
+// Dynamically format fallback static productCategories to use 3-segment URLs
+const formattedProductCategories = productCategories.map(cat => {
+  const catSlug = cat.href.split('/').pop() || "";
+  return {
+    ...cat,
+    subcategories: cat.subcategories.map(sub => ({
+      ...sub,
+      products: sub.products.map(prod => {
+        const parts = prod.href.split('/');
+        if (parts.length === 4 && parts[1] === 'products') {
+          return {
+            ...prod,
+            href: `/products/${catSlug}/${parts[2]}/${parts[3]}`
+          };
+        }
+        return prod;
+      })
+    }))
+  };
+});
+
 export default function ProductDropdown({ onClose }: { onClose?: () => void }) {
-  const [categories, setCategories] = useState<Category[]>(productCategories);
+  const [categories, setCategories] = useState<Category[]>(formattedProductCategories);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeSubIndex, setActiveSubIndex] = useState(0);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<number | null>(0);
