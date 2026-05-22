@@ -24,7 +24,13 @@ const pool =
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
     timezone: "+00:00",
+    connectTimeout: 10000, // 10 seconds timeout
   });
+
+// Handle unexpected errors on idle connections so they don't crash the process
+(pool as any).on('error', (err: any) => {
+  console.error('Unexpected DB Pool Error:', err);
+});
 
 if (process.env.NODE_ENV !== "production") {
   globalForDb.pool = pool;
