@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--max-old-space-size=6144 next dev",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 next build",
-    "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3000",
     "lint": "eslint"
   },
   "dependencies": {
@@ -31,9 +31,9 @@
     "jose": "^6.2.3",
     "lucide-react": "^1.14.0",
     "mysql2": "^3.22.3",
-    "next": "16.2.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "next": "^15.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "^7.75.0",
     "react-icons": "^5.6.0",
     "react-pdf": "^10.4.1",
