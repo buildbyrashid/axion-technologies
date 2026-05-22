@@ -7,27 +7,10 @@
  * All data access should go through these functions.
  */
 
-import pool from './db';
+import pool, { query } from './db';
 import { v4 as uuidv4 } from 'uuid';
 
-// ==========================================
-// GENERIC QUERY FUNCTION
-// ==========================================
-
-export async function query<T = any>(
-  sql: string,
-  params: any[] = []
-): Promise<T> {
-  try {
-    const [rows] = await pool.execute(sql, params);
-    return rows as T;
-  } catch (error: any) {
-    console.error('❌ Database Query Error:', error.message);
-    console.error('SQL:', sql);
-    console.error('Params:', params);
-    throw new Error(`Database error: ${error.message}`);
-  }
-}
+export { query };
 
 // ==========================================
 // PRODUCT FUNCTIONS
