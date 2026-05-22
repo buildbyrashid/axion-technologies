@@ -32,8 +32,7 @@ const pool = globalForDb.pool || mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
   timezone: '+00:00',
-  family: 4, // Force IPv4 to prevent '::1' localhost resolution issues on Hostinger
-} as any);
+});
 
 if (process.env.NODE_ENV !== 'production') {
   globalForDb.pool = pool;
