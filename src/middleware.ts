@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
+// Force Node.js runtime — avoids Edge Runtime instability on Hostinger
+// and prevents the jose/CompressionStream warning causing crash loops.
+export const runtime = 'nodejs'
+
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback-secret-for-dev-only'
 )
@@ -41,4 +45,3 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/admin/:path*'],
 }
-

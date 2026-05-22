@@ -3,6 +3,8 @@ import { query } from '@/lib/db-helpers';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
 
+// Force Node.js runtime — ensures full Node.js API access (mysql2, bcrypt, jose)
+export const runtime = 'nodejs';
 
 
 const JWT_SECRET = new TextEncoder().encode(

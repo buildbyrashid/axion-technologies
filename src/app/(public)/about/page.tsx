@@ -6,7 +6,7 @@ import CTASection from '@/components/sections/CTASection';
 import Image from 'next/image';
 import { query } from '@/lib/db-helpers';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'About Us | Axion Technology',
