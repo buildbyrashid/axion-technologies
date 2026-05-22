@@ -7,7 +7,12 @@
  * caused by Hot Module Replacement (HMR).
  */
 
+import dotenv from "dotenv";
 import mysql from 'mysql2/promise';
+
+if (process.env.NODE_ENV === "production") {
+  dotenv.config({ path: "/home/u736723957/.env" });
+}
 
 // Check required environment variables
 if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_NAME) {
