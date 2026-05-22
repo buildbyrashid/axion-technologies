@@ -2,11 +2,9 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db-helpers';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
-import dotenv from "dotenv";
 
-if (process.env.NODE_ENV === "production") {
-  dotenv.config({ path: "/home/u736723957/.env" });
-}
+
+
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback-secret-for-dev-only'
 );
