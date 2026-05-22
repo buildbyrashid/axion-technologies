@@ -5,7 +5,7 @@ import ExpertiseSection from "@/components/sections/ExpertiseSection";
 import CTASection from "@/components/sections/CTASection";
 import { query } from "@/lib/db-helpers";
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Axion Technology | Enterprise Visual Hardware & Systems Engineering",

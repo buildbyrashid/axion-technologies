@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { query } from '@/lib/db-helpers';
 import SolutionsClientContent from './SolutionsClientContent';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Enterprise Solutions | Axion Technology',

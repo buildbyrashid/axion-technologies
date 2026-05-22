@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+// Force Node.js runtime
+export const runtime = 'nodejs'
+
 export async function POST() {
   try {
     const response = NextResponse.json({ success: true })
