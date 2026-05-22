@@ -1,55 +1,45 @@
-// src/lib/db.ts
+import mysql from "mysql2/promise";
 
-/**
- * MySQL Database Connection Pool
- * 
- * Reuses a global singleton pool in development to prevent connection leaks
- * caused by Hot Module Replacement (HMR).
- */
+const DB_HOST = process.env.DB_HOST || "127.0.0.1";
 
-
-import mysql from 'mysql2/promise';
-
-
-
-// Check required environment variables
-if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_NAME) {
-  console.warn('⚠️ Missing database credentials in environment variables (DB_HOST, DB_USER, DB_NAME are required)');
+if (!process.env.DB_USER || !process.env.DB_NAME) {
+  console.warn(
+    "Missing database credentials in environment variables (DB_USER and DB_NAME are required)"
+  );
 }
 
-// Singleton container for Next.js hot-reloading
-const globalForDb = global as unknown as { pool: mysql.Pool };
+const globalForDb = global as unknown as { pool?: mysql.Pool };
 
-const pool = globalForDb.pool || mysql.createPool({
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || '3306', 10),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
-  timezone: '+00:00',
-});
+const pool =
+  globalForDb.pool ||
+  mysql.createPool({
+    host: DB_HOST,
+    port: Number(process.env.DB_PORT || 3306),
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+    timezone: "+00:00",
+  });
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   globalForDb.pool = pool;
 }
 
-/**
- * Generic query helper function with error logging
- */
-export async function query<T = any>(sql: string, params: any[] = []): Promise<T> {
+export async function query<T = any>(
+  sql: string,
+  params: any[] = []
+): Promise<T> {
   try {
     const [rows] = await pool.execute(sql, params);
     return rows as T;
   } catch (error: any) {
-    console.error('❌ Database Query Error:', error.message);
-    console.error('SQL:', sql);
-    console.error('Params:', params);
-    throw new Error(`Database error: ${error.message}`);
+    console.error("Database query error:", error.message);
+    throw new Error("Database error");
   }
 }
 
