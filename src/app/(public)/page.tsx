@@ -5,7 +5,11 @@ import ExpertiseSection from "@/components/sections/ExpertiseSection";
 import CTASection from "@/components/sections/CTASection";
 import { query } from "@/lib/db-helpers";
 
-export const dynamic = 'force-dynamic';
+// CHANGED FROM: export const dynamic = 'force-dynamic';
+// TO: export const revalidate = 60; 
+// This tells Next.js to cache the page and only hit the DB once every 60 seconds.
+// This is critical for Hostinger shared hosting to prevent connection pool exhaustion.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Axion Technology | Enterprise Visual Hardware & Systems Engineering",
@@ -31,17 +35,21 @@ export const metadata: Metadata = {
 
 async function getHomepageData() {
   try {
-    const heroRows = await query<any[]>('SELECT * FROM homepage_hero WHERE is_active = 1 LIMIT 1');
-    const expertiseRows = await query<any[]>('SELECT * FROM homepage_expertise LIMIT 1');
-    const ctaRows = await query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1');
+    // We fetch data in parallel to reduce overall DB waiting time
+    const [heroRows, expertiseRows, ctaRows] = await Promise.all([
+      query<any[]>('SELECT * FROM homepage_hero WHERE is_active = 1 LIMIT 1'),
+      query<any[]>('SELECT * FROM homepage_expertise LIMIT 1'),
+      query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1')
+    ]);
 
     return {
       hero: heroRows[0] || null,
       expertise: expertiseRows[0] || null,
       cta: ctaRows[0] || null
     };
-  } catch (error) {
-    console.error("Error fetching homepage data:", error);
+  } catch (error: any) {
+    console.error("Error fetching homepage data:", error.message || error);
+    // Return nulls gracefully so the page STILL renders even if DB fails
     return { hero: null, expertise: null, cta: null };
   }
 }
