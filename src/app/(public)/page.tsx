@@ -38,9 +38,9 @@ async function getHomepageData() {
     // We fetch data in parallel to reduce overall DB waiting time
     const [heroRows, expertiseRows, ctaRows, productsRows] = await Promise.all([
       query<any[]>('SELECT * FROM homepage_hero WHERE is_active = 1 LIMIT 1'),
-      query<any[]>('SELECT * FROM homepage_expertise LIMIT 1'),
+      query<any[]>('SELECT * FROM homepage_expertise WHERE is_active = 1 LIMIT 1'),
       query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1'),
-      query<any[]>('SELECT * FROM homepage_products ORDER BY sort_order ASC')
+      query<any[]>('SELECT * FROM homepage_products WHERE is_active = 1 ORDER BY sort_order ASC')
     ]);
 
     return {
