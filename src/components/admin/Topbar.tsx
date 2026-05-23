@@ -31,7 +31,10 @@ function getBreadcrumbs(pathname: string) {
 
   for (const segment of segments) {
     currentPath += `/${segment}`
-    const label = breadcrumbMap[currentPath] || segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+    let label = breadcrumbMap[currentPath] || segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+    if (label.length > 20) {
+      label = label.substring(0, 8) + '...'
+    }
     crumbs.push({ label, href: currentPath })
   }
 

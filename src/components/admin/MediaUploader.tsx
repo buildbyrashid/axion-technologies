@@ -102,7 +102,19 @@ export default function MediaUploader({
     }
   }, [handleFiles])
 
-  const removeFile = (index: number) => {
+  const removeFile = async (index: number) => {
+    const fileToRemove = files[index]
+    if (fileToRemove?.url) {
+      try {
+        await fetch('/api/admin/upload', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: fileToRemove.url })
+        })
+      } catch (err) {
+        console.error('Failed to delete file from disk:', err)
+      }
+    }
     const updated = files.filter((_, i) => i !== index)
     // If we removed the primary, make the first one primary
     if (files[index]?.is_primary && updated.length > 0) {

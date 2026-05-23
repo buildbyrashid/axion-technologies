@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ArrowLeft, 
-  Loader2, 
-  Info, 
-  Image as ImageIcon, 
+import {
+  ArrowLeft,
+  Loader2,
+  Info,
+  Image as ImageIcon,
   ListChecks,
-  Box, 
-  Download, 
+  Box,
+  Download,
   Images,
   Plus,
   Trash2,
@@ -23,7 +23,8 @@ import {
   Cpu,
   Layers,
   Terminal,
-  Database
+  Database,
+  Upload
 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -68,11 +69,12 @@ export default function ProductEditorPage() {
   const [loading, setLoading] = useState(!isNew)
   const [saving, setSaving] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
-  
+  const [uploadingDocIndex, setUploadingDocIndex] = useState<number | null>(null)
+
   const [images, setImages] = useState<any[]>([])
-  const [specs, setSpecs] = useState<{id?: string, spec_key: string, spec_value: string}[]>([])
-  const [features, setFeatures] = useState<{id?: string, title: string, description: string}[]>([])
-  const [downloads, setDownloads] = useState<{id?: string, name: string, document_type: string, file_url: string}[]>([])
+  const [specs, setSpecs] = useState<{ id?: string, spec_key: string, spec_value: string }[]>([])
+  const [features, setFeatures] = useState<{ id?: string, title: string, description: string }[]>([])
+  const [downloads, setDownloads] = useState<{ id?: string, name: string, document_type: string, file_url: string }[]>([])
   const [applications, setApplications] = useState<any[]>([])
   const [initialArrays, setInitialArrays] = useState<string>('')
 
@@ -126,13 +128,13 @@ export default function ProductEditorPage() {
       }))
       setImages(formattedImages)
 
-      const formattedSpecs = Array.isArray(product.specifications) ? product.specifications : 
+      const formattedSpecs = Array.isArray(product.specifications) ? product.specifications :
         Object.entries(product.specifications || {}).map(([k, v]) => ({ spec_key: k, spec_value: v as string }))
       setSpecs(formattedSpecs)
 
       const formattedFeatures = Array.isArray(product.features) ? product.features : []
       setFeatures(formattedFeatures)
-      
+
       const formattedDownloads = Array.isArray(product.downloads) ? product.downloads : []
       setDownloads(formattedDownloads)
 
@@ -144,7 +146,7 @@ export default function ProductEditorPage() {
         location: app.location
       }))
       setApplications(formattedApps)
-      
+
       // Reset form dirty state and save initial arrays for dirty checking
       reset({
         name: product.name,
@@ -156,13 +158,13 @@ export default function ProductEditorPage() {
         is_active: product.is_active,
         is_featured: product.is_featured,
       })
-      
-      setInitialArrays(JSON.stringify({ 
-        images: formattedImages, 
-        specs: formattedSpecs, 
-        features: formattedFeatures, 
-        downloads: formattedDownloads, 
-        applications: formattedApps 
+
+      setInitialArrays(JSON.stringify({
+        images: formattedImages,
+        specs: formattedSpecs,
+        features: formattedFeatures,
+        downloads: formattedDownloads,
+        applications: formattedApps
       }))
     } catch {
       toast.error('Failed to load product data')
@@ -252,11 +254,63 @@ export default function ProductEditorPage() {
   }
 
   const handleAddDownload = () => setDownloads([...downloads, { name: '', document_type: 'datasheet', file_url: '' }])
-  const handleRemoveDownload = (index: number) => setDownloads(downloads.filter((_, i) => i !== index))
+  const handleRemoveDownload = async (index: number) => {
+    const fileUrl = downloads[index]?.file_url
+    if (fileUrl) {
+      try {
+        await fetch('/api/admin/upload', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: fileUrl })
+        })
+      } catch (err) {
+        console.error('Failed to delete file from disk:', err)
+      }
+    }
+    setDownloads(downloads.filter((_, i) => i !== index))
+  }
   const handleDownloadChange = (index: number, key: keyof typeof downloads[0], val: string) => {
     const updated = [...downloads] as any
     updated[index][key] = val
     setDownloads(updated)
+  }
+
+  const handleDocumentUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (file.size > 50 * 1024 * 1024) {
+      toast.error('File is too large. Maximum size is 50MB.')
+      return
+    }
+
+    setUploadingDocIndex(index)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', `products/${watch('slug') || 'unnamed'}/documents`)
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const json = await res.json()
+      if (json.success) {
+        handleDownloadChange(index, 'file_url', json.url)
+        // If name is empty, autofill it with the file name
+        if (!downloads[index].name) {
+          handleDownloadChange(index, 'name', file.name.replace(/\.[^.]+$/, ''))
+        }
+        toast.success('Document uploaded successfully')
+      } else {
+        toast.error('Upload failed: ' + (json.error || 'Unknown error'))
+      }
+    } catch {
+      toast.error('Connection error during upload')
+    } finally {
+      setUploadingDocIndex(null)
+      e.target.value = ''
+    }
   }
 
   if (loading) {
@@ -268,7 +322,7 @@ export default function ProductEditorPage() {
       {/* Header Architecture */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
         <div className="flex items-center gap-6">
-          <Link 
+          <Link
             href="/admin/products"
             className="w-14 h-14 rounded-[1.5rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 hover:text-[#0D95F0] hover:bg-white hover:shadow-2xl hover:shadow-black/5 transition-all shadow-sm group"
           >
@@ -288,7 +342,7 @@ export default function ProductEditorPage() {
         <div className="flex items-center gap-4">
           <AnimatePresence mode="wait">
             {isDirty ? (
-              <motion.div 
+              <motion.div
                 key="dirty-actions"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -379,8 +433,8 @@ export default function ProductEditorPage() {
             onClick={() => setActiveTab(tab.id)}
             className={cn(
               "flex items-center gap-3 px-6 py-4 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
-              activeTab === tab.id 
-                ? "bg-[#0A1628] text-white shadow-2xl shadow-black/20 scale-105" 
+              activeTab === tab.id
+                ? "bg-[#0A1628] text-white shadow-2xl shadow-black/20 scale-105"
                 : "text-slate-400 hover:text-[#0A1628] hover:bg-white"
             )}
           >
@@ -393,11 +447,11 @@ export default function ProductEditorPage() {
       {/* Technical Canvas (Content) */}
       <div className="relative group">
         <div className="absolute -inset-4 bg-gradient-to-br from-[#0D95F0]/5 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity blur-3xl pointer-events-none" />
-        
+
         <div className="relative bg-white rounded-[2.25rem] border border-black/5 shadow-sm overflow-hidden min-h-[600px] z-10 transition-all duration-700">
           <AnimatePresence mode="wait">
             {activeTab === 'basic' && (
-              <motion.div 
+              <motion.div
                 key="basic"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -407,7 +461,7 @@ export default function ProductEditorPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   <div className="space-y-3">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
-                    <input 
+                    <input
                       {...register('name')}
                       placeholder="e.g. UltraHD LED Series 2026"
                       className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm"
@@ -422,7 +476,7 @@ export default function ProductEditorPage() {
 
                   <div className="space-y-3">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">URL Slug</label>
-                    <input 
+                    <input
                       {...register('slug')}
                       placeholder="ultrahd-led-series-2026"
                       className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold font-mono tracking-tight shadow-sm"
@@ -432,7 +486,7 @@ export default function ProductEditorPage() {
 
                   <div className="space-y-3">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Main Category</label>
-                    <select 
+                    <select
                       {...register('category_id')}
                       className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
                       onChange={(e) => {
@@ -451,7 +505,7 @@ export default function ProductEditorPage() {
                   {watch('category_id') && categories.some(c => c.parent_id === watch('category_id')) && (
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub-Category</label>
-                      <select 
+                      <select
                         {...register('subcategory_id')}
                         className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
                       >
@@ -466,21 +520,21 @@ export default function ProductEditorPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[1.5rem] border border-black/5">
-                   <label className="flex items-center gap-4 cursor-pointer">
-                      <input type="checkbox" {...register('is_active')} className="sr-only peer" />
-                      <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-emerald-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Visible to Public</span>
-                   </label>
-                   <label className="flex items-center gap-4 cursor-pointer">
-                      <input type="checkbox" {...register('is_featured')} className="sr-only peer" />
-                      <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-amber-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Featured Product</span>
-                   </label>
+                  <label className="flex items-center gap-4 cursor-pointer">
+                    <input type="checkbox" {...register('is_active')} className="sr-only peer" />
+                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-emerald-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Visible to Public</span>
+                  </label>
+                  <label className="flex items-center gap-4 cursor-pointer">
+                    <input type="checkbox" {...register('is_featured')} className="sr-only peer" />
+                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-amber-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Featured Product</span>
+                  </label>
                 </div>
 
                 <div className="space-y-4">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Short Description (Preview)</label>
-                  <textarea 
+                  <textarea
                     {...register('short_description')}
                     rows={4}
                     placeholder="Write a brief overview of this product..."
@@ -491,8 +545,8 @@ export default function ProductEditorPage() {
                 <div className="space-y-4">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Description</label>
                   <div className="rounded-[1.5rem] overflow-hidden border border-black/5">
-                    <RichTextEditor 
-                      content={watch('full_description') || ''} 
+                    <RichTextEditor
+                      content={watch('full_description') || ''}
                       onChange={(val) => setValue('full_description', val, { shouldDirty: true })}
                       placeholder="Enter detailed product description..."
                     />
@@ -502,21 +556,21 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'media' && (
-              <motion.div 
+              <motion.div
                 key="media"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 className="p-10 lg:p-16 space-y-12"
               >
-                <div className="max-w-4xl space-y-8">
+                <div className="w-full space-y-8">
                   <div>
                     <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Images</h3>
                     <p className="text-slate-400 font-medium text-lg italic">Upload and manage product photos and gallery images.</p>
                   </div>
-                  
+
                   <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
-                    <MediaUploader 
+                    <MediaUploader
                       files={images}
                       onFilesChange={setImages}
                       folder={`products/${watch('slug') || 'unnamed'}`}
@@ -527,7 +581,7 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'specs' && (
-              <motion.div 
+              <motion.div
                 key="specs"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -539,7 +593,7 @@ export default function ProductEditorPage() {
                     <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Specifications</h3>
                     <p className="text-slate-400 font-medium text-lg italic">Add key technical specifications for this product.</p>
                   </div>
-                  <button 
+                  <button
                     type="button"
                     onClick={handleAddSpec}
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
@@ -558,7 +612,7 @@ export default function ProductEditorPage() {
                       </div>
                     ) : (
                       specs.map((s, index) => (
-                        <motion.div 
+                        <motion.div
                           key={index}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -566,24 +620,24 @@ export default function ProductEditorPage() {
                           className="flex items-center gap-6 p-4 bg-slate-50/50 rounded-[2rem] border border-black/5 group hover:bg-white hover:shadow-2xl transition-all duration-500"
                         >
                           <div className="w-12 h-12 rounded-[1rem] bg-slate-950 text-white flex items-center justify-center shrink-0">
-                             <Database size={18} />
+                            <Database size={18} />
                           </div>
                           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <input 
-                              value={s.spec_key} 
+                            <input
+                              value={s.spec_key}
                               onChange={(e) => handleSpecChange(index, 'spec_key', e.target.value)}
                               placeholder="Specification Name (e.g. Pixel Pitch)"
                               className="px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                             />
-                            <input 
-                              value={s.spec_value} 
+                            <input
+                              value={s.spec_value}
                               onChange={(e) => handleSpecChange(index, 'spec_value', e.target.value)}
                               placeholder="Metric Value (e.g. 1.2mm)"
                               className="px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40"
                             />
                           </div>
-                          <button 
-                            type="button" 
+                          <button
+                            type="button"
                             onClick={() => handleRemoveSpec(index)}
                             className="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
                           >
@@ -598,7 +652,7 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'features' && (
-              <motion.div 
+              <motion.div
                 key="features"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -610,7 +664,7 @@ export default function ProductEditorPage() {
                     <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Features</h3>
                     <p className="text-slate-400 font-medium text-lg italic">Add the key selling points and features of this product.</p>
                   </div>
-                  <button 
+                  <button
                     type="button"
                     onClick={handleAddFeature}
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
@@ -623,13 +677,13 @@ export default function ProductEditorPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <AnimatePresence mode="popLayout">
                     {features.length === 0 ? (
-                       <div className="md:col-span-2 py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
+                      <div className="md:col-span-2 py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
                         <ListChecks size={64} />
                         <p className="text-xl font-black tracking-tight">No features added yet.</p>
                       </div>
                     ) : (
                       features.map((f, index) => (
-                        <motion.div 
+                        <motion.div
                           key={index}
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -637,25 +691,25 @@ export default function ProductEditorPage() {
                           className="bg-slate-50/50 p-8 rounded-[1.5rem] border border-black/5 space-y-6 group relative hover:bg-white hover:shadow-2xl transition-all duration-700"
                         >
                           <div className="flex items-center justify-between">
-                             <div className="w-12 h-12 rounded-[1rem] bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                                <ListChecks size={20} />
-                             </div>
-                             <button 
-                                type="button" 
-                                onClick={() => handleRemoveFeature(index)}
-                                className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-200 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
-                              >
-                                <Trash2 size={18} />
-                              </button>
+                            <div className="w-12 h-12 rounded-[1rem] bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
+                              <ListChecks size={20} />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveFeature(index)}
+                              className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-200 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
+                            >
+                              <Trash2 size={18} />
+                            </button>
                           </div>
-                          <input 
-                            value={f.title} 
+                          <input
+                            value={f.title}
                             onChange={(e) => handleFeatureChange(index, 'title', e.target.value)}
                             placeholder="Feature Title (e.g. Seamless Display)"
                             className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                           />
-                          <textarea 
-                            value={f.description} 
+                          <textarea
+                            value={f.description}
                             onChange={(e) => handleFeatureChange(index, 'description', e.target.value)}
                             placeholder="Feature description..."
                             rows={4}
@@ -670,7 +724,7 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'accessories' && (
-               <motion.div 
+              <motion.div
                 key="accessories"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -686,7 +740,7 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'downloads' && (
-              <motion.div 
+              <motion.div
                 key="downloads"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -698,7 +752,7 @@ export default function ProductEditorPage() {
                     <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Downloads & Documents</h3>
                     <p className="text-slate-400 font-medium text-lg italic">Manage Datasheets, Manuals, and Technical Drawings.</p>
                   </div>
-                  <button 
+                  <button
                     type="button"
                     onClick={handleAddDownload}
                     className="flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-black/20"
@@ -717,7 +771,7 @@ export default function ProductEditorPage() {
                       </div>
                     ) : (
                       downloads.map((d, index) => (
-                        <motion.div 
+                        <motion.div
                           key={index}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -728,17 +782,17 @@ export default function ProductEditorPage() {
                           </div>
                           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <div className="space-y-1.5">
-                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Document Name</label>
-                               <input 
-                                value={d.name} 
+                              <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Document Name</label>
+                              <input
+                                value={d.name}
                                 onChange={(e) => handleDownloadChange(index, 'name', e.target.value)}
                                 placeholder="e.g. Operation Manual V4"
                                 className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                               />
                             </div>
                             <div className="space-y-1.5">
-                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Document Type</label>
-                               <select 
+                              <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">Document Type</label>
+                              <select
                                 value={d.document_type}
                                 onChange={(e) => handleDownloadChange(index, 'document_type', e.target.value)}
                                 className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 appearance-none"
@@ -750,17 +804,33 @@ export default function ProductEditorPage() {
                               </select>
                             </div>
                             <div className="space-y-1.5">
-                               <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">File URL</label>
-                               <input 
-                                value={d.file_url} 
-                                onChange={(e) => handleDownloadChange(index, 'file_url', e.target.value)}
-                                placeholder="https://axion.io/assets/..."
-                                className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-[10px] font-black tracking-widest bg-white/40"
-                              />
+                              <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">File URL or Upload</label>
+                              <div className="flex items-center gap-2">
+                                <input
+                                  value={d.file_url}
+                                  onChange={(e) => handleDownloadChange(index, 'file_url', e.target.value)}
+                                  placeholder="https://axion.io/assets/..."
+                                  className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-[10px] font-black tracking-widest bg-white/40"
+                                />
+                                <label className="shrink-0 flex items-center justify-center w-12 h-12 rounded-[1.25rem] bg-slate-100 hover:bg-[#0D95F0] hover:text-white text-slate-500 cursor-pointer transition-colors shadow-sm" title="Upload Document">
+                                  {uploadingDocIndex === index ? (
+                                    <Loader2 size={16} className="animate-spin" />
+                                  ) : (
+                                    <Upload size={16} />
+                                  )}
+                                  <input 
+                                    type="file" 
+                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.zip" 
+                                    className="hidden" 
+                                    onChange={(e) => handleDocumentUpload(e, index)}
+                                    disabled={uploadingDocIndex === index}
+                                  />
+                                </label>
+                              </div>
                             </div>
                           </div>
-                          <button 
-                            type="button" 
+                          <button
+                            type="button"
                             onClick={() => handleRemoveDownload(index)}
                             className="w-12 h-12 rounded-2xl flex items-center justify-center text-slate-200 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
                           >
@@ -775,21 +845,21 @@ export default function ProductEditorPage() {
             )}
 
             {activeTab === 'application' && (
-              <motion.div 
+              <motion.div
                 key="application"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 className="p-10 lg:p-16 space-y-12"
               >
-                <div className="max-w-4xl space-y-12">
+                <div className="w-full space-y-12">
                   <div>
                     <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Case Studies / Applications</h3>
                     <p className="text-slate-400 font-medium text-lg italic text-balance">Showcase real-world projects and environments where this product was used.</p>
                   </div>
-                  
+
                   <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
-                    <MediaUploader 
+                    <MediaUploader
                       files={applications}
                       onFilesChange={setApplications}
                       folder={`products/${watch('slug') || 'unnamed'}/applications`}
@@ -805,9 +875,9 @@ export default function ProductEditorPage() {
                         </div>
                         <div className="flex-1 grid grid-cols-2 gap-8 py-2">
                           <div className="space-y-2">
-                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Project Name</label>
-                             <input 
-                              value={app.caption || ''} 
+                            <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Project Name</label>
+                            <input
+                              value={app.caption || ''}
                               onChange={(e) => {
                                 const updated = [...applications]
                                 updated[i].caption = e.target.value
@@ -818,9 +888,9 @@ export default function ProductEditorPage() {
                             />
                           </div>
                           <div className="space-y-2">
-                             <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Location</label>
-                             <input 
-                              value={app.location || ''} 
+                            <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Location</label>
+                            <input
+                              value={app.location || ''}
                               onChange={(e) => {
                                 const updated = [...applications]
                                 updated[i].location = e.target.value
