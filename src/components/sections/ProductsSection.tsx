@@ -49,7 +49,9 @@ const products = [
   },
 ];
 
-export default function ProductsSection() {
+export default function ProductsSection({ data }: { data?: any[] }) {
+  const displayProducts = data && data.length > 0 ? data : products;
+
   return (
     <section id="products" className="py-24 bg-white overflow-hidden">
       <div className="container-custom">
@@ -79,60 +81,58 @@ export default function ProductsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 auto-rows-[300px] sm:auto-rows-[350px]">
-          {products.map((product, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className={cn(
-                "group relative overflow-hidden bg-white border border-slate-100 flex flex-col p-0 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]",
-                product.className
-              )}
-            >
-              {/* Image Container */}
-              <div className="absolute inset-0 z-0">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  className="object-cover transition-all duration-700 group-hover:scale-105"
-                />
-                {/* Dark gradient to ensure white text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
-              </div>
-
-              {/* Content Overlay */}
-              <div className="relative z-10 mt-auto p-8 w-full">
-                <div className="flex items-end justify-between">
-                  <div className="flex-1">
-                    <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] mb-2 block">
-                      {product.category}
-                    </span>
-                    <h3 className={cn(
-                      "font-sora font-bold text-white tracking-tight leading-tight",
-                      index === 0 ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
-                    )}>
-                      {product.title}
-                    </h3>
-                    {index === 0 && (
-                      <p className="text-white/80 text-xs sm:text-sm max-w-sm leading-relaxed mt-4 hidden sm:block line-clamp-2 lg:line-clamp-none">
-                        {product.description}
-                      </p>
-                    )}
-                  </div>
-
-                  <Link
-                    href={product.href}
-                    className="h-10 w-10 bg-primary text-white flex items-center justify-center translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
-                  >
-                    <ArrowUpRight className="h-5 w-5" />
-                  </Link>
+          {displayProducts.map((product, index) => {
+            const gridClass = index === 0 ? "lg:col-span-2 lg:row-span-2" : "lg:col-span-1 lg:row-span-1";
+            return (
+              <motion.div
+                key={product.id || index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={cn(
+                  "group relative overflow-hidden bg-white border border-slate-100 flex flex-col p-0 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]",
+                  gridClass
+                )}
+              >
+                {/* Image Container */}
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    className="object-cover transition-all duration-700 group-hover:scale-105"
+                  />
+                  {/* Dark gradient to ensure white text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+                {/* Content Overlay */}
+                <div className="relative z-10 mt-auto p-8 w-full">
+                  <div className="flex items-end justify-between">
+                    <div className="flex-1">
+                      <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] mb-2 block">
+                        {product.category}
+                      </span>
+                      <h3 className={cn(
+                        "font-sora font-bold text-white tracking-tight leading-tight",
+                        index === 0 ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
+                      )}>
+                        {product.title}
+                      </h3>
+                    </div>
+
+                    <Link
+                      href={product.href}
+                      className="h-10 w-10 bg-primary text-white flex items-center justify-center translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
+                    >
+                      <ArrowUpRight className="h-5 w-5" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

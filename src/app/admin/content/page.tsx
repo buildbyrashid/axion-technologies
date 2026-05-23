@@ -11,17 +11,19 @@ import {
   Zap, 
   Terminal, 
   Upload, 
-  Sparkles,
+  Type,
   Check,
   BarChart3,
-  Trash2
+  Trash2,
+  Building2
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 export default function HomepageCMSPage() {
-  const [activeTab, setActiveTab] = useState<'hero' | 'expertise'>('hero')
+  const [activeTab, setActiveTab] = useState<'hero' | 'expertise' | 'products'>('hero')
   const [loading, setLoading] = useState(true)
   const [savingType, setSavingType] = useState<'draft' | 'publish' | null>(null)
   const [uploadingField, setUploadingField] = useState<string | null>(null)
@@ -60,9 +62,12 @@ export default function HomepageCMSPage() {
     stat_4_label: ''
   })
 
+  const [products, setProducts] = useState<any[]>([])
+
   // Track initial state to detect modified changes
   const [initialHero, setInitialHero] = useState<typeof hero | null>(null)
   const [initialExpertise, setInitialExpertise] = useState<typeof expertise | null>(null)
+  const [initialProducts, setInitialProducts] = useState<any[] | null>(null)
 
   // File input refs for uploading
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({})
@@ -94,6 +99,10 @@ export default function HomepageCMSPage() {
           setExpertise(expData)
           setInitialExpertise(expData)
         }
+        if (json.data.products && Array.isArray(json.data.products)) {
+          setProducts(json.data.products)
+          setInitialProducts(json.data.products)
+        }
       } else {
         toast.error('Failed to load homepage parameters')
       }
@@ -104,9 +113,10 @@ export default function HomepageCMSPage() {
   }
 
   // Deep comparison to determine dirty status
-  const isDirty = initialHero && initialExpertise && (
+  const isDirty = initialHero && initialExpertise && initialProducts && (
     JSON.stringify(hero) !== JSON.stringify(initialHero) ||
-    JSON.stringify(expertise) !== JSON.stringify(initialExpertise)
+    JSON.stringify(expertise) !== JSON.stringify(initialExpertise) ||
+    JSON.stringify(products) !== JSON.stringify(initialProducts)
   )
 
   async function handleSave(status: 'draft' | 'published') {
@@ -122,7 +132,8 @@ export default function HomepageCMSPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           hero: updatedHero,
-          expertise
+          expertise,
+          products
         }),
       })
       const json = await res.json()
@@ -130,6 +141,7 @@ export default function HomepageCMSPage() {
         setHero(updatedHero)
         setInitialHero(updatedHero)
         setInitialExpertise(expertise)
+        setInitialProducts(products)
         toast.success(isPublish ? 'Homepage parameters published live!' : 'Saved as draft')
       } else {
         toast.error('Synchronization failed: ' + (json.error || 'Unknown error'))
@@ -168,6 +180,19 @@ export default function HomepageCMSPage() {
           }
           return updated
         })
+        
+        // Also check if this is a product image upload
+        if (fieldName.startsWith('product_image_')) {
+          const index = parseInt(fieldName.split('_')[2])
+          setProducts(prev => {
+            const next = [...prev]
+            if (next[index]) {
+              next[index] = { ...next[index], image: json.url }
+            }
+            return next
+          })
+        }
+        
         toast.success('Asset uploaded successfully')
       } else {
         toast.error('Upload failed: ' + (json.error || 'Unknown error'))
@@ -205,16 +230,22 @@ export default function HomepageCMSPage() {
       return updated
     })
 
+    if (field.startsWith('product_image_')) {
+      const index = parseInt(field.split('_')[2])
+      setProducts(prev => {
+        const next = [...prev]
+        if (next[index]) {
+          next[index] = { ...next[index], image: '' }
+        }
+        return next
+      })
+    }
+
     toast.success(`${deleteTarget.label} cleared. Click Save or Publish to synchronize changes.`)
     setDeleteTarget(null)
   }
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
-      <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Homepage Core Parameters...</p>
-    </div>
-  )
+  if (loading) return <AxionLoader message="Loading Homepage Core Parameters..." />
 
   return (
     <div className="w-full space-y-10 pb-24">
@@ -223,7 +254,7 @@ export default function HomepageCMSPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
-              <Terminal size={16} />
+              <Building2 size={16} />
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>
@@ -325,6 +356,20 @@ export default function HomepageCMSPage() {
           </div>
         </button>
         <button
+          onClick={() => setActiveTab('products')}
+          className={cn(
+            "px-8 py-5 text-sm font-black uppercase tracking-widest border-b-2 transition-all relative",
+            activeTab === 'products' 
+              ? "border-[#0D95F0] text-[#0A1628]" 
+              : "border-transparent text-slate-400 hover:text-slate-600"
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <Layout size={16} />
+            Our Products
+          </div>
+        </button>
+        <button
           onClick={() => setActiveTab('expertise')}
           className={cn(
             "px-8 py-5 text-sm font-black uppercase tracking-widest border-b-2 transition-all relative",
@@ -356,7 +401,7 @@ export default function HomepageCMSPage() {
               <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8 relative overflow-hidden">
                 <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
                   <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                    <Sparkles size={22} />
+                    <Type size={22} />
                   </div>
                   <div>
                     <h3 className="text-xl font-extrabold text-[#0A1628] tracking-tight">Main Headline Parameters</h3>
@@ -762,7 +807,7 @@ export default function HomepageCMSPage() {
               <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8">
                 <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
                   <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                    <Sparkles size={22} />
+                    <Type size={22} />
                   </div>
                   <div>
                     <h3 className="text-xl font-extrabold text-[#0A1628] tracking-tight">Expertise Section Headlines</h3>
@@ -916,10 +961,112 @@ export default function HomepageCMSPage() {
               </div>
             </motion.div>
           )}
+
+          {activeTab === 'products' && (
+            <motion.div
+              key="products-tab"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-10"
+            >
+              <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8">
+                <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
+                  <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
+                    <Layout size={22} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-[#0A1628] tracking-tight">Our Products Configuration</h3>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Update products displayed on homepage</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {products.map((product, index) => (
+                    <div key={product.id || index} className="p-6 border border-slate-200 rounded-2xl space-y-5 bg-slate-50/50">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-[#0A1628]">Product Card {index + 1}</h4>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Order: {product.sort_order}</span>
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Card Title</label>
+                        <input
+                          value={product.title}
+                          onChange={e => {
+                            const next = [...products]
+                            next[index] = { ...next[index], title: e.target.value }
+                            setProducts(next)
+                          }}
+                          className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all"
+                          placeholder="e.g. LED Display Systems"
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category Label</label>
+                        <input
+                          value={product.category}
+                          onChange={e => {
+                            const next = [...products]
+                            next[index] = { ...next[index], category: e.target.value }
+                            setProducts(next)
+                          }}
+                          className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all"
+                          placeholder="e.g. Visual Hardware"
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Image URL / Asset</label>
+                        <div className="flex gap-2">
+                          <input
+                            value={product.image}
+                            onChange={e => {
+                              const next = [...products]
+                              next[index] = { ...next[index], image: e.target.value }
+                              setProducts(next)
+                            }}
+                            className="flex-1 px-4 py-3 text-xs font-mono border border-slate-200 rounded-xl outline-none"
+                            placeholder="https://unsplash.com/..."
+                          />
+                          <input 
+                            type="file" 
+                            accept="image/*" 
+                            ref={el => { fileInputRefs.current[`product_image_${index}`] = el }}
+                            className="hidden" 
+                            onChange={(e) => handleFileUpload(`product_image_${index}`, e, 'products')}
+                          />
+                          <button
+                            type="button"
+                            disabled={uploadingField === `product_image_${index}`}
+                            onClick={() => triggerFileSelect(`product_image_${index}`)}
+                            className="px-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 transition-colors"
+                          >
+                            {uploadingField === `product_image_${index}` ? <Loader2 size={14} className="animate-spin text-[#0D95F0]" /> : <Upload size={14} />}
+                          </button>
+                        </div>
+                        {product.image && (
+                          <div className="relative aspect-[4/3] rounded-xl border border-slate-200 overflow-hidden mt-3">
+                            <img
+                              src={product.image}
+                              alt="Product Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
-      {/* Confirmation Modal */}
+      {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {deleteTarget && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">

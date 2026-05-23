@@ -13,7 +13,6 @@ import {
   FileText,
   Globe2,
   Building2,
-  Sparkles,
   Home,
   LogOut,
   ChevronLeft,
@@ -92,7 +91,7 @@ export default function AdminSidebar() {
       <div className="relative z-10 px-8 pt-10 pb-8 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-4 group">
           {!sidebarCollapsed ? (
-            <div className="relative h-10 w-44 filter brightness-200 group-hover:scale-105 transition-transform duration-700">
+            <div className="relative h-10 w-44 group-hover:scale-105 transition-transform duration-700">
               <Image
                 src="/images/company/logo-dark.png"
                 alt="Axion"

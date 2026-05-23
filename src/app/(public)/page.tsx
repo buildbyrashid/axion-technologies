@@ -36,21 +36,23 @@ export const metadata: Metadata = {
 async function getHomepageData() {
   try {
     // We fetch data in parallel to reduce overall DB waiting time
-    const [heroRows, expertiseRows, ctaRows] = await Promise.all([
+    const [heroRows, expertiseRows, ctaRows, productsRows] = await Promise.all([
       query<any[]>('SELECT * FROM homepage_hero WHERE is_active = 1 LIMIT 1'),
       query<any[]>('SELECT * FROM homepage_expertise LIMIT 1'),
-      query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1')
+      query<any[]>('SELECT * FROM global_cta WHERE is_active = 1 LIMIT 1'),
+      query<any[]>('SELECT * FROM homepage_products ORDER BY sort_order ASC')
     ]);
 
     return {
       hero: heroRows[0] || null,
       expertise: expertiseRows[0] || null,
-      cta: ctaRows[0] || null
+      cta: ctaRows[0] || null,
+      products: productsRows || []
     };
   } catch (error: any) {
     console.error("Error fetching homepage data:", error.message || error);
     // Return nulls gracefully so the page STILL renders even if DB fails
-    return { hero: null, expertise: null, cta: null };
+    return { hero: null, expertise: null, cta: null, products: [] };
   }
 }
 
@@ -60,7 +62,7 @@ export default async function Home() {
   return (
     <>
       <HeroSection data={data.hero} />
-      <ProductsSection />
+      <ProductsSection data={data.products} />
       <ExpertiseSection data={data.expertise} />
       <CTASection data={data.cta} />
     </>

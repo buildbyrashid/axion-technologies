@@ -9,7 +9,7 @@ import {
   Loader2, 
   Info, 
   Image as ImageIcon, 
-  Sparkles, 
+  ListChecks,
   Box, 
   Download, 
   Images,
@@ -34,6 +34,7 @@ import Link from 'next/link'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 import MediaUploader from '@/components/admin/MediaUploader'
 import RichTextEditor from '@/components/admin/RichTextEditor'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 // Zod Schema for validation
@@ -52,7 +53,7 @@ const TABS = [
   { id: 'basic', label: 'Basic Information', icon: Info },
   { id: 'media', label: 'Images & Media', icon: ImageIcon },
   { id: 'specs', label: 'Specifications', icon: Cpu },
-  { id: 'features', label: 'Features', icon: Sparkles },
+  { id: 'features', label: 'Features', icon: ListChecks },
   { id: 'accessories', label: 'Accessories', icon: Box },
   { id: 'downloads', label: 'Downloads', icon: Download },
   { id: 'application', label: 'Case Studies', icon: Images },
@@ -259,12 +260,7 @@ export default function ProductEditorPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
-        <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading product details...</p>
-      </div>
-    )
+    return <AxionLoader message="Loading product details..." />
   }
 
   return (
@@ -628,7 +624,7 @@ export default function ProductEditorPage() {
                   <AnimatePresence mode="popLayout">
                     {features.length === 0 ? (
                        <div className="md:col-span-2 py-32 flex flex-col items-center justify-center text-slate-300 gap-6 opacity-40">
-                        <Sparkles size={64} />
+                        <ListChecks size={64} />
                         <p className="text-xl font-black tracking-tight">No features added yet.</p>
                       </div>
                     ) : (
@@ -642,7 +638,7 @@ export default function ProductEditorPage() {
                         >
                           <div className="flex items-center justify-between">
                              <div className="w-12 h-12 rounded-[1rem] bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                                <Sparkles size={20} />
+                                <ListChecks size={20} />
                              </div>
                              <button 
                                 type="button" 

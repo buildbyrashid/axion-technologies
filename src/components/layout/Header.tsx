@@ -156,48 +156,16 @@ export default function Header() {
         aria-hidden={!mobileOpen}
       >
         <ul role="list">
-          {navLinks.map((link) =>
-            link.hasDropdown ? (
-              <li key={link.href}>
-                <button
-                  className="header__mobile-link header__mobile-link--btn"
-                  onClick={() => setMobileProductsOpen((v) => !v)}
-                  aria-expanded={mobileProductsOpen}
-                >
-                  {link.label}
-                  <ChevronDown
-                    size={16}
-                    className={`header__chevron${mobileProductsOpen ? ' header__chevron--open' : ''}`}
-                  />
-                </button>
-                {mobileProductsOpen && (
-                  <ul className="header__mobile-sub" role="list">
-                    {productCategories.map((cat) => (
-                      <li key={cat.href}>
-                        <Link href={cat.href} className="header__mobile-sublink">
-                          {cat.label}
-                        </Link>
-                      </li>
-                    ))}
-                    <li>
-                      <Link href="/products" className="header__mobile-sublink header__mobile-sublink--all">
-                        View All Products →
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            ) : (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`header__mobile-link${isActive(link.href) ? ' header__mobile-link--active' : ''}`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            )
-          )}
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={`header__mobile-link${isActive(link.href) ? ' header__mobile-link--active' : ''}`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
           <li>
             <Link href="/contact" className="header__mobile-cta">
               Get a Quote

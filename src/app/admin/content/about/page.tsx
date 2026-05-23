@@ -7,7 +7,6 @@ import {
   Loader2, 
   Trash2, 
   History, 
-  Sparkles, 
   BookOpen, 
   Info, 
   Globe2, 
@@ -23,7 +22,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
-
+import AxionLoader from '@/components/ui/AxionLoader'
 export default function AboutPageCMS() {
   const [loading, setLoading] = useState(true)
   const [savingType, setSavingType] = useState<'draft' | 'publish' | null>(null)
@@ -179,12 +178,7 @@ export default function AboutPageCMS() {
     }
   }
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
-      <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Corporate Identity...</p>
-    </div>
-  )
+  if (loading) return <AxionLoader message="Loading About Page Parameters..." />
 
   const isSaving = savingType !== null
 
@@ -196,7 +190,7 @@ export default function AboutPageCMS() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
-              <History size={16} />
+              <Building2 size={16} />
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>

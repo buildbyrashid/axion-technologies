@@ -64,26 +64,6 @@ export default function ProductFeaturesSection({ features }: Props) {
 
         {/* Mobile Slider */}
         <div className="sm:hidden relative">
-          {/* Mobile slider buttons — flanking the content */}
-          <div className="absolute top-[40%] -left-2 z-10 -translate-y-1/2">
-            <button
-              onClick={scrollLeft}
-              aria-label="Scroll left"
-              className="flex h-10 w-10 items-center justify-center rounded-none-none bg-white shadow-xl border border-slate-100 text-slate-600 active:scale-95 transition-all"
-            >
-              <ChevronLeft size={20} />
-            </button>
-          </div>
-          
-          <div className="absolute top-[40%] -right-2 z-10 -translate-y-1/2">
-            <button
-              onClick={scrollRight}
-              aria-label="Scroll right"
-              className="flex h-10 w-10 items-center justify-center rounded-none-none bg-blue-600 shadow-xl text-white active:scale-95 transition-all"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
 
           <div
             ref={sliderRef}
