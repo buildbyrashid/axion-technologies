@@ -14,9 +14,11 @@ const tabs = [
 
 interface Props {
   activeSection: string;
+  hideTabs?: string[];
 }
 
-export default function ProductTabNav({ activeSection }: Props) {
+export default function ProductTabNav({ activeSection, hideTabs = [] }: Props) {
+  const visibleTabs = tabs.filter(t => !hideTabs.includes(t.id));
   const [active, setActive] = useState(activeSection);
   const [stuck, setStuck] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ export default function ProductTabNav({ activeSection }: Props) {
       // Higher threshold for detection
       const threshold = 160; 
 
-      for (const tab of [...tabs].reverse()) {
+      for (const tab of [...visibleTabs].reverse()) {
         const el = document.getElementById(`section-${tab.id}`);
         if (el && window.scrollY + threshold >= el.offsetTop) {
           setActive(tab.id);
@@ -73,7 +75,7 @@ export default function ProductTabNav({ activeSection }: Props) {
           ref={scrollContainerRef}
           className="flex gap-1 overflow-x-auto scrollbar-hide md:justify-center"
         >
-          {tabs.map((tab) => (
+          {visibleTabs.map((tab) => (
             <button
               key={tab.id}
               ref={active === tab.id ? activeTabRef : null}

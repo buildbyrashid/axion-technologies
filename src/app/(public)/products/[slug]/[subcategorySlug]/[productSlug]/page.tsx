@@ -118,12 +118,7 @@ function getDynamicProduct(subcategorySlug: string, productSlug: string): Produc
       { label: "Cabling", value: "High-grade shielded signal and power cables" },
       { label: "Control Modules", value: "Advanced processing and control units" },
     ],
-    downloads: [
-      { title: "Product Datasheet", type: "PDF", size: "2.1 MB", url: "#" },
-      { title: "User Manual", type: "PDF", size: "5.4 MB", url: "#" },
-      { title: "Installation Guide", type: "PDF", size: "3.2 MB", url: "#" },
-      { title: "Certifications", type: "ZIP", size: "4.5 MB", url: "#" },
-    ],
+    downloads: [],
     gallery: [
       { src: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800", caption: "Professional Application" },
       { src: "https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=800", caption: "Live Environment" },
@@ -202,19 +197,20 @@ function mapDbProductToProductData(dbProduct: any, subcategorySlug: string): Pro
   // Map downloads
   let downloads: { title: string; type: string; size: string; url: string }[] = [];
   if (Array.isArray(dbProduct.downloads) && dbProduct.downloads.length > 0) {
-    downloads = dbProduct.downloads.map((d: any) => ({
-      title: d.title || d.name || 'Document',
-      type: d.type || 'PDF',
-      size: d.size || '—',
-      url: d.url || '#',
-    }));
-  } else {
-    downloads = [
-      { title: "Product Datasheet", type: "PDF", size: "2.1 MB", url: "#" },
-      { title: "User Manual", type: "PDF", size: "5.4 MB", url: "#" },
-      { title: "Installation Guide", type: "PDF", size: "3.2 MB", url: "#" },
-      { title: "Certifications", type: "ZIP", size: "4.5 MB", url: "#" },
-    ];
+    downloads = dbProduct.downloads.map((d: any) => {
+      const url = d.url || d.file_url || '#';
+      let docType = (d.type || d.document_type || '').toUpperCase();
+      if (!['PDF', 'DWG', 'DWG/PDF', 'IES', 'ZIP'].includes(docType)) {
+        const ext = url.split('.').pop()?.toUpperCase() || 'PDF';
+        docType = ext;
+      }
+      return {
+        title: d.name || d.title || 'Document',
+        type: docType,
+        size: d.size || '—',
+        url: url,
+      };
+    });
   }
 
   // Map gallery
@@ -283,7 +279,10 @@ export default async function ProductDetailPage({ params }: Props) {
       />
 
       {/* Sticky tab navigation */}
-      <ProductTabNav activeSection="features" />
+      <ProductTabNav
+        activeSection="features"
+        hideTabs={product.downloads.length === 0 ? ['downloads'] : []}
+      />
 
       {/* 2. Features Section */}
       <div id="section-features">
@@ -300,10 +299,12 @@ export default async function ProductDetailPage({ params }: Props) {
         <ProductAccessoriesTab accessories={product.accessories} />
       </div>
 
-      {/* 5. Download Section */}
-      <div id="section-downloads">
-        <ProductDownloadSection downloads={product.downloads} />
-      </div>
+      {/* 5. Download Section — only shown when real documents exist */}
+      {product.downloads.length > 0 && (
+        <div id="section-downloads">
+          <ProductDownloadSection downloads={product.downloads} />
+        </div>
+      )}
 
       {/* 6. Application Gallery */}
       <div id="section-applications">
