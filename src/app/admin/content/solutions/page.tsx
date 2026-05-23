@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Check, 
   Loader2, 
-  Sparkles, 
+  Activity,
   ImageIcon, 
   BookOpen, 
   Layers, 
@@ -13,10 +13,11 @@ import {
   History, 
   Upload, 
   Trash2, 
-  Shield 
+  Shield,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 export default function SolutionsCMSPage() {
@@ -259,12 +260,7 @@ export default function SolutionsCMSPage() {
     { id: 'env_img_7' as const, titleId: 'env_title_7' as const, defaultLabel: 'Hospitality & Entertainment' },
   ]
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
-      <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Solutions CMS Core...</p>
-    </div>
-  )
+  if (loading) return <AxionLoader message="Loading Solutions Page Parameters..." />
 
   return (
     <div className="w-full space-y-8 pb-24 relative">
@@ -283,7 +279,7 @@ export default function SolutionsCMSPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
-              <History size={16} />
+              <Building2 size={16} />
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>

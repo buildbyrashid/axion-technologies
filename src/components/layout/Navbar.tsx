@@ -542,23 +542,6 @@ export default function Navbar() {
                             Products
                           </div>
 
-                          {/* "View All" row */}
-                          <Link
-                            href={`/products/${catSlug}/${subSlug}`}
-                            onClick={closeMobileMenu}
-                            className="flex items-center justify-between group transition-all"
-                            style={{ minHeight: 52, paddingLeft: 24, paddingRight: 24, marginBottom: 4 }}
-                          >
-                            <span
-                              className="text-[13px] font-bold uppercase tracking-widest"
-                              style={{ color: "#0A84E8" }}
-                            >
-                              View All {sub.name}
-                            </span>
-                            <ChevronRight size={14} strokeWidth={2.5} style={{ color: "#0A84E8" }} className="group-hover:translate-x-0.5 transition-transform" />
-                          </Link>
-                          <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 8 }} />
-
                           {/* Individual products */}
                           {sub.products.map((prod, idx) => {
                             const productSlug = prod.href.split("/").pop();

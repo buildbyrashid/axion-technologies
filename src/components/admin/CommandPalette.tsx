@@ -14,7 +14,8 @@ import {
   FileText, 
   Building2, 
   Globe2, 
-  Sparkles,
+  Tags,
+  Activity,
   ArrowRight,
   Zap
 } from 'lucide-react'
@@ -97,14 +98,14 @@ export default function CommandPalette() {
               <Command.Group heading="Actions" className="px-4 py-3">
                 <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-3 ml-2">Operational Tasks</div>
                 <Item icon={Plus} label="Initialize New Asset" onSelect={() => runCommand(() => router.push('/admin/products/new'))} />
-                <Item icon={Sparkles} label="Configure Feature Stack" onSelect={() => runCommand(() => router.push('/admin/categories'))} />
+                <Item icon={Tags} label="Configure Feature Stack" onSelect={() => runCommand(() => router.push('/admin/categories'))} />
                 <Item icon={Settings} label="System Protocol (Settings)" onSelect={() => runCommand(() => router.push('/admin/settings'))} />
               </Command.Group>
 
               <Command.Group heading="Content" className="px-4 py-3">
                 <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-3 ml-2">Narrative Layer</div>
                 <Item icon={FileText} label="Edit About Narrative" onSelect={() => runCommand(() => router.push('/admin/content/about'))} />
-                <Item icon={Sparkles} label="Edit Solutions Page" onSelect={() => runCommand(() => router.push('/admin/content/solutions'))} />
+                <Item icon={Activity} label="Edit Solutions Page" onSelect={() => runCommand(() => router.push('/admin/content/solutions'))} />
                 <Item icon={Building2} label="Manage Industry Sector" onSelect={() => runCommand(() => router.push('/admin/content/industries'))} />
                 <Item icon={Globe2} label="Global Office Network" onSelect={() => runCommand(() => router.push('/admin/content/offices'))} />
               </Command.Group>

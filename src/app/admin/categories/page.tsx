@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import SpatialDrawer from '@/components/ui/SpatialDrawer'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 interface Category {
@@ -228,10 +229,7 @@ export default function CategoriesPage() {
       {/* Main Categories Tree Grid */}
       <div className="space-y-6">
         {loading ? (
-          <div className="py-32 flex flex-col items-center gap-6">
-            <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Booting Taxonomy...</p>
-          </div>
+          <AxionLoader message="Booting Taxonomy..." className="py-32" />
         ) : mainCategories.length === 0 ? (
           <div className="py-32 flex flex-col items-center gap-8 bg-white rounded-[1.75rem] border border-black/5 border-dashed opacity-40">
             <Layers size={64} className="text-slate-300" />

@@ -5,11 +5,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { 
   Plus, Search, Edit2, Trash2, Loader2, Package, Eye,
-  SlidersHorizontal, AlertCircle, Sparkles, Check, Database, HelpCircle
+  SlidersHorizontal, AlertCircle, Star, Check, Database, HelpCircle
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 interface Product {
@@ -96,7 +97,8 @@ export default function ProductsPage() {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           p.slug.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesCategory = selectedCategory === 'all' || 
-                            p.category_id === selectedCategory
+                            p.category_id === selectedCategory ||
+                            p.subcategory_id === selectedCategory
     return matchesSearch && matchesCategory
   })
 
@@ -146,14 +148,14 @@ export default function ProductsPage() {
                <select 
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-white border border-black/5 rounded-xl pl-14 pr-10 py-4 text-xs font-black text-[#0A1628] uppercase tracking-widest focus:border-[#0D95F0] outline-none transition-all cursor-pointer min-w-[260px] appearance-none shadow-sm hover:shadow-lg"
+                  className="bg-white border border-black/5 rounded-[2rem] pl-14 pr-12 py-5 text-[10px] sm:text-xs font-black text-[#0A1628] uppercase tracking-widest focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all cursor-pointer w-full max-w-xs appearance-none shadow-sm hover:shadow-lg truncate"
                >
                   <option value="all">All Categories</option>
                   {categories.filter(c => !c.parent_id).map(mainCat => (
-                     <optgroup key={mainCat.id} label={mainCat.name}>
-                        <option value={mainCat.id}>All {mainCat.name}</option>
+                     <optgroup key={mainCat.id} label={mainCat.name} className="font-black text-[#0A1628] bg-slate-50 py-2">
+                        <option value={mainCat.id} className="font-bold text-slate-700 bg-white py-1">All {mainCat.name}</option>
                         {categories.filter(c => c.parent_id === mainCat.id).map(subCat => (
-                           <option key={subCat.id} value={subCat.id}>↳ {subCat.name}</option>
+                           <option key={subCat.id} value={subCat.id} className="font-medium text-slate-500 bg-white py-1 ml-4">&nbsp;&nbsp;— {subCat.name}</option>
                         ))}
                      </optgroup>
                   ))}
@@ -165,10 +167,7 @@ export default function ProductsPage() {
       {/* Corporate Data Table Container */}
       <div className="bg-white border border-black/5 rounded-[2rem] overflow-hidden shadow-sm">
         {loading ? (
-          <div className="py-32 flex flex-col items-center gap-6">
-            <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading products...</p>
-          </div>
+          <AxionLoader message="Loading products..." className="py-32" />
         ) : filteredProducts.length === 0 ? (
           <div className="py-32 text-center">
             <Package size={64} className="text-slate-300 mx-auto mb-6 opacity-40" />
@@ -217,7 +216,7 @@ export default function ProductsPage() {
                           </span>
                           {product.is_featured && (
                             <span className="px-2 py-0.5 bg-amber-50 border border-amber-100 text-amber-600 text-[9px] font-black uppercase tracking-wider rounded-md flex items-center gap-1">
-                              <Sparkles size={8} fill="currentColor" />
+                              <Star size={8} fill="currentColor" />
                               Featured
                             </span>
                           )}

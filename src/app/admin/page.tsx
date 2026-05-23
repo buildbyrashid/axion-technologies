@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Package, FolderTree, MessageSquare, TrendingUp,
   Plus, ArrowRight, Globe2, ArrowUpRight, Activity,
-  Sparkles, ShieldCheck, Terminal, BarChart3, Box
+  Tags, ShieldCheck, Building2, BarChart3, Box
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 
 interface DashboardStats {
   totalProducts: number
@@ -73,15 +74,7 @@ export default function AdminDashboard() {
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
-        <div className="relative w-16 h-16">
-           <div className="absolute inset-0 border-4 border-slate-100 rounded-full" />
-           <div className="absolute inset-0 border-4 border-[#0D95F0] border-t-transparent rounded-full animate-spin" />
-        </div>
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Initializing Core Infrastructure...</p>
-      </div>
-    )
+    return <AxionLoader message="Initializing Core Infrastructure..." />
   }
 
   return (
@@ -91,7 +84,7 @@ export default function AdminDashboard() {
         <div className="space-y-4">
            <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-[1.5rem] bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0] shadow-inner">
-                 <Terminal size={24} />
+                 <Building2 size={24} />
               </div>
               <SpatialBadge variant="blue">Business Operations</SpatialBadge>
            </div>
@@ -283,7 +276,7 @@ export default function AdminDashboard() {
         >
            {[
              { label: 'System Settings', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Configure platform' },
-             { label: 'Manage Categories', icon: Sparkles, color: 'text-amber-500', href: '/admin/categories', desc: 'Organize products' },
+             { label: 'Manage Categories', icon: Tags, color: 'text-amber-500', href: '/admin/categories', desc: 'Organize products' },
              { label: 'Product Catalog', icon: Globe2, color: 'text-[#0D95F0]', href: '/admin/products', desc: 'Manage inventory' },
            ].map((action, i) => (
              <Link 

@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import SpatialDrawer from '@/components/ui/SpatialDrawer'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 interface Inquiry {
@@ -276,11 +277,8 @@ function InquiriesPageContent() {
             <tbody className="divide-y divide-black/5">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-48 text-center">
-                    <div className="flex flex-col items-center gap-6">
-                      <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading Inquiries...</p>
-                    </div>
+                  <td colSpan={5} className="text-center">
+                    <AxionLoader message="Loading Inquiries..." className="py-24" />
                   </td>
                 </tr>
               ) : filteredInquiries.length === 0 ? (
@@ -504,12 +502,7 @@ function InquiriesPageContent() {
 
 export default function InquiriesPage() {
   return (
-    <Suspense fallback={
-      <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
-        <div className="relative w-16 h-16 animate-spin rounded-full border-4 border-slate-100 border-t-[#0D95F0]" />
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Loading Inquiries...</p>
-      </div>
-    }>
+    <Suspense fallback={<AxionLoader message="Loading Inquiries..." />}>
       <InquiriesPageContent />
     </Suspense>
   )

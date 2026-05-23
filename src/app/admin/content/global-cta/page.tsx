@@ -10,12 +10,14 @@ import {
   Mail,
   Globe,
   MapPin,
-  Sparkles,
+  Megaphone,
   Check,
-  Trash2
+  Trash2,
+  Building2
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'
+import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
 
 export default function GlobalCTACMSPage() {
@@ -153,12 +155,7 @@ export default function GlobalCTACMSPage() {
     setDeleteTarget(null)
   }
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-[60vh] gap-6">
-      <div className="w-16 h-16 border-4 border-slate-100 border-t-[#0D95F0] rounded-full animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Global CTA Parameters...</p>
-    </div>
-  )
+  if (loading) return <AxionLoader message="Loading CTA Parameters..." />
 
   return (
     <div className="w-full space-y-10 pb-24">
@@ -167,7 +164,7 @@ export default function GlobalCTACMSPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#0D95F0]/10 flex items-center justify-center text-[#0D95F0]">
-              <Terminal size={16} />
+              <Building2 size={16} />
             </div>
             <SpatialBadge variant="blue">Global CMS Core</SpatialBadge>
           </div>
@@ -261,7 +258,7 @@ export default function GlobalCTACMSPage() {
             <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8">
               <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
                 <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
-                  <Sparkles size={22} />
+                  <Megaphone size={22} />
                 </div>
                 <div>
                   <h3 className="text-xl font-extrabold text-[#0A1628] tracking-tight">CTA Messaging</h3>
