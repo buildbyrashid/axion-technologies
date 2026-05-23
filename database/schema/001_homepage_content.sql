@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS homepage_expertise (
   stat_3_label      VARCHAR(255),
   stat_4_number     VARCHAR(50),
   stat_4_label      VARCHAR(255),
+  is_active         BOOLEAN      DEFAULT true,
   created_at        TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   updated_at        TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

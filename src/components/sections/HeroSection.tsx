@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import AnimatedBadge from "@/components/ui/AnimatedBadge";
 
@@ -96,19 +97,23 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 mt-8"
           >
-            <Button 
-              size="lg" 
-              className="bg-accent text-white border-none hover:bg-accent/90 transition-all duration-300 h-14 w-full sm:w-auto px-10 font-bold shadow-[0_0_20px_rgba(13,149,240,0.5)]"
-            >
-              Explore Products
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white hover:text-primary hover:border-transparent hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 h-14 w-full sm:w-auto px-10 bg-white/5 backdrop-blur-sm font-bold"
-            >
-              Contact Us
-            </Button>
+            <Link href="/products" className="w-full sm:w-auto">
+              <Button 
+                size="lg" 
+                className="bg-accent text-white border-none hover:bg-accent/90 transition-all duration-300 h-14 w-full px-10 font-bold shadow-[0_0_20px_rgba(13,149,240,0.5)]"
+              >
+                Explore Products
+              </Button>
+            </Link>
+            <Link href="/contact" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white hover:text-primary hover:border-transparent hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 h-14 w-full px-10 bg-white/5 backdrop-blur-sm font-bold"
+              >
+                Contact Us
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </div>

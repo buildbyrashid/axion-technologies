@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS homepage_products (
   category VARCHAR(255) NOT NULL,
   image VARCHAR(500) NOT NULL,
   href VARCHAR(255) NOT NULL,
-  sort_order INT DEFAULT 0
+  sort_order INT DEFAULT 0,
+  is_active BOOLEAN DEFAULT TRUE
 );
 
 -- ─── Seed Initial Content ────────────────────────────────────

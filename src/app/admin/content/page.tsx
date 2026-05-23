@@ -125,6 +125,8 @@ export default function HomepageCMSPage() {
     setSavingType(type)
     
     const updatedHero = { ...hero, is_active: isPublish ? 1 : 0 }
+    const updatedExpertise = { ...expertise, is_active: isPublish ? 1 : 0 }
+    const updatedProducts = products.map(p => ({ ...p, is_active: isPublish ? 1 : 0 }))
 
     try {
       const res = await fetch('/api/admin/homepage', {
@@ -132,8 +134,8 @@ export default function HomepageCMSPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           hero: updatedHero,
-          expertise,
-          products
+          expertise: updatedExpertise,
+          products: updatedProducts
         }),
       })
       const json = await res.json()
