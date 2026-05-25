@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useAdmin } from '@/app/admin/layout'
+import { useAdmin } from '@/app/admin/AdminProvider'
 import {
   LayoutDashboard,
   Package,
@@ -66,6 +66,8 @@ export default function AdminSidebar() {
   const { sidebarCollapsed, setSidebarCollapsed } = useAdmin()
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+
   const handleLogout = async () => {
     try {
       await fetch('/api/admin/logout', { method: 'POST' })
@@ -82,7 +84,7 @@ export default function AdminSidebar() {
   }
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {/* Background Decor Layer */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/80 to-[#0A1628]/40 pointer-events-none" />
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px] pointer-events-none" />
@@ -163,7 +165,7 @@ export default function AdminSidebar() {
           </button>
 
           <button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutConfirm(true)}
             className={cn(
               'flex items-center gap-4 w-full px-5 py-4 rounded-[1.5rem] text-xs font-black text-white/10 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-500',
             )}
@@ -221,6 +223,50 @@ export default function AdminSidebar() {
               </button>
               <SidebarContent />
             </motion.aside>
+          </>
+        )}
+
+        {/* Logout Confirmation Modal */}
+        {showLogoutConfirm && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-[200]"
+              onClick={() => setShowLogoutConfirm(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[2rem] p-8 shadow-2xl z-[210] overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-rose-500" />
+              <div className="flex flex-col items-center text-center space-y-6 relative z-10">
+                <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shadow-inner">
+                  <LogOut size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-[#0A1628] tracking-tight mb-2">Terminate Session?</h3>
+                  <p className="text-sm text-slate-500 font-medium">You will need to sign in again to access the admin portal.</p>
+                </div>
+                <div className="w-full flex flex-col gap-3 pt-4">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-4 bg-rose-500 text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-rose-600 transition-colors"
+                  >
+                    Confirm Termination
+                  </button>
+                  <button
+                    onClick={() => setShowLogoutConfirm(false)}
+                    className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>

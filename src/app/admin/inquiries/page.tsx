@@ -1,15 +1,14 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { 
   MessageSquare, Search, Trash2, Mail, Building2, Globe2, Calendar,
   ArrowUpRight, Phone, Loader2, X, Star, Activity, UserCircle, Zap,
-  SlidersHorizontal, Send
+  SlidersHorizontal, Send, ChevronLeft
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
-import SpatialDrawer from '@/components/ui/SpatialDrawer'
 import SpatialBadge from '@/components/ui/SpatialBadge'
 import AxionLoader from '@/components/ui/AxionLoader'
 import { cn } from '@/lib/utils'
@@ -52,6 +51,7 @@ function parseQuotePayload(message: string): QuotePayload | null {
 
 function InquiriesPageContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const typeParam = searchParams.get('type') // 'quotes' or 'contacts'
   const idParam = searchParams.get('id') // Deep-linked Inquiry ID
 
@@ -176,7 +176,167 @@ function InquiriesPageContent() {
     }
   }
 
-  const quoteData = selectedInquiry ? parseQuotePayload(selectedInquiry.message) : null
+  if (selectedInquiry) {
+    const quoteData = parseQuotePayload(selectedInquiry.message)
+
+    return (
+      <div className="space-y-12 pb-24">
+        <div className="flex items-center gap-6">
+          <button 
+            onClick={() => {
+              setSelectedInquiry(null)
+              const params = new URLSearchParams(searchParams.toString())
+              params.delete('id')
+              router.push('/admin/inquiries?' + params.toString())
+            }} 
+            className="w-14 h-14 rounded-[1.5rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 hover:text-[#0D95F0] hover:shadow-xl transition-all group shrink-0"
+          >
+            <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
+          </button>
+          <div>
+            <h1 className="text-4xl font-extrabold text-[#0A1628] tracking-tighter">Inquiry Details</h1>
+            <p className="text-slate-500 font-medium italic">Detailed view of client message and contact information.</p>
+          </div>
+        </div>
+
+        <div className="space-y-12">
+          <div className="p-10 bg-slate-950 text-white rounded-[1.75rem] relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D95F0]/20 rounded-full blur-[100px] pointer-events-none" />
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <div className="flex items-center gap-6">
+                <div className="w-20 h-20 rounded-[1.5rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
+                  <Activity size={32} />
+                </div>
+                <div>
+                  <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Current Status</div>
+                  <SpatialBadge variant={getStatusVariant(selectedInquiry.status) as any} pulse={selectedInquiry.status === 'new'}>
+                    {selectedInquiry.status.toUpperCase()}
+                  </SpatialBadge>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-1">Update Status</div>
+                <select
+                  value={selectedInquiry.status}
+                  onChange={e => updateStatus(selectedInquiry.id, e.target.value)}
+                  disabled={updating}
+                  className="bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-xs font-black text-white outline-none focus:bg-white focus:text-[#0A1628] transition-all cursor-pointer min-w-[240px]"
+                >
+                  <option value="new">Action Required (New)</option>
+                  <option value="read">Archived (Read)</option>
+                  <option value="contacted">In Discussion (Contacted)</option>
+                  <option value="replied">Followed Up (Replied)</option>
+                  <option value="closed">Closed Cases (Closed)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: UserCircle, label: 'Contact Name', value: selectedInquiry.name },
+              { icon: Mail, label: 'Email Address', value: selectedInquiry.email, link: `mailto:${selectedInquiry.email}` },
+              { icon: Phone, label: 'Phone Number', value: selectedInquiry.phone || 'N/A' },
+              { icon: Building2, label: 'Company', value: selectedInquiry.company || 'N/A' },
+              { icon: Globe2, label: 'Country', value: selectedInquiry.country || 'N/A' },
+              { icon: Calendar, label: 'Date Received', value: formatDate(selectedInquiry.created_at) },
+            ].map((item, i) => (
+              <div key={i} className="p-8 rounded-[1.5rem] bg-white border border-black/5 hover:border-[#0D95F0]/20 hover:shadow-2xl group transition-all">
+                <div className="flex items-center gap-3 mb-4 text-slate-400 group-hover:text-[#0D95F0] transition-colors">
+                  <item.icon size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
+                </div>
+                {item.link ? (
+                  <a href={item.link} className="text-lg font-black text-[#0D95F0] hover:underline block truncate tracking-tight">{item.value}</a>
+                ) : (
+                  <div className="text-lg font-black text-[#0A1628] truncate tracking-tight">{item.value}</div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {quoteData ? (
+            <div className="space-y-8">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+                  <Zap size={18} />
+                </div>
+                <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-500">B2B Specifications</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-amber-500/30 transition-all">
+                  <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">Solution Type</div>
+                  <div className="text-xl font-black text-[#0A1628]">{quoteData.solutionType || 'Not Specified'}</div>
+                </div>
+
+                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-[#0D95F0]/30 transition-all">
+                  <div className="text-[10px] font-black text-[#0D95F0] uppercase tracking-widest mb-2">Installation Method</div>
+                  <div className="text-xl font-black text-[#0A1628]">{quoteData.installationMethod || 'Not Specified'}</div>
+                </div>
+
+                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-emerald-500/30 transition-all">
+                  <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Project Status</div>
+                  <div className="text-xl font-black text-[#0A1628]">{quoteData.projectStatus || 'Not Specified'}</div>
+                </div>
+
+                <div className="p-8 rounded-[2rem] bg-slate-950 border border-black/5 shadow-2xl relative group hover:scale-[1.01] transition-all md:col-span-3 text-white overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#0D95F0]/10 rounded-full blur-[60px] pointer-events-none" />
+                  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                      <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Physical Dimensions</div>
+                      <div className="text-3xl font-black tracking-tight">
+                        {quoteData.width && quoteData.height ? `${quoteData.width}mm (W) x ${quoteData.height}mm (H)` : 'Dimensions Not Provided'}
+                      </div>
+                    </div>
+                    {quoteData.uncertainSize && (
+                      <SpatialBadge variant="amber" pulse>Size May Vary / Estimation Needed</SpatialBadge>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                  <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter leading-tight">
+                    Special Requirements & Details
+                  </h3>
+                  <SpatialBadge variant="amber">B2B Deal Details</SpatialBadge>
+                </div>
+                <div className="h-px bg-black/5 w-24 mb-10" />
+                <div className="text-xl leading-relaxed text-slate-600 font-medium italic">
+                  {quoteData.requirements ? (
+                    quoteData.requirements.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)
+                  ) : (
+                    <span className="text-slate-400">No additional special requirements specified.</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
+              <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
+                {selectedInquiry.subject || 'General Inquiry'}
+              </h3>
+              <div className="h-px bg-black/5 w-24 mb-10" />
+              <div className="text-xl leading-relaxed text-slate-600 font-medium italic">
+                {selectedInquiry.message.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)}
+              </div>
+            </div>
+          )}
+
+          <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row items-center justify-end gap-8">
+            <button
+              onClick={() => handleDelete(selectedInquiry.id)} disabled={updating}
+              className="flex items-center gap-3 px-8 py-5 rounded-[2rem] text-rose-500 hover:bg-rose-500 hover:text-white font-black text-xs uppercase tracking-widest transition-all border border-rose-500/10 active:scale-95"
+            >
+              <Trash2 size={16} /> Delete Inquiry
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-12 pb-24">
@@ -296,8 +456,11 @@ function InquiriesPageContent() {
                     key={inq.id}
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04 }}
                     onClick={() => {
-                      setSelectedInquiry(inq); setIsDrawerOpen(true)
+                      setSelectedInquiry(inq)
                       if (inq.status === 'new') updateStatus(inq.id, 'read')
+                      const params = new URLSearchParams(searchParams.toString())
+                      params.set('id', inq.id)
+                      router.push('/admin/inquiries?' + params.toString())
                     }}
                     className="group hover:bg-slate-50/80 cursor-pointer transition-all duration-500"
                   >
@@ -344,158 +507,6 @@ function InquiriesPageContent() {
           </table>
         </div>
       </div>
-
-      <SpatialDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Inquiry Details" description="Detailed view of client message and contact information.">
-        {selectedInquiry && (
-          <div className="space-y-12 py-8">
-            <div className="p-10 bg-slate-950 text-white rounded-[1.75rem] relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D95F0]/20 rounded-full blur-[100px] pointer-events-none" />
-              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                <div className="flex items-center gap-6">
-                  <div className="w-20 h-20 rounded-[1.5rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
-                    <Activity size={32} />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Current Status</div>
-                    <SpatialBadge variant={getStatusVariant(selectedInquiry.status) as any} pulse={selectedInquiry.status === 'new'}>
-                      {selectedInquiry.status.toUpperCase()}
-                    </SpatialBadge>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-1">Update Status</div>
-                  <select
-                    value={selectedInquiry.status}
-                    onChange={e => updateStatus(selectedInquiry.id, e.target.value)}
-                    disabled={updating}
-                    className="bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-xs font-black text-white outline-none focus:bg-white focus:text-[#0A1628] transition-all cursor-pointer min-w-[240px]"
-                  >
-                    <option value="new">Action Required (New)</option>
-                    <option value="read">Archived (Read)</option>
-                    <option value="contacted">In Discussion (Contacted)</option>
-                    <option value="replied">Followed Up (Replied)</option>
-                    <option value="closed">Closed Cases (Closed)</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { icon: UserCircle, label: 'Contact Name', value: selectedInquiry.name },
-                { icon: Mail, label: 'Email Address', value: selectedInquiry.email, link: `mailto:${selectedInquiry.email}` },
-                { icon: Phone, label: 'Phone Number', value: selectedInquiry.phone || 'N/A' },
-                { icon: Building2, label: 'Company', value: selectedInquiry.company || 'N/A' },
-                { icon: Globe2, label: 'Country', value: selectedInquiry.country || 'N/A' },
-                { icon: Calendar, label: 'Date Received', value: formatDate(selectedInquiry.created_at) },
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-[1.5rem] bg-slate-50 border border-black/5 hover:bg-white hover:shadow-2xl group transition-all">
-                  <div className="flex items-center gap-3 mb-4 text-slate-400 group-hover:text-[#0D95F0] transition-colors">
-                    <item.icon size={16} />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-                  </div>
-                  {item.link ? (
-                    <a href={item.link} className="text-lg font-black text-[#0D95F0] hover:underline block truncate tracking-tight">{item.value}</a>
-                  ) : (
-                    <div className="text-lg font-black text-[#0A1628] truncate tracking-tight">{item.value}</div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Conditional specifications for B2B Quotes */}
-            {quoteData ? (
-              <div className="space-y-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-                    <Zap size={18} />
-                  </div>
-                  <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-500">B2B Specifications</span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Solution Type */}
-                  <div className="p-6 rounded-2xl bg-amber-500/[0.02] border border-amber-500/10 shadow-sm relative group hover:bg-amber-500/[0.04] transition-all">
-                    <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">Solution Type</div>
-                    <div className="text-lg font-black text-[#0A1628]">{quoteData.solutionType || 'Not Specified'}</div>
-                  </div>
-
-                  {/* Installation Method */}
-                  <div className="p-6 rounded-2xl bg-[#0D95F0]/[0.02] border border-[#0D95F0]/10 shadow-sm relative group hover:bg-[#0D95F0]/[0.04] transition-all">
-                    <div className="text-[10px] font-black text-[#0D95F0] uppercase tracking-widest mb-2">Installation Method</div>
-                    <div className="text-lg font-black text-[#0A1628]">{quoteData.installationMethod || 'Not Specified'}</div>
-                  </div>
-
-                  {/* Project Status */}
-                  <div className="p-6 rounded-2xl bg-emerald-500/[0.02] border border-emerald-500/10 shadow-sm relative group hover:bg-emerald-500/[0.04] transition-all">
-                    <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Project Status</div>
-                    <div className="text-lg font-black text-[#0A1628]">{quoteData.projectStatus || 'Not Specified'}</div>
-                  </div>
-
-                  {/* Physical Dimensions */}
-                  <div className="p-6 rounded-2xl bg-slate-950 border border-black/5 shadow-2xl relative group hover:scale-[1.01] transition-all md:col-span-3 text-white overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#0D95F0]/10 rounded-full blur-[60px] pointer-events-none" />
-                    <div className="relative z-10 flex items-center justify-between gap-6 flex-wrap">
-                      <div>
-                        <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Physical Dimensions</div>
-                        <div className="text-2xl font-black tracking-tight">
-                          {quoteData.width && quoteData.height ? `${quoteData.width}mm (W) x ${quoteData.height}mm (H)` : 'Dimensions Not Provided'}
-                        </div>
-                      </div>
-                      {quoteData.uncertainSize && (
-                        <SpatialBadge variant="amber" pulse>Size May Vary / Estimation Needed</SpatialBadge>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Requirements */}
-                <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
-                  <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter leading-tight">
-                      Special Requirements & Details
-                    </h3>
-                    <SpatialBadge variant="amber">B2B Deal Details</SpatialBadge>
-                  </div>
-                  <div className="h-px bg-black/5 w-24 mb-10" />
-                  <div className="text-lg leading-relaxed text-slate-600 font-medium italic">
-                    {quoteData.requirements ? (
-                      quoteData.requirements.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)
-                    ) : (
-                      <span className="text-slate-400">No additional special requirements specified.</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              /* Regular Message Layout */
-              <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
-                <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
-                  {selectedInquiry.subject || 'General Inquiry'}
-                </h3>
-                <div className="h-px bg-black/5 w-24 mb-10" />
-                <div className="text-lg leading-relaxed text-slate-500 font-medium italic">
-                  {selectedInquiry.message.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)}
-                </div>
-              </div>
-            )}
-
-            <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex items-center gap-6">
-                <a href={`mailto:${selectedInquiry.email}`} className="flex items-center gap-3 px-8 py-5 bg-[#0A1628] text-white rounded-[2rem] font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20">
-                  <Send size={16} /> Reply via Email
-                </a>
-              </div>
-              <button
-                onClick={() => handleDelete(selectedInquiry.id)} disabled={updating}
-                className="flex items-center gap-3 px-8 py-5 rounded-[2rem] text-rose-500 hover:bg-rose-500 hover:text-white font-black text-xs uppercase tracking-widest transition-all border border-rose-500/10 active:scale-95"
-              >
-                <Trash2 size={16} /> Delete Inquiry
-              </button>
-            </div>
-          </div>
-        )}
-      </SpatialDrawer>
     </div>
   )
 }
