@@ -278,7 +278,7 @@ export default function IndustriesCMSPage() {
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0A1628] tracking-tighter">Industries Page CMS</h1>
+          <h1 className="text-3xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter">Industries Page CMS</h1>
         </div>
 
         {/* Action / Status Controls Area */}
@@ -296,7 +296,7 @@ export default function IndustriesCMSPage() {
                   type="button"
                   onClick={() => handleSave('draft')}
                   disabled={savingType !== null}
-                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {savingType === 'draft' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                   SAVE DRAFT
@@ -337,7 +337,7 @@ export default function IndustriesCMSPage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 dark:bg-slate-800 border border-slate-200/40 rounded-xl shadow-sm text-slate-500 dark:text-slate-400 dark:text-slate-300">
                     <Check size={14} className="text-emerald-500" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       SAVED AS DRAFT
@@ -360,7 +360,7 @@ export default function IndustriesCMSPage() {
       </div>
 
       {/* Tabs navigation */}
-      <div className="border-b border-black/5 flex items-center gap-2 overflow-x-auto pb-px">
+      <div className="border-b border-black/5 dark:border-white/10 flex items-center gap-2 overflow-x-auto pb-px">
         {[
           { id: 'hero', label: 'Hero Banner', icon: ImageIcon },
           { id: 'markets', label: 'Markets Served', icon: Briefcase },
@@ -373,11 +373,11 @@ export default function IndustriesCMSPage() {
               onClick={() => setActiveTab(tab.id as TabType)}
               className={`flex items-center gap-3 px-6 py-4 text-xs font-black uppercase tracking-widest border-b-2 transition-all shrink-0 ${
                 isSelected 
-                  ? 'border-[#0D95F0] text-[#0A1628]' 
-                  : 'border-transparent text-slate-400 hover:text-slate-600 hover:border-slate-200'
+                  ? 'border-[#0D95F0] text-[#0A1628] dark:text-white' 
+                  : 'border-transparent text-slate-400 dark:text-slate-300 hover:text-slate-600 dark:text-slate-300 hover:border-slate-200 dark:border-slate-800'
               }`}
             >
-              <Icon size={14} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400'} />
+              <Icon size={14} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400 dark:text-slate-300'} />
               {tab.label}
             </button>
           )
@@ -391,52 +391,52 @@ export default function IndustriesCMSPage() {
         {activeTab === 'hero' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Form Panel */}
-            <div className="lg:col-span-7 bg-white border border-black/5 rounded-[1.75rem] p-8 lg:p-10 space-y-8 shadow-sm">
+            <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[1.75rem] p-8 lg:p-10 space-y-8 shadow-sm">
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#0D95F0]">Structure Config</span>
-                <h3 className="text-xl font-bold text-[#0A1628] tracking-tight">Main Hero Presentation</h3>
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white tracking-tight">Main Hero Presentation</h3>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Badge Text</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Badge Text</label>
                   <input 
                     type="text" 
                     value={data.hero_badge}
                     onChange={(e) => setData(prev => ({ ...prev, hero_badge: e.target.value }))}
-                    className="w-full h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                    className="w-full h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Hero Heading</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Hero Heading</label>
                   <input 
                     type="text" 
                     value={data.hero_title}
                     onChange={(e) => setData(prev => ({ ...prev, hero_title: e.target.value }))}
-                    className="w-full h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                    className="w-full h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Hero Subtitle</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Hero Subtitle</label>
                   <textarea 
                     value={data.hero_subtitle}
                     rows={4}
                     onChange={(e) => setData(prev => ({ ...prev, hero_subtitle: e.target.value }))}
-                    className="w-full p-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 leading-relaxed transition-all bg-slate-55 resize-none"
+                    className="w-full p-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 leading-relaxed transition-all bg-slate-55 resize-none"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Hero Background Image Link / URL</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Hero Background Image Link / URL</label>
                   <div className="flex gap-3">
                     <input 
                       type="text" 
                       value={data.hero_image}
                       onChange={(e) => setData(prev => ({ ...prev, hero_image: e.target.value }))}
                       placeholder="https://images.unsplash.com/..."
-                      className="flex-1 h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                      className="flex-1 h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                     />
                     <button
                       type="button"
@@ -476,13 +476,13 @@ export default function IndustriesCMSPage() {
                     {data.hero_title || 'Hero Title Heading'}
                   </h2>
                   
-                  <p className="text-slate-400 text-xs font-bold leading-relaxed max-w-md">
+                  <p className="text-slate-400 dark:text-slate-300 text-xs font-bold leading-relaxed max-w-md">
                     {data.hero_subtitle || 'Enter your subtitle text to see it rendered here live.'}
                   </p>
                 </div>
 
                 <div className="relative z-10 pt-8 border-t border-slate-800/80 flex items-center justify-between">
-                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                  <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 dark:text-slate-300 uppercase tracking-widest">
                     Aesthetic Visual Preview
                   </span>
                   <div className="flex items-center gap-2 text-[#0D95F0] text-xs font-bold">
@@ -496,8 +496,8 @@ export default function IndustriesCMSPage() {
               <div className="bg-blue-50/40 border border-blue-100 rounded-2xl p-6 flex gap-4 text-left">
                 <AlertCircle className="text-[#0D95F0] shrink-0 mt-0.5" size={18} />
                 <div className="space-y-1.5">
-                  <h4 className="text-xs font-black text-[#0A1628] uppercase tracking-wider">Asset Integration Guidelines</h4>
-                  <p className="text-slate-500 text-xs font-bold leading-relaxed">
+                  <h4 className="text-xs font-black text-[#0A1628] dark:text-white uppercase tracking-wider">Asset Integration Guidelines</h4>
+                  <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-xs font-bold leading-relaxed">
                     Axion B2B sites leverage full-width high-resolution Unsplash photo links or localized static assets. Ensure background images maintain excellent readability contrast for text overlaps.
                   </p>
                 </div>
@@ -510,40 +510,40 @@ export default function IndustriesCMSPage() {
         {activeTab === 'markets' && (
           <div className="space-y-10">
             {/* Section General Info Config */}
-            <div className="bg-white border border-black/5 rounded-[1.75rem] p-8 lg:p-10 space-y-8 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[1.75rem] p-8 lg:p-10 space-y-8 shadow-sm">
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#0D95F0]">Section Headers</span>
-                <h3 className="text-xl font-bold text-[#0A1628] tracking-tight">Expertise Grid Header Setup</h3>
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white tracking-tight">Expertise Grid Header Setup</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Section Badge</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Section Badge</label>
                   <input 
                     type="text" 
                     value={data.sec_badge}
                     onChange={(e) => setData(prev => ({ ...prev, sec_badge: e.target.value }))}
-                    className="w-full h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                    className="w-full h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Section Title</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Section Title</label>
                   <input 
                     type="text" 
                     value={data.sec_title}
                     onChange={(e) => setData(prev => ({ ...prev, sec_title: e.target.value }))}
-                    className="w-full h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                    className="w-full h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Section Subtitle</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Section Subtitle</label>
                   <input 
                     type="text" 
                     value={data.sec_subtitle}
                     onChange={(e) => setData(prev => ({ ...prev, sec_subtitle: e.target.value }))}
-                    className="w-full h-12 px-5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 transition-all bg-slate-55"
+                    className="w-full h-12 px-5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-sm font-bold text-slate-800 dark:text-slate-200 transition-all bg-slate-55"
                   />
                 </div>
               </div>
@@ -553,8 +553,8 @@ export default function IndustriesCMSPage() {
             <div className="space-y-6">
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#0D95F0]">Card Grid Layout</span>
-                <h3 className="text-xl font-bold text-[#0A1628] tracking-tight">Enterprise Industry Sectors (6 Items)</h3>
-                <p className="text-xs text-slate-400 font-bold">Edit names, subtitles, descriptions, and thumbnails directly mapped to the live mosaic responsive layout.</p>
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white tracking-tight">Enterprise Industry Sectors (6 Items)</h3>
+                <p className="text-xs text-slate-400 dark:text-slate-300 font-bold">Edit names, subtitles, descriptions, and thumbnails directly mapped to the live mosaic responsive layout.</p>
               </div>
 
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
@@ -568,7 +568,7 @@ export default function IndustriesCMSPage() {
                   return (
                     <div 
                       key={card.id}
-                      className="bg-white border border-black/5 rounded-[2rem] p-8 shadow-sm flex flex-col justify-between space-y-6 relative group hover:shadow-xl hover:shadow-slate-100/50 transition-all duration-500"
+                      className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[2rem] p-8 shadow-sm flex flex-col justify-between space-y-6 relative group hover:shadow-xl hover:shadow-slate-100/50 transition-all duration-500"
                     >
                       {/* Top identity tag */}
                       <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -576,7 +576,7 @@ export default function IndustriesCMSPage() {
                           <div className="w-6 h-6 rounded-lg bg-slate-900 text-white flex items-center justify-center text-[10px] font-black">
                             {i + 1}
                           </div>
-                          <span className="text-[10px] font-black uppercase tracking-widest text-[#0A1628]">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-[#0A1628] dark:text-white">
                             Sector Card
                           </span>
                         </div>
@@ -589,50 +589,50 @@ export default function IndustriesCMSPage() {
                       <div className="space-y-4">
                         {/* Title input */}
                         <div className="space-y-2">
-                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Card Title / Name</label>
+                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Card Title / Name</label>
                           <input 
                             type="text"
                             value={titleVal}
                             onChange={(e) => setData(prev => ({ ...prev, [card.titleId]: e.target.value }))}
                             placeholder={card.defaultLabel}
-                            className="w-full h-10 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-black text-slate-800 transition-all"
+                            className="w-full h-10 px-4 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-black text-slate-800 dark:text-slate-200 transition-all"
                           />
                         </div>
 
                         {/* Subtitle Input */}
                         <div className="space-y-2">
-                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Subtitle / Tagline</label>
+                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Subtitle / Tagline</label>
                           <input 
                             type="text"
                             value={subVal}
                             onChange={(e) => setData(prev => ({ ...prev, [card.subId]: e.target.value }))}
                             placeholder="e.g. Brand Activations"
-                            className="w-full h-10 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 transition-all"
+                            className="w-full h-10 px-4 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 dark:text-slate-200 transition-all"
                           />
                         </div>
 
                         {/* Description Textarea */}
                         <div className="space-y-2">
-                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Description</label>
+                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Description</label>
                           <textarea 
                             value={descVal}
                             rows={3}
                             onChange={(e) => setData(prev => ({ ...prev, [card.descId]: e.target.value }))}
                             placeholder="Market vertical details..."
-                            className="w-full p-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 leading-relaxed resize-none transition-all"
+                            className="w-full p-4 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 dark:text-slate-200 leading-relaxed resize-none transition-all"
                           />
                         </div>
 
                         {/* Image asset selector */}
                         <div className="space-y-2">
-                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Card Image URL</label>
+                          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300">Card Image URL</label>
                           <div className="flex gap-2">
                             <input 
                               type="text"
                               value={imageVal}
                               onChange={(e) => setData(prev => ({ ...prev, [card.id]: e.target.value }))}
                               placeholder="/images/solutions/..."
-                              className="flex-1 h-10 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 transition-all"
+                              className="flex-1 h-10 px-4 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0D95F0]/10 focus:border-[#0D95F0] text-xs font-bold text-slate-800 dark:text-slate-200 transition-all"
                             />
                             <button
                               type="button"
@@ -686,8 +686,8 @@ export default function IndustriesCMSPage() {
                             </button>
                           </>
                         ) : (
-                          <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex flex-col items-center gap-2">
-                            <ImageIcon size={20} className="text-slate-600" />
+                          <div className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest flex flex-col items-center gap-2">
+                            <ImageIcon size={20} className="text-slate-600 dark:text-slate-300" />
                             <span>No visual asset configured</span>
                           </div>
                         )}
@@ -719,16 +719,16 @@ export default function IndustriesCMSPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white border border-slate-200 rounded-[2rem] p-8 shadow-2xl z-10 text-center space-y-6 m-4"
+              className="relative w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 shadow-2xl z-10 text-center space-y-6 m-4"
             >
               <div className="w-16 h-16 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 mx-auto">
                 <AlertCircle size={28} />
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold text-[#0A1628] tracking-tight">Clear Asset Reference</h3>
-                <p className="text-slate-400 text-xs font-bold leading-relaxed">
-                  Are you sure you want to remove the image path reference for <strong className="text-slate-800">"{deleteTarget.label}"</strong>? The card will fallback to displaying its empty state in the layout.
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white tracking-tight">Clear Asset Reference</h3>
+                <p className="text-slate-400 dark:text-slate-300 text-xs font-bold leading-relaxed">
+                  Are you sure you want to remove the image path reference for <strong className="text-slate-800 dark:text-slate-200">"{deleteTarget.label}"</strong>? The card will fallback to displaying its empty state in the layout.
                 </p>
               </div>
 
@@ -736,7 +736,7 @@ export default function IndustriesCMSPage() {
                 <button
                   type="button"
                   onClick={() => setDeleteTarget(null)}
-                  className="flex-1 h-12 bg-slate-50 hover:bg-slate-100 text-[#0A1628] text-xs font-black uppercase tracking-wider rounded-xl transition-all"
+                  className="flex-1 h-12 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:bg-slate-800 text-[#0A1628] dark:text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all"
                 >
                   CANCEL
                 </button>

@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${sora.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${plusJakartaSans.variable} ${sora.variable}`}>
       <body suppressHydrationWarning className="font-sans antialiased">
         {children}
         <Toaster position="top-right" richColors toastOptions={{

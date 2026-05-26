@@ -65,8 +65,8 @@ export default function SettingsPage() {
             </div>
             <SpatialBadge variant="blue" pulse>System Configuration</SpatialBadge>
           </div>
-          <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Admin Settings</h1>
-          <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Update your administrator credentials and platform settings.</p>
+          <h1 className="text-5xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter leading-tight">Admin Settings</h1>
+          <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-lg font-medium max-w-2xl leading-relaxed italic">Update your administrator credentials and platform settings.</p>
         </div>
       </div>
 
@@ -75,23 +75,23 @@ export default function SettingsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-[2.5rem] border border-black/5 p-10 lg:p-14 shadow-sm relative overflow-hidden"
+          className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-black/5 dark:border-white/10 p-10 lg:p-14 shadow-sm relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#0D95F0]/5 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="relative z-10 space-y-10">
             <div className="space-y-3">
-              <h2 className="text-2xl font-black text-[#0A1628] tracking-tight flex items-center gap-3">
+              <h2 className="text-2xl font-black text-[#0A1628] dark:text-white tracking-tight flex items-center gap-3">
                 <ShieldAlert className="text-[#0D95F0]" size={24} />
                 Security Credentials
               </h2>
-              <p className="text-sm font-medium text-slate-500 italic">Enter your current credentials to authorize changes to your administrator account.</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400 dark:text-slate-300 italic">Enter your current credentials to authorize changes to your administrator account.</p>
             </div>
 
             <form onSubmit={handleUpdate} className="space-y-8">
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 pl-4">Current Email (Username)</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-300 pl-4">Current Email (Username)</label>
                   <div className="relative group">
                     <Mail size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
                     <input
@@ -100,13 +100,13 @@ export default function SettingsPage() {
                       onChange={e => setCurrentEmail(e.target.value)}
                       required
                       placeholder="admin@axion.com"
-                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 border border-black/5 focus:border-[#0D95F0]/50 focus:bg-white outline-none transition-all text-sm font-black text-[#0A1628] placeholder:text-slate-300"
+                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 dark:bg-slate-800 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/50 focus:bg-white dark:bg-slate-900 outline-none transition-all text-sm font-black text-[#0A1628] dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 pl-4">Current Password</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-300 pl-4">Current Password</label>
                   <div className="relative group">
                     <KeyRound size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
                     <input
@@ -115,7 +115,7 @@ export default function SettingsPage() {
                       onChange={e => setCurrentPassword(e.target.value)}
                       required
                       placeholder="••••••••"
-                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 border border-black/5 focus:border-[#0D95F0]/50 focus:bg-white outline-none transition-all text-sm font-black text-[#0A1628] placeholder:text-slate-300"
+                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 dark:bg-slate-800 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/50 focus:bg-white dark:bg-slate-900 outline-none transition-all text-sm font-black text-[#0A1628] dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export default function SettingsPage() {
                       onChange={e => setNewEmail(e.target.value)}
                       required
                       placeholder="newadmin@axion.com"
-                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 border border-black/5 focus:border-[#0D95F0]/50 focus:bg-white outline-none transition-all text-sm font-black text-[#0A1628] placeholder:text-slate-300"
+                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 dark:bg-slate-800 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/50 focus:bg-white dark:bg-slate-900 outline-none transition-all text-sm font-black text-[#0A1628] dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function SettingsPage() {
                       onChange={e => setNewPassword(e.target.value)}
                       required
                       placeholder="••••••••"
-                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 border border-black/5 focus:border-[#0D95F0]/50 focus:bg-white outline-none transition-all text-sm font-black text-[#0A1628] placeholder:text-slate-300"
+                      className="w-full pl-14 pr-6 py-4 rounded-[1.75rem] bg-slate-50 dark:bg-slate-800 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/50 focus:bg-white dark:bg-slate-900 outline-none transition-all text-sm font-black text-[#0A1628] dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export default function SettingsPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[2rem] p-8 shadow-2xl z-[210] overflow-hidden"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-2xl z-[210] overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-[#0D95F0]" />
             <div className="flex flex-col items-center text-center space-y-6 relative z-10">
@@ -196,8 +196,8 @@ export default function SettingsPage() {
                 <ShieldAlert size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-black text-[#0A1628] tracking-tight mb-2">Confirm Update</h3>
-                <p className="text-sm text-slate-500 font-medium">Are you sure you want to change your administrator credentials?</p>
+                <h3 className="text-xl font-black text-[#0A1628] dark:text-white tracking-tight mb-2">Confirm Update</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 dark:text-slate-300 font-medium">Are you sure you want to change your administrator credentials?</p>
               </div>
               <div className="w-full flex flex-col gap-3 pt-4">
                 <button
@@ -208,7 +208,7 @@ export default function SettingsPage() {
                 </button>
                 <button
                   onClick={() => setShowConfirm(false)}
-                  className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-colors"
+                  className="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 dark:text-slate-300 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-colors"
                 >
                   Cancel
                 </button>

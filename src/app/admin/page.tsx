@@ -88,18 +88,18 @@ export default function AdminDashboard() {
               </div>
               <SpatialBadge variant="blue">Business Operations</SpatialBadge>
            </div>
-           <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Corporate Dashboard</h1>
-           <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Manage corporate products, business inquiries, and digital assets.</p>
+           <h1 className="text-5xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter leading-tight">Corporate Dashboard</h1>
+           <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-lg font-medium max-w-2xl leading-relaxed italic">Manage corporate products, business inquiries, and digital assets.</p>
         </div>
         
         <div className="flex items-center gap-6">
-           <div className="px-8 py-4 bg-white border border-black/5 rounded-[2rem] shadow-sm hidden lg:flex items-center gap-4">
+           <div className="px-8 py-4 bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[2rem] shadow-sm hidden lg:flex items-center gap-4">
               <div className="w-10 h-10 rounded-2xl bg-emerald-50 flex items-center justify-center">
                  <Activity size={18} className="text-emerald-500" />
               </div>
               <div>
-                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">System Status</div>
-                 <div className="text-sm font-black text-[#0A1628]">99.98% Uptime</div>
+                 <div className="text-[9px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-0.5">System Status</div>
+                 <div className="text-sm font-black text-[#0A1628] dark:text-white">99.98% Uptime</div>
               </div>
            </div>
            <Link 
@@ -137,7 +137,7 @@ export default function AdminDashboard() {
                 <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newQuotes}</div>
                 <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Quotes ({stats.totalQuotes} Total)</div>
              </div>
-             <Link href="/admin/inquiries?type=quotes" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
+             <Link href="/admin/inquiries?type=quotes" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white dark:bg-slate-900 hover:text-[#0A1628] dark:text-white transition-all duration-500 group/link">
                 Manage B2B Deals <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
              </Link>
           </div>
@@ -147,13 +147,13 @@ export default function AdminDashboard() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="md:col-span-3 bg-slate-900 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
+          className="md:col-span-3 bg-slate-950 text-white rounded-[2.25rem] p-12 relative overflow-hidden group shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]"
         >
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-slate-500/10 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-slate-500/20 transition-colors duration-[1500ms]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0D95F0]/15 rounded-full blur-[140px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-[#0D95F0]/25 transition-colors duration-[1500ms]" />
           
           <div className="relative z-10 h-full flex flex-col justify-between space-y-10">
              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center text-slate-300 shadow-2xl">
+                <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center text-[#0D95F0] shadow-2xl">
                    <MessageSquare size={28} />
                 </div>
                 <div>
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
                 <div className="text-8xl font-black tracking-tighter mb-4 tabular-nums">{stats.newContacts}</div>
                 <div className="text-sm font-black text-white/40 uppercase tracking-[0.3em] ml-2">New Messages ({stats.totalContacts} Total)</div>
              </div>
-             <Link href="/admin/inquiries?type=contacts" className="inline-flex items-center gap-4 px-8 py-4 bg-white/10 text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white hover:text-[#0A1628] transition-all duration-500 group/link">
+             <Link href="/admin/inquiries?type=contacts" className="inline-flex items-center gap-4 px-8 py-4 bg-[#0D95F0] text-white rounded-[1.75rem] font-black text-xs uppercase tracking-widest hover:bg-white dark:bg-slate-900 hover:text-[#0A1628] dark:text-white transition-all duration-500 group/link">
                 Open Contacts Inbox <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
              </Link>
           </div>
@@ -176,9 +176,9 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="md:col-span-4 bg-white rounded-[2.5rem] p-16 border border-black/5 relative overflow-hidden group shadow-sm"
+          className="md:col-span-4 bg-white dark:bg-slate-900 rounded-[2.5rem] p-16 border border-black/5 dark:border-white/10 relative overflow-hidden group shadow-sm"
         >
-          <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-slate-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-slate-50/50 dark:bg-slate-800/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
           
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 mb-20 relative z-10">
              <div className="space-y-3">
@@ -188,15 +188,15 @@ export default function AdminDashboard() {
                   </div>
                   <span className="text-[10px] font-black text-[#0D95F0] uppercase tracking-[0.3em]">Analytics Overview</span>
               </div>
-              <h2 className="text-4xl font-black text-[#0A1628] tracking-tighter">Website Engagement</h2>
-              <p className="text-slate-500 text-lg font-medium max-w-xl italic leading-relaxed">Website traffic and visitor engagement behavior.</p>
+              <h2 className="text-4xl font-black text-[#0A1628] dark:text-white tracking-tighter">Website Engagement</h2>
+              <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-lg font-medium max-w-xl italic leading-relaxed">Website traffic and visitor engagement behavior.</p>
             </div>
             <div className="flex items-center gap-6">
-               <div className="px-6 py-3 rounded-2xl bg-slate-100/50 border border-black/5 text-slate-500 text-[10px] font-black uppercase tracking-widest">Protocol: 30-Day Window</div>
+               <div className="px-6 py-3 rounded-2xl bg-slate-100/50 dark:bg-slate-800/50 border border-black/5 dark:border-white/10 text-slate-500 dark:text-slate-400 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest">Protocol: 30-Day Window</div>
             </div>
           </div>
 
-          <div className="relative h-[250px] w-full z-10 bg-slate-50/30 rounded-[1.75rem] p-8 border border-black/[0.03]">
+          <div className="relative h-[250px] w-full z-10 bg-slate-50/30 dark:bg-slate-800/30 rounded-[1.75rem] p-8 border border-black/[0.03]">
              <svg viewBox="0 0 1000 250" className="w-full h-full preserve-3d">
                 <defs>
                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
@@ -233,7 +233,7 @@ export default function AdminDashboard() {
              initial={{ opacity: 0, scale: 0.95 }}
              animate={{ opacity: 1, scale: 1 }}
              transition={{ delay: 0.3 }}
-             className="flex-1 bg-white rounded-[2.25rem] p-10 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+             className="flex-1 bg-white dark:bg-slate-900 rounded-[2.25rem] p-10 border border-black/5 dark:border-white/10 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
            >
              <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0D95F0]/5 rounded-full blur-[80px] group-hover:bg-[#0D95F0]/10 transition-colors duration-[1000ms]" />
              <div className="relative z-10 flex flex-col h-full justify-between">
@@ -241,8 +241,8 @@ export default function AdminDashboard() {
                  <Box size={24} />
                </div>
                <div>
-                  <div className="text-6xl font-black text-[#0A1628] tracking-tighter mb-1 tabular-nums">{stats.totalProducts}</div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Total Products</div>
+                  <div className="text-6xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-1 tabular-nums">{stats.totalProducts}</div>
+                  <div className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] ml-1">Total Products</div>
                </div>
              </div>
            </motion.div>
@@ -252,7 +252,7 @@ export default function AdminDashboard() {
              initial={{ opacity: 0, scale: 0.95 }}
              animate={{ opacity: 1, scale: 1 }}
              transition={{ delay: 0.4 }}
-             className="flex-1 bg-white rounded-[2.25rem] p-10 border border-black/5 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
+             className="flex-1 bg-white dark:bg-slate-900 rounded-[2.25rem] p-10 border border-black/5 dark:border-white/10 relative overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-700"
            >
              <div className="absolute -top-24 -right-24 w-64 h-64 bg-violet-500/5 rounded-full blur-[80px] group-hover:bg-violet-500/10 transition-colors duration-[1000ms]" />
              <div className="relative z-10 flex flex-col h-full justify-between">
@@ -260,8 +260,8 @@ export default function AdminDashboard() {
                  <FolderTree size={24} />
                </div>
                <div>
-                  <div className="text-6xl font-black text-[#0A1628] tracking-tighter mb-1 tabular-nums">{stats.totalCategories}</div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Product Categories</div>
+                  <div className="text-6xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-1 tabular-nums">{stats.totalCategories}</div>
+                  <div className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] ml-1">Product Categories</div>
                </div>
              </div>
            </motion.div>
@@ -272,7 +272,7 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="md:col-span-6 bg-white rounded-[2.25rem] p-12 border border-black/5 flex flex-col md:flex-row gap-8 shadow-sm"
+          className="md:col-span-6 bg-white dark:bg-slate-900 rounded-[2.25rem] p-12 border border-black/5 dark:border-white/10 flex flex-col md:flex-row gap-8 shadow-sm"
         >
            {[
              { label: 'System Settings', icon: ShieldCheck, color: 'text-emerald-500', href: '/admin/settings', desc: 'Configure platform' },
@@ -282,16 +282,16 @@ export default function AdminDashboard() {
              <Link 
                key={i}
                href={action.href}
-               className="flex-1 flex flex-col p-8 rounded-[1.5rem] bg-slate-50 border border-black/5 hover:bg-white hover:shadow-2xl hover:shadow-black/5 transition-all duration-700 group"
+               className="flex-1 flex flex-col p-8 rounded-[1.5rem] bg-slate-50 dark:bg-slate-800 border border-black/5 dark:border-white/10 hover:bg-white dark:bg-slate-900 hover:shadow-2xl hover:shadow-black/5 transition-all duration-700 group"
              >
-                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-10 shadow-sm group-hover:scale-110 transition-transform duration-700">
+                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center mb-10 shadow-sm group-hover:scale-110 transition-transform duration-700">
                    <action.icon size={24} className={action.color} />
                 </div>
                 <div className="space-y-1">
-                   <div className="text-sm font-black text-[#0A1628] tracking-tight">{action.label}</div>
-                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">{action.desc}</div>
+                   <div className="text-sm font-black text-[#0A1628] dark:text-white tracking-tight">{action.label}</div>
+                   <div className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest opacity-60">{action.desc}</div>
                 </div>
-                <div className="mt-8 pt-6 border-t border-black/5 flex items-center justify-between">
+                <div className="mt-8 pt-6 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
                    <span className="text-[9px] font-black uppercase tracking-widest text-[#0D95F0]">Execute</span>
                    <ArrowUpRight size={18} className="text-slate-300 group-hover:text-[#0D95F0] transition-colors" />
                 </div>
@@ -301,20 +301,20 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Inquiries Table */}
-      <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm relative group/table">
+      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-black/5 dark:border-white/10 overflow-hidden shadow-sm relative group/table">
         <div className="absolute inset-0 bg-[#0D95F0]/[0.02] opacity-0 group-hover/table:opacity-100 transition-opacity pointer-events-none" />
         
-        <div className="p-12 border-b border-black/5 flex items-center justify-between bg-slate-50/50 relative z-10">
+        <div className="p-12 border-b border-black/5 dark:border-white/10 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 relative z-10">
            <div className="space-y-2">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-2xl bg-[#0A1628] text-white flex items-center justify-center shadow-xl">
                     <Activity size={20} />
                  </div>
-                 <h2 className="text-3xl font-black text-[#0A1628] tracking-tighter">Recent Inquiries</h2>
+                 <h2 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter">Recent Inquiries</h2>
               </div>
-              <p className="text-slate-400 text-base font-medium italic">Latest client messages, B2B connections, and quotation requests.</p>
+              <p className="text-slate-400 dark:text-slate-300 text-base font-medium italic">Latest client messages, B2B connections, and quotation requests.</p>
            </div>
-           <Link href="/admin/inquiries" className="px-10 py-5 bg-white border border-black/5 rounded-[2rem] text-xs font-black uppercase tracking-widest text-[#0A1628] hover:bg-[#0A1628] hover:text-white transition-all shadow-2xl shadow-black/5">
+           <Link href="/admin/inquiries" className="px-10 py-5 bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[2rem] text-xs font-black uppercase tracking-widest text-[#0A1628] dark:text-white hover:bg-[#0A1628] hover:text-white transition-all shadow-2xl shadow-black/5">
               Open Inquiries Inbox
            </Link>
         </div>
@@ -322,7 +322,7 @@ export default function AdminDashboard() {
         <div className="overflow-x-auto relative z-10">
           <table className="w-full">
             <thead>
-              <tr className="bg-slate-50/30 text-left border-b border-black/5">
+              <tr className="bg-slate-50/30 dark:bg-slate-800/30 text-left border-b border-black/5 dark:border-white/10">
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Classification</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
@@ -332,14 +332,14 @@ export default function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-black/5">
               {recentInquiries.map((inq, i) => (
-                <tr key={inq.id} className="group hover:bg-slate-50/80 transition-all duration-500">
+                <tr key={inq.id} className="group hover:bg-slate-50/80 dark:bg-slate-800/80 transition-all duration-500">
                   <td className="px-12 py-10">
                     <div className="flex items-center gap-6">
                       <div className="w-14 h-14 rounded-2xl bg-slate-950 text-white flex items-center justify-center font-black text-sm group-hover:scale-110 transition-transform duration-700">
                         {inq.name?.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.name}</div>
+                        <div className="text-base font-black text-[#0A1628] dark:text-white tracking-tight">{inq.name}</div>
                         <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private'}</div>
                       </div>
                     </div>
@@ -356,11 +356,11 @@ export default function AdminDashboard() {
                         {inq.status === 'new' ? 'Action Required' : 'Inquiry Logged'}
                      </SpatialBadge>
                   </td>
-                  <td className="px-12 py-10 text-sm font-black text-slate-400 tracking-tight uppercase">
+                  <td className="px-12 py-10 text-sm font-black text-slate-400 dark:text-slate-300 tracking-tight uppercase">
                     {timeAgo(inq.created_at)}
                   </td>
                   <td className="px-12 py-10 text-right">
-                    <Link href={`/admin/inquiries?id=${inq.id}`} className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 hover:bg-[#0D95F0] hover:text-white transition-all shadow-xl hover:shadow-[#0D95F0]/20 active:scale-90 inline-flex">
+                    <Link href={`/admin/inquiries?id=${inq.id}`} className="w-12 h-12 rounded-[1.25rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-300 hover:bg-[#0D95F0] hover:text-white transition-all shadow-xl hover:shadow-[#0D95F0]/20 active:scale-90 inline-flex">
                        <ArrowUpRight size={20} />
                     </Link>
                   </td>

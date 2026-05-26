@@ -189,13 +189,13 @@ function InquiriesPageContent() {
               params.delete('id')
               router.push('/admin/inquiries?' + params.toString())
             }} 
-            className="w-14 h-14 rounded-[1.5rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 hover:text-[#0D95F0] hover:shadow-xl transition-all group shrink-0"
+            className="w-14 h-14 rounded-[1.5rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-[#0D95F0] hover:shadow-xl transition-all group shrink-0"
           >
             <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
           </button>
           <div>
-            <h1 className="text-4xl font-extrabold text-[#0A1628] tracking-tighter">Inquiry Details</h1>
-            <p className="text-slate-500 font-medium italic">Detailed view of client message and contact information.</p>
+            <h1 className="text-4xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter">Inquiry Details</h1>
+            <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 font-medium italic">Detailed view of client message and contact information.</p>
           </div>
         </div>
 
@@ -220,7 +220,7 @@ function InquiriesPageContent() {
                   value={selectedInquiry.status}
                   onChange={e => updateStatus(selectedInquiry.id, e.target.value)}
                   disabled={updating}
-                  className="bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-xs font-black text-white outline-none focus:bg-white focus:text-[#0A1628] transition-all cursor-pointer min-w-[240px]"
+                  className="bg-white/10 border border-white/10 rounded-2xl px-6 py-4 text-xs font-black text-white outline-none focus:bg-white dark:bg-slate-900 focus:text-[#0A1628] dark:text-white transition-all cursor-pointer min-w-[240px]"
                 >
                   <option value="new">Action Required (New)</option>
                   <option value="read">Archived (Read)</option>
@@ -241,15 +241,15 @@ function InquiriesPageContent() {
               { icon: Globe2, label: 'Country', value: selectedInquiry.country || 'N/A' },
               { icon: Calendar, label: 'Date Received', value: formatDate(selectedInquiry.created_at) },
             ].map((item, i) => (
-              <div key={i} className="p-8 rounded-[1.5rem] bg-white border border-black/5 hover:border-[#0D95F0]/20 hover:shadow-2xl group transition-all">
-                <div className="flex items-center gap-3 mb-4 text-slate-400 group-hover:text-[#0D95F0] transition-colors">
+              <div key={i} className="p-8 rounded-[1.5rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 hover:border-[#0D95F0]/20 hover:shadow-2xl group transition-all">
+                <div className="flex items-center gap-3 mb-4 text-slate-400 dark:text-slate-300 group-hover:text-[#0D95F0] transition-colors">
                   <item.icon size={16} />
                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
                 </div>
                 {item.link ? (
                   <a href={item.link} className="text-lg font-black text-[#0D95F0] hover:underline block truncate tracking-tight">{item.value}</a>
                 ) : (
-                  <div className="text-lg font-black text-[#0A1628] truncate tracking-tight">{item.value}</div>
+                  <div className="text-lg font-black text-[#0A1628] dark:text-white truncate tracking-tight">{item.value}</div>
                 )}
               </div>
             ))}
@@ -265,22 +265,22 @@ function InquiriesPageContent() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-amber-500/30 transition-all">
+                <div className="p-8 rounded-[2rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 shadow-sm relative group hover:border-amber-500/30 transition-all">
                   <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">Solution Type</div>
-                  <div className="text-xl font-black text-[#0A1628]">{quoteData.solutionType || 'Not Specified'}</div>
+                  <div className="text-xl font-black text-[#0A1628] dark:text-white">{quoteData.solutionType || 'Not Specified'}</div>
                 </div>
 
-                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-[#0D95F0]/30 transition-all">
+                <div className="p-8 rounded-[2rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 shadow-sm relative group hover:border-[#0D95F0]/30 transition-all">
                   <div className="text-[10px] font-black text-[#0D95F0] uppercase tracking-widest mb-2">Installation Method</div>
-                  <div className="text-xl font-black text-[#0A1628]">{quoteData.installationMethod || 'Not Specified'}</div>
+                  <div className="text-xl font-black text-[#0A1628] dark:text-white">{quoteData.installationMethod || 'Not Specified'}</div>
                 </div>
 
-                <div className="p-8 rounded-[2rem] bg-white border border-black/5 shadow-sm relative group hover:border-emerald-500/30 transition-all">
+                <div className="p-8 rounded-[2rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 shadow-sm relative group hover:border-emerald-500/30 transition-all">
                   <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Project Status</div>
-                  <div className="text-xl font-black text-[#0A1628]">{quoteData.projectStatus || 'Not Specified'}</div>
+                  <div className="text-xl font-black text-[#0A1628] dark:text-white">{quoteData.projectStatus || 'Not Specified'}</div>
                 </div>
 
-                <div className="p-8 rounded-[2rem] bg-slate-950 border border-black/5 shadow-2xl relative group hover:scale-[1.01] transition-all md:col-span-3 text-white overflow-hidden">
+                <div className="p-8 rounded-[2rem] bg-slate-950 border border-black/5 dark:border-white/10 shadow-2xl relative group hover:scale-[1.01] transition-all md:col-span-3 text-white overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#0D95F0]/10 rounded-full blur-[60px] pointer-events-none" />
                   <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
@@ -296,36 +296,36 @@ function InquiriesPageContent() {
                 </div>
               </div>
 
-              <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
+              <div className="p-12 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                  <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter leading-tight">
+                  <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter leading-tight">
                     Special Requirements & Details
                   </h3>
                   <SpatialBadge variant="amber">B2B Deal Details</SpatialBadge>
                 </div>
                 <div className="h-px bg-black/5 w-24 mb-10" />
-                <div className="text-xl leading-relaxed text-slate-600 font-medium italic">
+                <div className="text-xl leading-relaxed text-slate-600 dark:text-slate-300 font-medium italic">
                   {quoteData.requirements ? (
                     quoteData.requirements.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)
                   ) : (
-                    <span className="text-slate-400">No additional special requirements specified.</span>
+                    <span className="text-slate-400 dark:text-slate-300">No additional special requirements specified.</span>
                   )}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="p-12 rounded-[2.5rem] bg-white border border-black/5 shadow-sm">
-              <h3 className="text-4xl font-black text-[#0A1628] tracking-tighter leading-tight mb-8">
+            <div className="p-12 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 shadow-sm">
+              <h3 className="text-4xl font-black text-[#0A1628] dark:text-white tracking-tighter leading-tight mb-8">
                 {selectedInquiry.subject || 'General Inquiry'}
               </h3>
               <div className="h-px bg-black/5 w-24 mb-10" />
-              <div className="text-xl leading-relaxed text-slate-600 font-medium italic">
+              <div className="text-xl leading-relaxed text-slate-600 dark:text-slate-300 font-medium italic">
                 {selectedInquiry.message.split('\n').map((para, i) => <p key={i} className={i > 0 ? 'mt-6' : ''}>{para}</p>)}
               </div>
             </div>
           )}
 
-          <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row items-center justify-end gap-8">
+          <div className="pt-12 border-t border-black/5 dark:border-white/10 flex flex-col md:flex-row items-center justify-end gap-8">
             <button
               onClick={() => handleDelete(selectedInquiry.id)} disabled={updating}
               className="flex items-center gap-3 px-8 py-5 rounded-[2rem] text-rose-500 hover:bg-rose-500 hover:text-white font-black text-xs uppercase tracking-widest transition-all border border-rose-500/10 active:scale-95"
@@ -349,8 +349,8 @@ function InquiriesPageContent() {
             </div>
             <SpatialBadge variant="blue" pulse>Client Relations</SpatialBadge>
           </div>
-          <h1 className="text-5xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">Client Inquiries</h1>
-          <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed italic">Global business inquiries and corporate communications.</p>
+          <h1 className="text-5xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter leading-tight">Client Inquiries</h1>
+          <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-lg font-medium max-w-2xl leading-relaxed italic">Global business inquiries and corporate communications.</p>
         </div>
       </div>
 
@@ -368,7 +368,7 @@ function InquiriesPageContent() {
               onClick={() => setSelectedType(tab.id as any)}
               className={cn(
                 "relative flex-1 py-4 px-6 rounded-[1.75rem] text-xs font-black uppercase tracking-widest text-center transition-all duration-300 flex items-center justify-center gap-2",
-                isActive ? "text-white" : "text-slate-500 hover:text-slate-900"
+                isActive ? "text-white" : "text-slate-500 dark:text-slate-400 dark:text-slate-300 hover:text-slate-900 dark:text-slate-100"
               )}
             >
               {isActive && (
@@ -386,7 +386,7 @@ function InquiriesPageContent() {
               <span className="relative z-10">{tab.label}</span>
               <span className={cn(
                 "relative z-10 px-2 py-0.5 rounded-lg text-[9px] font-black transition-all",
-                isActive ? "bg-white/20 text-white" : "bg-slate-200/60 text-slate-500"
+                isActive ? "bg-white/20 text-white" : "bg-slate-200/60 text-slate-500 dark:text-slate-400 dark:text-slate-300"
               )}>
                 {tab.count}
               </span>
@@ -396,20 +396,20 @@ function InquiriesPageContent() {
       </div>
 
       {/* Filter and Search Block */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[1.75rem] border border-black/5 shadow-2xl shadow-black/[0.02]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white/40 backdrop-blur-3xl p-6 rounded-[1.75rem] border border-black/5 dark:border-white/10 shadow-2xl shadow-black/[0.02]">
         <div className="relative flex-1 max-w-xl group">
           <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0D95F0] transition-colors" />
           <input 
             type="text" placeholder="Search by client name, email, or company..." value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="relative w-full pl-16 pr-8 py-5 rounded-[2rem] border border-black/5 bg-white shadow-sm outline-none transition-all text-sm font-black tracking-tight placeholder:text-slate-300"
+            className="relative w-full pl-16 pr-8 py-5 rounded-[2rem] border border-black/5 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm outline-none transition-all text-sm font-black tracking-tight placeholder:text-slate-300"
           />
         </div>
         <div className="relative flex items-center gap-3">
           <SlidersHorizontal size={18} className="absolute left-5 text-slate-300 pointer-events-none" />
           <select 
             value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)}
-            className="bg-white border border-black/5 rounded-[2rem] pl-14 pr-10 py-4 text-sm font-black text-[#0A1628] uppercase tracking-widest focus:border-[#0D95F0] outline-none cursor-pointer min-w-[240px] appearance-none shadow-sm"
+            className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-[2rem] pl-14 pr-10 py-4 text-sm font-black text-[#0A1628] dark:text-white uppercase tracking-widest focus:border-[#0D95F0] outline-none cursor-pointer min-w-[240px] appearance-none shadow-sm"
           >
             <option value="all">All Inquiries</option>
             <option value="new">Action Required (New)</option>
@@ -422,11 +422,11 @@ function InquiriesPageContent() {
       </div>
 
       {/* Inquiries Table */}
-      <div className="bg-white rounded-[2.5rem] border border-black/5 overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-black/5 dark:border-white/10 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-slate-50/30 text-left border-b border-black/5">
+              <tr className="bg-slate-50/30 dark:bg-slate-800/30 text-left border-b border-black/5 dark:border-white/10">
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Client / Company</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Classification</th>
                 <th className="px-12 py-8 text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Status</th>
@@ -443,10 +443,10 @@ function InquiriesPageContent() {
                 </tr>
               ) : filteredInquiries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-48 text-center bg-slate-50/30">
+                  <td colSpan={5} className="py-48 text-center bg-slate-50/30 dark:bg-slate-800/30">
                     <div className="flex flex-col items-center gap-8 opacity-30">
                       <Activity size={80} className="text-slate-300" strokeWidth={1} />
-                      <p className="text-slate-500 font-black tracking-[0.2em] text-xl uppercase">No Inquiries Found</p>
+                      <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 font-black tracking-[0.2em] text-xl uppercase">No Inquiries Found</p>
                     </div>
                   </td>
                 </tr>
@@ -462,7 +462,7 @@ function InquiriesPageContent() {
                       params.set('id', inq.id)
                       router.push('/admin/inquiries?' + params.toString())
                     }}
-                    className="group hover:bg-slate-50/80 cursor-pointer transition-all duration-500"
+                    className="group hover:bg-slate-50/80 dark:bg-slate-800/80 cursor-pointer transition-all duration-500"
                   >
                     <td className="px-12 py-10">
                       <div className="flex items-center gap-6">
@@ -470,7 +470,7 @@ function InquiriesPageContent() {
                           {inq.name?.charAt(0)}
                         </div>
                         <div>
-                          <div className="text-base font-black text-[#0A1628] tracking-tight">{inq.name}</div>
+                          <div className="text-base font-black text-[#0A1628] dark:text-white tracking-tight">{inq.name}</div>
                           <div className="text-[11px] font-black text-slate-300 uppercase tracking-widest mt-1">{inq.company || 'Private'}</div>
                         </div>
                       </div>
@@ -494,9 +494,9 @@ function InquiriesPageContent() {
                         )}
                       </div>
                     </td>
-                    <td className="px-12 py-10 text-sm font-black text-slate-400 tracking-tight uppercase">{formatDate(inq.created_at)}</td>
+                    <td className="px-12 py-10 text-sm font-black text-slate-400 dark:text-slate-300 tracking-tight uppercase">{formatDate(inq.created_at)}</td>
                     <td className="px-12 py-10 text-right">
-                      <button className="w-12 h-12 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-300 group-hover:bg-[#0D95F0] group-hover:text-white transition-all shadow-xl active:scale-90 inline-flex">
+                      <button className="w-12 h-12 rounded-[1.25rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-300 group-hover:bg-[#0D95F0] group-hover:text-white transition-all shadow-xl active:scale-90 inline-flex">
                         <ArrowUpRight size={20} />
                       </button>
                     </td>

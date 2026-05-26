@@ -324,16 +324,16 @@ export default function ProductEditorPage() {
         <div className="flex items-center gap-6">
           <Link
             href="/admin/products"
-            className="w-14 h-14 rounded-[1.5rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 hover:text-[#0D95F0] hover:bg-white hover:shadow-2xl hover:shadow-black/5 transition-all shadow-sm group"
+            className="w-14 h-14 rounded-[1.5rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-[#0D95F0] hover:bg-white dark:bg-slate-900 hover:shadow-2xl hover:shadow-black/5 transition-all shadow-sm group"
           >
             <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
           </Link>
           <div>
             <div className="flex items-center gap-3 mb-2">
               <SpatialBadge variant="blue" pulse={!isNew}>{isNew ? 'New Product' : 'Product Editor'}</SpatialBadge>
-              {!isNew && <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest font-mono opacity-60">ID: {id}</span>}
+              {!isNew && <span className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest font-mono opacity-60">ID: {id}</span>}
             </div>
-            <h1 className="text-4xl font-extrabold text-[#0A1628] tracking-tighter leading-tight">
+            <h1 className="text-4xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter leading-tight">
               {watch('name') || (isNew ? 'Untitled Product' : 'Loading...')}
             </h1>
           </div>
@@ -353,7 +353,7 @@ export default function ProductEditorPage() {
                   type="button"
                   onClick={() => { setValue('is_active', false); handleSubmit(onSubmit)(); }}
                   disabled={saving}
-                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {saving && !watch('is_active') ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                   Save Draft
@@ -398,7 +398,7 @@ export default function ProductEditorPage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 dark:bg-slate-800 border border-slate-200/40 rounded-xl shadow-sm text-slate-500 dark:text-slate-400 dark:text-slate-300">
                     <CheckCircle2 size={14} className="text-emerald-500" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       SAVED AS DRAFT
@@ -425,7 +425,7 @@ export default function ProductEditorPage() {
       </div>
 
       {/* Spatial Tabs Navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-4 px-2 bg-[#F8FAFC]/90 backdrop-blur-2xl border-b border-black/5 sticky top-0 z-40 mb-12 shadow-sm -mx-10 lg:-mx-14 px-10 lg:px-14">
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-4 px-2 bg-[#F8FAFC]/90 backdrop-blur-2xl border-b border-black/5 dark:border-white/10 sticky top-0 z-40 mb-12 shadow-sm -mx-10 lg:-mx-14 px-10 lg:px-14">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -435,7 +435,7 @@ export default function ProductEditorPage() {
               "flex items-center gap-3 px-6 py-4 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
               activeTab === tab.id
                 ? "bg-[#0A1628] text-white shadow-2xl shadow-black/20 scale-105"
-                : "text-slate-400 hover:text-[#0A1628] hover:bg-white"
+                : "text-slate-400 dark:text-slate-300 hover:text-[#0A1628] dark:text-white hover:bg-white dark:bg-slate-900"
             )}
           >
             <tab.icon size={16} />
@@ -448,7 +448,7 @@ export default function ProductEditorPage() {
       <div className="relative group">
         <div className="absolute -inset-4 bg-gradient-to-br from-[#0D95F0]/5 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity blur-3xl pointer-events-none" />
 
-        <div className="relative bg-white rounded-[2.25rem] border border-black/5 shadow-sm overflow-hidden min-h-[600px] z-10 transition-all duration-700">
+        <div className="relative bg-white dark:bg-slate-900 rounded-[2.25rem] border border-black/5 dark:border-white/10 shadow-sm overflow-hidden min-h-[600px] z-10 transition-all duration-700">
           <AnimatePresence mode="wait">
             {activeTab === 'basic' && (
               <motion.div
@@ -460,11 +460,11 @@ export default function ProductEditorPage() {
               >
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
+                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Product Name</label>
                     <input
                       {...register('name')}
                       placeholder="e.g. UltraHD LED Series 2026"
-                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm"
+                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 dark:border-white/10 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:bg-slate-900 focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm"
                       onBlur={(e) => {
                         if (!watch('slug')) {
                           setValue('slug', e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''), { shouldValidate: true })
@@ -475,20 +475,20 @@ export default function ProductEditorPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">URL Slug</label>
+                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">URL Slug</label>
                     <input
                       {...register('slug')}
                       placeholder="ultrahd-led-series-2026"
-                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold font-mono tracking-tight shadow-sm"
+                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 dark:border-white/10 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:bg-slate-900 focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold font-mono tracking-tight shadow-sm"
                     />
                     {errors.slug && <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest ml-1">{errors.slug.message}</p>}
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Main Category</label>
+                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Main Category</label>
                     <select
                       {...register('category_id')}
-                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
+                      className="w-full px-8 py-5 rounded-[2rem] border border-black/5 dark:border-white/10 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:bg-slate-900 focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
                       onChange={(e) => {
                         register('category_id').onChange(e)
                         setValue('subcategory_id', '')
@@ -504,10 +504,10 @@ export default function ProductEditorPage() {
 
                   {watch('category_id') && categories.some(c => c.parent_id === watch('category_id')) && (
                     <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub-Category</label>
+                      <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Sub-Category</label>
                       <select
                         {...register('subcategory_id')}
-                        className="w-full px-8 py-5 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
+                        className="w-full px-8 py-5 rounded-[2rem] border border-black/5 dark:border-white/10 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:bg-slate-900 focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold tracking-tight shadow-sm appearance-none"
                       >
                         <option value="">Select Sub-Category (Optional)</option>
                         {categories.filter(c => c.parent_id === watch('category_id')).map(c => (
@@ -519,32 +519,32 @@ export default function ProductEditorPage() {
 
                 </div>
 
-                <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 rounded-[1.5rem] border border-black/5">
+                <div className="flex flex-wrap gap-8 p-8 bg-slate-50/50 dark:bg-slate-800/50 rounded-[1.5rem] border border-black/5 dark:border-white/10">
                   <label className="flex items-center gap-4 cursor-pointer">
                     <input type="checkbox" {...register('is_active')} className="sr-only peer" />
-                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-emerald-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Visible to Public</span>
+                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-emerald-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white dark:bg-slate-900 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                    <span className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest peer-checked:text-[#0A1628] dark:text-white transition-colors">Visible to Public</span>
                   </label>
                   <label className="flex items-center gap-4 cursor-pointer">
                     <input type="checkbox" {...register('is_featured')} className="sr-only peer" />
-                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-amber-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest peer-checked:text-[#0A1628] transition-colors">Featured Product</span>
+                    <div className="relative w-12 h-6 bg-slate-200 peer-checked:bg-amber-400 rounded-full transition-colors after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white dark:bg-slate-900 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-6 shadow-inner"></div>
+                    <span className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest peer-checked:text-[#0A1628] dark:text-white transition-colors">Featured Product</span>
                   </label>
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Short Description (Preview)</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Short Description (Preview)</label>
                   <textarea
                     {...register('short_description')}
                     rows={4}
                     placeholder="Write a brief overview of this product..."
-                    className="w-full px-8 py-6 rounded-[2rem] border border-black/5 bg-slate-50 focus:bg-white focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold leading-relaxed tracking-tight shadow-sm resize-none"
+                    className="w-full px-8 py-6 rounded-[2rem] border border-black/5 dark:border-white/10 bg-slate-50 dark:bg-slate-800 focus:bg-white dark:bg-slate-900 focus:ring-8 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none transition-all text-sm font-bold leading-relaxed tracking-tight shadow-sm resize-none"
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Description</label>
-                  <div className="rounded-[1.5rem] overflow-hidden border border-black/5">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Full Description</label>
+                  <div className="rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/10">
                     <RichTextEditor
                       content={watch('full_description') || ''}
                       onChange={(val) => setValue('full_description', val, { shouldDirty: true })}
@@ -565,11 +565,11 @@ export default function ProductEditorPage() {
               >
                 <div className="w-full space-y-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Images</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Upload and manage product photos and gallery images.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-2">Product Images</h3>
+                    <p className="text-slate-400 dark:text-slate-300 font-medium text-lg italic">Upload and manage product photos and gallery images.</p>
                   </div>
 
-                  <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
+                  <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 rounded-[1.75rem] border border-black/5 dark:border-white/10">
                     <MediaUploader
                       files={images}
                       onFilesChange={setImages}
@@ -590,8 +590,8 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Specifications</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Add key technical specifications for this product.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-2">Specifications</h3>
+                    <p className="text-slate-400 dark:text-slate-300 font-medium text-lg italic">Add key technical specifications for this product.</p>
                   </div>
                   <button
                     type="button"
@@ -617,7 +617,7 @@ export default function ProductEditorPage() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, x: 50 }}
-                          className="flex items-center gap-6 p-4 bg-slate-50/50 rounded-[2rem] border border-black/5 group hover:bg-white hover:shadow-2xl transition-all duration-500"
+                          className="flex items-center gap-6 p-4 bg-slate-50/50 dark:bg-slate-800/50 rounded-[2rem] border border-black/5 dark:border-white/10 group hover:bg-white dark:bg-slate-900 hover:shadow-2xl transition-all duration-500"
                         >
                           <div className="w-12 h-12 rounded-[1rem] bg-slate-950 text-white flex items-center justify-center shrink-0">
                             <Database size={18} />
@@ -627,13 +627,13 @@ export default function ProductEditorPage() {
                               value={s.spec_key}
                               onChange={(e) => handleSpecChange(index, 'spec_key', e.target.value)}
                               placeholder="Specification Name (e.g. Pixel Pitch)"
-                              className="px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
+                              className="px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                             />
                             <input
                               value={s.spec_value}
                               onChange={(e) => handleSpecChange(index, 'spec_value', e.target.value)}
                               placeholder="Metric Value (e.g. 1.2mm)"
-                              className="px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40"
+                              className="px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40"
                             />
                           </div>
                           <button
@@ -661,8 +661,8 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Product Features</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Add the key selling points and features of this product.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-2">Product Features</h3>
+                    <p className="text-slate-400 dark:text-slate-300 font-medium text-lg italic">Add the key selling points and features of this product.</p>
                   </div>
                   <button
                     type="button"
@@ -688,7 +688,7 @@ export default function ProductEditorPage() {
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.9 }}
-                          className="bg-slate-50/50 p-8 rounded-[1.5rem] border border-black/5 space-y-6 group relative hover:bg-white hover:shadow-2xl transition-all duration-700"
+                          className="bg-slate-50/50 dark:bg-slate-800/50 p-8 rounded-[1.5rem] border border-black/5 dark:border-white/10 space-y-6 group relative hover:bg-white dark:bg-slate-900 hover:shadow-2xl transition-all duration-700"
                         >
                           <div className="flex items-center justify-between">
                             <div className="w-12 h-12 rounded-[1rem] bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
@@ -706,14 +706,14 @@ export default function ProductEditorPage() {
                             value={f.title}
                             onChange={(e) => handleFeatureChange(index, 'title', e.target.value)}
                             placeholder="Feature Title (e.g. Seamless Display)"
-                            className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
+                            className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                           />
                           <textarea
                             value={f.description}
                             onChange={(e) => handleFeatureChange(index, 'description', e.target.value)}
                             placeholder="Feature description..."
                             rows={4}
-                            className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 resize-none leading-relaxed"
+                            className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 resize-none leading-relaxed"
                           />
                         </motion.div>
                       ))
@@ -731,11 +731,11 @@ export default function ProductEditorPage() {
                 exit={{ opacity: 0, y: -20 }}
                 className="p-16 text-center py-40"
               >
-                <div className="w-24 h-24 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto mb-10 shadow-inner">
+                <div className="w-24 h-24 rounded-[1.5rem] bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-200 mx-auto mb-10 shadow-inner">
                   <Box size={40} />
                 </div>
-                <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-4">Accessories Management</h3>
-                <p className="text-lg text-slate-400 font-medium max-w-sm mx-auto leading-relaxed italic">Managing product accessories and add-ons will be available in a future update.</p>
+                <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-4">Accessories Management</h3>
+                <p className="text-lg text-slate-400 dark:text-slate-300 font-medium max-w-sm mx-auto leading-relaxed italic">Managing product accessories and add-ons will be available in a future update.</p>
               </motion.div>
             )}
 
@@ -749,8 +749,8 @@ export default function ProductEditorPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Downloads & Documents</h3>
-                    <p className="text-slate-400 font-medium text-lg italic">Manage Datasheets, Manuals, and Technical Drawings.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-2">Downloads & Documents</h3>
+                    <p className="text-slate-400 dark:text-slate-300 font-medium text-lg italic">Manage Datasheets, Manuals, and Technical Drawings.</p>
                   </div>
                   <button
                     type="button"
@@ -775,9 +775,9 @@ export default function ProductEditorPage() {
                           key={index}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          className="bg-slate-50/50 p-6 rounded-[1.5rem] border border-black/5 flex flex-col md:flex-row md:items-center gap-6 group hover:bg-white hover:shadow-2xl transition-all duration-700"
+                          className="bg-slate-50/50 dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-black/5 dark:border-white/10 flex flex-col md:flex-row md:items-center gap-6 group hover:bg-white dark:bg-slate-900 hover:shadow-2xl transition-all duration-700"
                         >
-                          <div className="w-14 h-14 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center text-slate-400 shrink-0 shadow-sm">
+                          <div className="w-14 h-14 rounded-[1.25rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-400 dark:text-slate-300 shrink-0 shadow-sm">
                             <Download size={22} />
                           </div>
                           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -787,7 +787,7 @@ export default function ProductEditorPage() {
                                 value={d.name}
                                 onChange={(e) => handleDownloadChange(index, 'name', e.target.value)}
                                 placeholder="e.g. Operation Manual V4"
-                                className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
+                                className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-white/40"
                               />
                             </div>
                             <div className="space-y-1.5">
@@ -795,7 +795,7 @@ export default function ProductEditorPage() {
                               <select
                                 value={d.document_type}
                                 onChange={(e) => handleDownloadChange(index, 'document_type', e.target.value)}
-                                className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 appearance-none"
+                                className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-white/40 appearance-none"
                               >
                                 <option value="datasheet">Datasheet</option>
                                 <option value="manual">Manual</option>
@@ -810,9 +810,9 @@ export default function ProductEditorPage() {
                                   value={d.file_url}
                                   onChange={(e) => handleDownloadChange(index, 'file_url', e.target.value)}
                                   placeholder="https://axion.io/assets/..."
-                                  className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-[10px] font-black tracking-widest bg-white/40"
+                                  className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-[10px] font-black tracking-widest bg-white/40"
                                 />
-                                <label className="shrink-0 flex items-center justify-center w-12 h-12 rounded-[1.25rem] bg-slate-100 hover:bg-[#0D95F0] hover:text-white text-slate-500 cursor-pointer transition-colors shadow-sm" title="Upload Document">
+                                <label className="shrink-0 flex items-center justify-center w-12 h-12 rounded-[1.25rem] bg-slate-100 dark:bg-slate-800 hover:bg-[#0D95F0] hover:text-white text-slate-500 dark:text-slate-400 dark:text-slate-300 cursor-pointer transition-colors shadow-sm" title="Upload Document">
                                   {uploadingDocIndex === index ? (
                                     <Loader2 size={16} className="animate-spin" />
                                   ) : (
@@ -854,11 +854,11 @@ export default function ProductEditorPage() {
               >
                 <div className="w-full space-y-12">
                   <div>
-                    <h3 className="text-3xl font-black text-[#0A1628] tracking-tighter mb-2">Case Studies / Applications</h3>
-                    <p className="text-slate-400 font-medium text-lg italic text-balance">Showcase real-world projects and environments where this product was used.</p>
+                    <h3 className="text-3xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-2">Case Studies / Applications</h3>
+                    <p className="text-slate-400 dark:text-slate-300 font-medium text-lg italic text-balance">Showcase real-world projects and environments where this product was used.</p>
                   </div>
 
-                  <div className="bg-slate-50/50 p-8 rounded-[1.75rem] border border-black/5">
+                  <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 rounded-[1.75rem] border border-black/5 dark:border-white/10">
                     <MediaUploader
                       files={applications}
                       onFilesChange={setApplications}
@@ -869,7 +869,7 @@ export default function ProductEditorPage() {
 
                   <div className="grid gap-6">
                     {applications.map((app, i) => (
-                      <div key={i} className="flex gap-8 p-6 bg-white rounded-[1.5rem] border border-black/5 shadow-sm group hover:shadow-2xl transition-all duration-700">
+                      <div key={i} className="flex gap-8 p-6 bg-white dark:bg-slate-900 rounded-[1.5rem] border border-black/5 dark:border-white/10 shadow-sm group hover:shadow-2xl transition-all duration-700">
                         <div className="w-24 h-24 rounded-[1.5rem] bg-slate-900 overflow-hidden shrink-0 shadow-2xl">
                           <Image src={app.url} alt="App" width={96} height={96} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-1000" />
                         </div>
@@ -884,7 +884,7 @@ export default function ProductEditorPage() {
                                 setApplications(updated)
                               }}
                               placeholder="Project Title"
-                              className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-slate-50/50"
+                              className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-black tracking-tight bg-slate-50/50 dark:bg-slate-800/50"
                             />
                           </div>
                           <div className="space-y-2">
@@ -897,7 +897,7 @@ export default function ProductEditorPage() {
                                 setApplications(updated)
                               }}
                               placeholder="e.g. Dubai Marina"
-                              className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 focus:bg-white focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-slate-50/50"
+                              className="w-full px-6 py-4 rounded-[1.25rem] border border-black/5 dark:border-white/10 focus:bg-white dark:bg-slate-900 focus:ring-4 focus:ring-[#0D95F0]/5 outline-none text-sm font-bold tracking-tight bg-slate-50/50 dark:bg-slate-800/50"
                             />
                           </div>
                         </div>

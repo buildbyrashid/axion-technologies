@@ -14,13 +14,13 @@ interface FormFieldProps {
 export default function FormField({ label, helperText, error, required, children, className }: FormFieldProps) {
   return (
     <div className={cn('space-y-2', className)}>
-      <label className="flex items-center gap-1 text-xs font-bold text-slate-500 uppercase tracking-widest">
+      <label className="flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 dark:text-slate-300 uppercase tracking-widest">
         {label}
         {required && <span className="text-red-400">*</span>}
       </label>
       {children}
       {helperText && !error && (
-        <p className="text-xs text-slate-400 font-medium">{helperText}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-300 font-medium">{helperText}</p>
       )}
       {error && (
         <p className="text-xs text-red-500 font-semibold">{error}</p>
