@@ -14,6 +14,7 @@ import {
   Upload, 
   Trash2, 
   Shield,
+  Building2
 } from 'lucide-react'
 import { toast } from 'sonner'
 import SpatialBadge from '@/components/ui/SpatialBadge'

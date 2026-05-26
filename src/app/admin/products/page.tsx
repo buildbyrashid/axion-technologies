@@ -18,6 +18,7 @@ interface Product {
   name: string
   slug: string
   category_id: string
+  subcategory_id: string | null
   category_name: string | null
   is_active: boolean
   is_featured: boolean
