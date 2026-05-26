@@ -168,7 +168,7 @@ export default function GlobalCTACMSPage() {
             </div>
             <SpatialBadge variant="blue">Global CMS Core</SpatialBadge>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0A1628] tracking-tighter">Global CTA CMS</h1>
+          <h1 className="text-3xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter">Global CTA CMS</h1>
         </div>
 
         {/* Action / Status Controls Area */}
@@ -186,7 +186,7 @@ export default function GlobalCTACMSPage() {
                   type="button"
                   onClick={() => handleSave('draft')}
                   disabled={savingType !== null}
-                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {savingType === 'draft' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                   SAVE DRAFT
@@ -227,7 +227,7 @@ export default function GlobalCTACMSPage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 dark:bg-slate-800 border border-slate-200/40 rounded-xl shadow-sm text-slate-500 dark:text-slate-400 dark:text-slate-300">
                     <Check size={14} className="text-emerald-500" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       SAVED AS DRAFT
@@ -255,38 +255,38 @@ export default function GlobalCTACMSPage() {
           
           {/* Left Column: CTA Messaging Settings */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8">
+            <div className="bg-white dark:bg-slate-900 rounded-[1.75rem] border border-black/5 dark:border-white/10 p-10 shadow-sm space-y-8">
               <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
                 <div className="w-12 h-12 rounded-2xl bg-[#0D95F0]/10 text-[#0D95F0] flex items-center justify-center">
                   <Megaphone size={22} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-[#0A1628] tracking-tight">CTA Messaging</h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Headline and descriptions</p>
+                  <h3 className="text-xl font-extrabold text-[#0A1628] dark:text-white tracking-tight">CTA Messaging</h3>
+                  <p className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest">Headline and descriptions</p>
                 </div>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Call to Action Headline</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Call to Action Headline</label>
                   <input
                     value={cta.headline}
                     onChange={e => setCta({ ...cta, headline: e.target.value })}
-                    className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all"
+                    className="w-full px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight transition-all"
                     placeholder="e.g. Let's Build Your Next Visual Experience"
                   />
-                  <p className="text-[9px] text-slate-400 font-semibold italic ml-1">
+                  <p className="text-[9px] text-slate-400 dark:text-slate-300 font-semibold italic ml-1">
                     * The signature phrase "Visual Experience" is automatically highlighted with the gradient design.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Supportive Message / description</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Supportive Message / description</label>
                   <textarea
                     value={cta.description}
                     onChange={e => setCta({ ...cta, description: e.target.value })}
                     rows={4}
-                    className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight leading-relaxed transition-all resize-none"
+                    className="w-full px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-[#0D95F0]/5 focus:border-[#0D95F0]/20 outline-none text-sm font-bold tracking-tight leading-relaxed transition-all resize-none"
                     placeholder="Enter the supportive call to action content..."
                   />
                 </div>
@@ -294,16 +294,16 @@ export default function GlobalCTACMSPage() {
             </div>
 
             {/* Media Background Setting */}
-            <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-6">
-              <h3 className="text-md font-black uppercase tracking-wider text-slate-600 border-l-4 border-[#0D95F0] pl-3">Presentation Layer Assets</h3>
+            <div className="bg-white dark:bg-slate-900 rounded-[1.75rem] border border-black/5 dark:border-white/10 p-10 shadow-sm space-y-6">
+              <h3 className="text-md font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 border-l-4 border-[#0D95F0] pl-3">Presentation Layer Assets</h3>
               
               <div className="space-y-3">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Background Image URL</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Background Image URL</label>
                 <div className="flex gap-2">
                   <input
                     value={cta.background_image}
                     onChange={e => setCta({ ...cta, background_image: e.target.value })}
-                    className="flex-1 px-4 py-3 text-xs font-mono border border-slate-200 rounded-xl outline-none"
+                    className="flex-1 px-4 py-3 text-xs font-mono border border-slate-200 dark:border-slate-800 rounded-xl outline-none"
                     placeholder="https://unsplash.com/..."
                   />
                   <input 
@@ -317,7 +317,7 @@ export default function GlobalCTACMSPage() {
                     type="button"
                     disabled={uploadingField === 'background_image'}
                     onClick={triggerFileSelect}
-                    className="px-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 transition-colors"
+                    className="px-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors"
                   >
                     {uploadingField === 'background_image' ? <Loader2 size={14} className="animate-spin text-[#0D95F0]" /> : <Upload size={14} />}
                   </button>
@@ -326,7 +326,7 @@ export default function GlobalCTACMSPage() {
                     disabled={!cta.background_image}
                     onClick={() => setDeleteTarget({ field: 'background_image', label: 'Background Image' })}
                     className={cn(
-                      "px-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 transition-colors",
+                      "px-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 dark:text-slate-300 transition-colors",
                       cta.background_image ? "hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600" : "opacity-40 cursor-not-allowed"
                     )}
                   >
@@ -336,7 +336,7 @@ export default function GlobalCTACMSPage() {
               </div>
 
               {cta.background_image && (
-                <div className="relative aspect-[3/1] rounded-2xl border border-slate-200 overflow-hidden bg-slate-950">
+                <div className="relative aspect-[3/1] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-950">
                   <img
                     src={cta.background_image}
                     alt="CTA Background Preview"
@@ -352,63 +352,63 @@ export default function GlobalCTACMSPage() {
 
           {/* Right Column: Global Contact Card Settings */}
           <div className="space-y-8">
-            <div className="bg-white rounded-[1.75rem] border border-black/5 p-10 shadow-sm space-y-8">
+            <div className="bg-white dark:bg-slate-900 rounded-[1.75rem] border border-black/5 dark:border-white/10 p-10 shadow-sm space-y-8">
               <div className="pb-4 border-b border-slate-100">
-                <h3 className="text-lg font-extrabold text-[#0A1628] tracking-tight">Contact Card Settings</h3>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Physical & Digital Touchpoints</p>
+                <h3 className="text-lg font-extrabold text-[#0A1628] dark:text-white tracking-tight">Contact Card Settings</h3>
+                <p className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest">Physical & Digital Touchpoints</p>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest flex items-center gap-1.5 ml-1">
                     <Mail size={12} className="text-[#0D95F0]" /> Email Address
                   </label>
                   <input
                     value={cta.email}
                     onChange={e => setCta({ ...cta, email: e.target.value })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 rounded-xl outline-none"
+                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 dark:border-slate-800 rounded-xl outline-none"
                     placeholder="sales@axiontechnology.com"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest flex items-center gap-1.5 ml-1">
                     <Globe size={12} className="text-[#0D95F0]" /> Website Link
                   </label>
                   <input
                     value={cta.website}
                     onChange={e => setCta({ ...cta, website: e.target.value })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 rounded-xl outline-none"
+                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 dark:border-slate-800 rounded-xl outline-none"
                     placeholder="www.axiontechnology.com"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest flex items-center gap-1.5 ml-1">
                     <MapPin size={12} className="text-[#0D95F0]" /> Global Hub Locations
                   </label>
                   <input
                     value={cta.locations}
                     onChange={e => setCta({ ...cta, locations: e.target.value })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 rounded-xl outline-none"
+                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 dark:border-slate-800 rounded-xl outline-none"
                     placeholder="Hong Kong | Shenzhen | Dubai"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">
                     Support Online text
                   </label>
                   <input
                     value={cta.support_text}
                     onChange={e => setCta({ ...cta, support_text: e.target.value })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 rounded-xl outline-none"
+                    className="w-full px-4 py-3 text-xs font-bold border border-slate-200 dark:border-slate-800 rounded-xl outline-none"
                     placeholder="Engineering Support Online"
                   />
                 </div>
               </div>
 
-              <div className="text-[9px] font-semibold text-slate-400 italic leading-relaxed pt-2 border-t border-slate-100">
+              <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 italic leading-relaxed pt-2 border-t border-slate-100">
                 * Note: Action buttons, consulting modal triggers, and structural visual icons remain locked & hardcoded in the primary design layout.
               </div>
             </div>
@@ -425,14 +425,14 @@ export default function GlobalCTACMSPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-              className="w-full max-w-md bg-white rounded-3xl border border-black/5 p-8 shadow-2xl space-y-6"
+              className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-2xl space-y-6"
             >
               <div className="space-y-2 text-center">
                 <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-4">
                   <Trash2 size={22} />
                 </div>
-                <h3 className="text-lg font-black text-[#0A1628] tracking-tight">Remove Media Asset?</h3>
-                <p className="text-xs text-slate-400 font-bold leading-relaxed">
+                <h3 className="text-lg font-black text-[#0A1628] dark:text-white tracking-tight">Remove Media Asset?</h3>
+                <p className="text-xs text-slate-400 dark:text-slate-300 font-bold leading-relaxed">
                   Are you sure you want to delete <span className="font-extrabold text-slate-700">{deleteTarget.label}</span>? This action will clear the asset reference instantly.
                 </p>
               </div>
@@ -441,7 +441,7 @@ export default function GlobalCTACMSPage() {
                 <button
                   type="button"
                   onClick={() => setDeleteTarget(null)}
-                  className="flex-1 py-3 px-4 border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-black uppercase tracking-wider rounded-xl transition-all"
+                  className="flex-1 py-3 px-4 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 dark:text-slate-300 text-xs font-black uppercase tracking-wider rounded-xl transition-all"
                 >
                   Cancel
                 </button>

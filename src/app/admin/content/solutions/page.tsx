@@ -284,7 +284,7 @@ export default function SolutionsCMSPage() {
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0A1628] tracking-tighter">Solutions Page CMS</h1>
+          <h1 className="text-3xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter">Solutions Page CMS</h1>
         </div>
 
         {/* Action / Status Controls Area */}
@@ -302,7 +302,7 @@ export default function SolutionsCMSPage() {
                   type="button"
                   onClick={() => handleSave('draft')}
                   disabled={savingType !== null}
-                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {savingType === 'draft' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                   SAVE DRAFT
@@ -343,7 +343,7 @@ export default function SolutionsCMSPage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 dark:bg-slate-800 border border-slate-200/40 rounded-xl shadow-sm text-slate-500 dark:text-slate-400 dark:text-slate-300">
                     <Check size={14} className="text-emerald-500" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       SAVED AS DRAFT
@@ -366,7 +366,7 @@ export default function SolutionsCMSPage() {
       </div>
 
       {/* Tabs navigation */}
-      <div className="border-b border-black/5 flex items-center gap-2 overflow-x-auto pb-px">
+      <div className="border-b border-black/5 dark:border-white/10 flex items-center gap-2 overflow-x-auto pb-px">
         {[
           { id: 'hero', label: 'Hero Banner', icon: ImageIcon },
           { id: 'technical-foundations', label: 'Technical Foundations', icon: Shield },
@@ -381,11 +381,11 @@ export default function SolutionsCMSPage() {
               className={cn(
                 "flex items-center gap-2 px-6 py-4 border-b-2 font-bold text-sm tracking-tight transition-all whitespace-nowrap",
                 isSelected 
-                  ? "border-[#0D95F0] text-[#0A1628] bg-slate-50" 
-                  : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50/50"
+                  ? "border-[#0D95F0] text-[#0A1628] dark:text-white bg-slate-50 dark:bg-slate-800" 
+                  : "border-transparent text-slate-400 dark:text-slate-300 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-50/50 dark:bg-slate-800/50"
               )}
             >
-              <Icon size={16} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400'} />
+              <Icon size={16} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400 dark:text-slate-300'} />
               {tab.label}
             </button>
           )
@@ -393,73 +393,73 @@ export default function SolutionsCMSPage() {
       </div>
 
       {/* Form Editor Body Container */}
-      <div className="bg-white rounded-[2rem] border border-black/5 p-8 lg:p-12 shadow-sm max-w-[1800px] mx-auto w-full">
+      <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-black/5 dark:border-white/10 p-8 lg:p-12 shadow-sm max-w-[1800px] mx-auto w-full">
         
         {/* TAB 1: SOLUTIONS HERO BANNER */}
         {activeTab === 'hero' && (
           <div className="space-y-8">
             <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Hero banner controls</h3>
-              <p className="text-slate-400 text-xs mt-1">Configure primary branding badges, headlines, and presentation layers for the Solutions page.</p>
+              <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Hero banner controls</h3>
+              <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Configure primary branding badges, headlines, and presentation layers for the Solutions page.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Badge Label</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Hero Badge Label</label>
                 <input 
                   type="text" 
                   value={data.hero_badge}
                   disabled={savingType !== null}
                   onChange={e => setData({ ...data, hero_badge: e.target.value })}
                   placeholder="Enterprise Solutions"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Primary Hero Title</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Primary Hero Title</label>
                 <input 
                   type="text" 
                   value={data.hero_title}
                   disabled={savingType !== null}
                   onChange={e => setData({ ...data, hero_title: e.target.value })}
                   placeholder="Engineering Integrated Visual Ecosystems"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Subtitle Narrative</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Hero Subtitle Narrative</label>
               <textarea 
                 rows={3}
                 value={data.hero_subtitle}
                 disabled={savingType !== null}
                 onChange={e => setData({ ...data, hero_subtitle: e.target.value })}
                 placeholder="Moving beyond equipment to engineer complete visual environments..."
-                className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
+                className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
               />
             </div>
 
             {/* Media Background Setting */}
             <div className="space-y-4 pt-4 border-t border-slate-100">
-              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 border-l-4 border-[#0D95F0] pl-3">Presentation Layer Assets</h4>
+              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 border-l-4 border-[#0D95F0] pl-3">Presentation Layer Assets</h4>
               
               <div className="space-y-3">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Background Image URL</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Background Image URL</label>
                 <div className="flex gap-2">
                   <input
                     value={data.hero_image}
                     disabled={savingType !== null}
                     onChange={e => setData({ ...data, hero_image: e.target.value })}
-                    className="flex-1 px-4 py-3 text-xs font-mono border border-slate-200 rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0]"
+                    className="flex-1 px-4 py-3 text-xs font-mono border border-slate-200 dark:border-slate-800 rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0]"
                     placeholder="https://unsplash.com/..."
                   />
                   <button
                     type="button"
                     disabled={uploadingField === 'hero_image' || savingType !== null}
                     onClick={() => triggerFileSelect('hero_image')}
-                    className="px-4 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 transition-colors disabled:opacity-50"
+                    className="px-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors disabled:opacity-50"
                   >
                     {uploadingField === 'hero_image' ? <Loader2 size={14} className="animate-spin text-[#0D95F0]" /> : <Upload size={14} />}
                   </button>
@@ -468,7 +468,7 @@ export default function SolutionsCMSPage() {
                     disabled={!data.hero_image || savingType !== null}
                     onClick={() => setDeleteTarget({ field: 'hero_image', label: 'Background Image' })}
                     className={cn(
-                      "px-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 transition-colors",
+                      "px-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 dark:text-slate-300 transition-colors",
                       data.hero_image ? "hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600" : "opacity-40 cursor-not-allowed"
                     )}
                   >
@@ -478,7 +478,7 @@ export default function SolutionsCMSPage() {
               </div>
 
               {data.hero_image && (
-                <div className="relative aspect-[3/1] max-w-4xl rounded-2xl border border-slate-200 overflow-hidden bg-slate-950 shadow-sm mt-4">
+                <div className="relative aspect-[3/1] max-w-4xl rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-950 shadow-sm mt-4">
                   <img
                     src={data.hero_image}
                     alt="Hero Background Preview"
@@ -500,66 +500,66 @@ export default function SolutionsCMSPage() {
             {/* Header Content */}
             <div className="space-y-8">
               <div className="border-b border-slate-100 pb-4">
-                <h3 className="text-xl font-bold text-[#0A1628] font-sora">Technical foundations section</h3>
-                <p className="text-slate-400 text-xs mt-1">Configure section labeling, positioning, and subtitle descriptors for the Engineering Technologies grid.</p>
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Technical foundations section</h3>
+                <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Configure section labeling, positioning, and subtitle descriptors for the Engineering Technologies grid.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Badge</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Badge</label>
                   <input 
                     type="text" 
                     value={data.tech_badge}
                     disabled={savingType !== null}
                     onChange={e => setData({ ...data, tech_badge: e.target.value })}
                     placeholder="Technical Foundations"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Main Title</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Main Title</label>
                   <input 
                     type="text" 
                     value={data.tech_title}
                     disabled={savingType !== null}
                     onChange={e => setData({ ...data, tech_title: e.target.value })}
                     placeholder="Integrated Engineering Technologies"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Description / Subtitle</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Description / Subtitle</label>
                 <textarea 
                   rows={3}
                   value={data.tech_subtitle}
                   disabled={savingType !== null}
                   onChange={e => setData({ ...data, tech_subtitle: e.target.value })}
                   placeholder="Core engineering systems that power our advanced visual infrastructure."
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
                 />
               </div>
             </div>
 
             {/* Individual Card Asset Upload Suite */}
             <div className="space-y-6 pt-8 border-t border-slate-100">
-              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 border-l-4 border-[#0D95F0] pl-3">Individual Technical Cards</h4>
+              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 border-l-4 border-[#0D95F0] pl-3">Individual Technical Cards</h4>
               
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-4">
                 {techCards.map((card) => {
                   const val = data[card.id] || ''
                   const titleVal = data[card.titleId] || ''
                   return (
-                    <div key={card.id} className="p-6 rounded-2xl border border-slate-200/60 bg-slate-50/30 flex flex-col md:flex-row gap-6 shadow-sm">
+                    <div key={card.id} className="p-6 rounded-2xl border border-slate-200/60 bg-slate-50/30 dark:bg-slate-800/30 flex flex-col md:flex-row gap-6 shadow-sm">
                       
                       {/* Image Preview Box */}
-                      <div className="w-full md:w-32 h-32 rounded-xl border border-slate-200 bg-slate-950 overflow-hidden shrink-0 relative flex items-center justify-center">
+                      <div className="w-full md:w-32 h-32 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-950 overflow-hidden shrink-0 relative flex items-center justify-center">
                         {val ? (
                           <img src={val} alt={titleVal || card.defaultLabel} className="w-full h-full object-cover" />
                         ) : (
-                          <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest text-center px-2">No Image Card</div>
+                          <div className="text-[9px] font-black text-slate-500 dark:text-slate-400 dark:text-slate-300 uppercase tracking-widest text-center px-2">No Image Card</div>
                         )}
                         {uploadingField === card.id && (
                           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -580,26 +580,26 @@ export default function SolutionsCMSPage() {
                             disabled={savingType !== null}
                             onChange={e => setData(prev => ({ ...prev, [card.titleId]: e.target.value }))}
                             placeholder={card.defaultLabel}
-                            className="w-full px-4 py-2 border border-slate-200 bg-white text-xs font-bold rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-colors disabled:opacity-50"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-colors disabled:opacity-50"
                           />
                         </div>
 
                         {/* Image URL & Upload button */}
                         <div className="space-y-1">
-                          <label className="text-[8px] font-black uppercase tracking-widest text-slate-400 block">Image URL / Local upload</label>
+                          <label className="text-[8px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300 block">Image URL / Local upload</label>
                           <div className="flex gap-2">
                             <input
                               value={val}
                               disabled={savingType !== null}
                               onChange={e => setData(prev => ({ ...prev, [card.id]: e.target.value }))}
                               placeholder="Image URL link..."
-                              className="flex-1 px-4 py-2.5 text-xs font-mono border border-slate-200 bg-white rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] disabled:opacity-50"
+                              className="flex-1 px-4 py-2.5 text-xs font-mono border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] disabled:opacity-50"
                             />
                             <button
                               type="button"
                               disabled={uploadingField !== null || savingType !== null}
                               onClick={() => triggerFileSelect(card.id)}
-                              className="px-3 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center text-slate-600 transition-colors disabled:opacity-50"
+                              className="px-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors disabled:opacity-50"
                             >
                               <Upload size={13} />
                             </button>
@@ -608,7 +608,7 @@ export default function SolutionsCMSPage() {
                               disabled={!val || savingType !== null}
                               onClick={() => setDeleteTarget({ field: card.id, label: `${titleVal || card.defaultLabel} Image Card` })}
                               className={cn(
-                                "px-3 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 transition-colors",
+                                "px-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 dark:text-slate-300 transition-colors",
                                 val ? "hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600" : "opacity-40 cursor-not-allowed"
                               )}
                             >
@@ -634,66 +634,66 @@ export default function SolutionsCMSPage() {
             {/* Header Content */}
             <div className="space-y-8">
               <div className="border-b border-slate-100 pb-4">
-                <h3 className="text-xl font-bold text-[#0A1628] font-sora">Environments section</h3>
-                <p className="text-slate-400 text-xs mt-1">Configure narrative titles, segment markers, and branding taglines for the Solutions Built for Real Environments grid.</p>
+                <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Environments section</h3>
+                <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Configure narrative titles, segment markers, and branding taglines for the Solutions Built for Real Environments grid.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Environments Badge</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Environments Badge</label>
                   <input 
                     type="text" 
                     value={data.env_badge}
                     disabled={savingType !== null}
                     onChange={e => setData({ ...data, env_badge: e.target.value })}
                     placeholder="Environments"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Environments Title</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Environments Title</label>
                   <input 
                     type="text" 
                     value={data.env_title}
                     disabled={savingType !== null}
                     onChange={e => setData({ ...data, env_title: e.target.value })}
                     placeholder="Solutions Built for Real Environments"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Environments Subtitle Narrative</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Environments Subtitle Narrative</label>
                 <textarea 
                   rows={3}
                   value={data.env_subtitle}
                   disabled={savingType !== null}
                   onChange={e => setData({ ...data, env_subtitle: e.target.value })}
                   placeholder="We don't just sell products; we transform physical spaces through cinematic visual engineering..."
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all resize-none disabled:opacity-50"
                 />
               </div>
             </div>
 
             {/* Individual Card Asset Upload Suite */}
             <div className="space-y-6 pt-8 border-t border-slate-100">
-              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 border-l-4 border-[#0D95F0] pl-3">Individual Environment Cards</h4>
+              <h4 className="text-sm font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 border-l-4 border-[#0D95F0] pl-3">Individual Environment Cards</h4>
               
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-4">
                 {envCards.map((card) => {
                   const val = data[card.id] || ''
                   const titleVal = data[card.titleId] || ''
                   return (
-                    <div key={card.id} className="p-6 rounded-2xl border border-slate-200/60 bg-slate-50/30 flex flex-col md:flex-row gap-6 shadow-sm">
+                    <div key={card.id} className="p-6 rounded-2xl border border-slate-200/60 bg-slate-50/30 dark:bg-slate-800/30 flex flex-col md:flex-row gap-6 shadow-sm">
                       
                       {/* Image Preview Box */}
-                      <div className="w-full md:w-32 h-32 rounded-xl border border-slate-200 bg-slate-950 overflow-hidden shrink-0 relative flex items-center justify-center">
+                      <div className="w-full md:w-32 h-32 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-950 overflow-hidden shrink-0 relative flex items-center justify-center">
                         {val ? (
                           <img src={val} alt={titleVal || card.defaultLabel} className="w-full h-full object-cover" />
                         ) : (
-                          <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest text-center px-2">No Image Card</div>
+                          <div className="text-[9px] font-black text-slate-500 dark:text-slate-400 dark:text-slate-300 uppercase tracking-widest text-center px-2">No Image Card</div>
                         )}
                         {uploadingField === card.id && (
                           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -714,26 +714,26 @@ export default function SolutionsCMSPage() {
                             disabled={savingType !== null}
                             onChange={e => setData(prev => ({ ...prev, [card.titleId]: e.target.value }))}
                             placeholder={card.defaultLabel}
-                            className="w-full px-4 py-2 border border-slate-200 bg-white text-xs font-bold rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-colors disabled:opacity-50"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-colors disabled:opacity-50"
                           />
                         </div>
 
                         {/* Image URL & Upload button */}
                         <div className="space-y-1">
-                          <label className="text-[8px] font-black uppercase tracking-widest text-slate-400 block">Image URL / Local upload</label>
+                          <label className="text-[8px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300 block">Image URL / Local upload</label>
                           <div className="flex gap-2">
                             <input
                               value={val}
                               disabled={savingType !== null}
                               onChange={e => setData(prev => ({ ...prev, [card.id]: e.target.value }))}
                               placeholder="Image URL link..."
-                              className="flex-1 px-4 py-2.5 text-xs font-mono border border-slate-200 bg-white rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] disabled:opacity-50"
+                              className="flex-1 px-4 py-2.5 text-xs font-mono border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-xl outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] disabled:opacity-50"
                             />
                             <button
                               type="button"
                               disabled={uploadingField !== null || savingType !== null}
                               onClick={() => triggerFileSelect(card.id)}
-                              className="px-3 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center text-slate-600 transition-colors disabled:opacity-50"
+                              className="px-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors disabled:opacity-50"
                             >
                               <Upload size={13} />
                             </button>
@@ -742,7 +742,7 @@ export default function SolutionsCMSPage() {
                               disabled={!val || savingType !== null}
                               onClick={() => setDeleteTarget({ field: card.id, label: `${titleVal || card.defaultLabel} Environment Card` })}
                               className={cn(
-                                "px-3 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 transition-colors",
+                                "px-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 dark:text-slate-300 transition-colors",
                                 val ? "hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600" : "opacity-40 cursor-not-allowed"
                               )}
                             >
@@ -771,14 +771,14 @@ export default function SolutionsCMSPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-              className="w-full max-w-md bg-white rounded-3xl border border-black/5 p-8 shadow-2xl space-y-6"
+              className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-black/5 dark:border-white/10 p-8 shadow-2xl space-y-6"
             >
               <div className="space-y-2 text-center">
                 <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-4">
                   <Trash2 size={22} />
                 </div>
-                <h3 className="text-lg font-black text-[#0A1628] tracking-tight">Remove Media Asset?</h3>
-                <p className="text-xs text-slate-400 font-bold leading-relaxed">
+                <h3 className="text-lg font-black text-[#0A1628] dark:text-white tracking-tight">Remove Media Asset?</h3>
+                <p className="text-xs text-slate-400 dark:text-slate-300 font-bold leading-relaxed">
                   Are you sure you want to delete <span className="font-extrabold text-slate-700">{deleteTarget.label}</span>? This action will clear the asset reference instantly from your active editor.
                 </p>
               </div>
@@ -787,7 +787,7 @@ export default function SolutionsCMSPage() {
                 <button
                   type="button"
                   onClick={() => setDeleteTarget(null)}
-                  className="flex-1 py-3 px-4 border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-black uppercase tracking-wider rounded-xl transition-all"
+                  className="flex-1 py-3 px-4 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 dark:text-slate-300 text-xs font-black uppercase tracking-wider rounded-xl transition-all"
                 >
                   Cancel
                 </button>

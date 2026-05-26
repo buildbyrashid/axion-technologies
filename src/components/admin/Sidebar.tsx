@@ -50,6 +50,7 @@ const navSections = [
       { name: 'About Page', href: '/admin/content/about', icon: FileText },
       { name: 'Solutions Page', href: '/admin/content/solutions', icon: Activity },
       { name: 'Industries', href: '/admin/content/industries', icon: Building2 },
+      { name: 'Footer Settings', href: '/admin/content/footer', icon: FileText },
     ],
   },
   {
@@ -240,16 +241,16 @@ export default function AdminSidebar() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[2rem] p-8 shadow-2xl z-[210] overflow-hidden"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-2xl z-[210] overflow-hidden border border-black/5 dark:border-white/10"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-rose-500" />
               <div className="flex flex-col items-center text-center space-y-6 relative z-10">
-                <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shadow-inner">
+                <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-950 flex items-center justify-center text-rose-500 shadow-inner">
                   <LogOut size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-[#0A1628] tracking-tight mb-2">Terminate Session?</h3>
-                  <p className="text-sm text-slate-500 font-medium">You will need to sign in again to access the admin portal.</p>
+                  <h3 className="text-xl font-black text-[#0A1628] dark:text-white tracking-tight mb-2">Terminate Session?</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 dark:text-slate-300 font-medium">You will need to sign in again to access the admin portal.</p>
                 </div>
                 <div className="w-full flex flex-col gap-3 pt-4">
                   <button
@@ -260,7 +261,7 @@ export default function AdminSidebar() {
                   </button>
                   <button
                     onClick={() => setShowLogoutConfirm(false)}
-                    className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-colors"
+                    className="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 dark:text-slate-300 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>

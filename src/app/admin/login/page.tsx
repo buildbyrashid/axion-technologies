@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-white relative overflow-hidden corporate-sharp-theme">
+    <div className="min-h-screen flex bg-white dark:bg-slate-900 relative overflow-hidden corporate-sharp-theme">
       {/* Background Decor Layer */}
       <div className="absolute inset-0 bg-grid-black/[0.02] bg-[size:40px_40px] pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white via-slate-50 to-white opacity-80 pointer-events-none" />
@@ -133,8 +133,8 @@ export default function AdminLoginPage() {
           </div>
 
           <div className="mb-12">
-            <h2 className="text-5xl font-black text-[#0A1628] tracking-tighter mb-3 leading-tight">Sign in</h2>
-            <p className="text-slate-500 text-lg font-medium">Use your staff account to access the admin dashboard.</p>
+            <h2 className="text-5xl font-black text-[#0A1628] dark:text-white tracking-tighter mb-3 leading-tight">Sign in</h2>
+            <p className="text-slate-500 dark:text-slate-400 dark:text-slate-300 text-lg font-medium">Use your staff account to access the admin dashboard.</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-8">
@@ -152,7 +152,7 @@ export default function AdminLoginPage() {
             )}
 
             <div className="space-y-3 group/input">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Username</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Username</label>
               <div className="relative">
                 <User size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0D95F0] transition-colors" />
                 <input
@@ -162,13 +162,13 @@ export default function AdminLoginPage() {
                   required
                   autoComplete="username"
                   placeholder="Enter your username"
-                  className="w-full pl-16 pr-6 py-5 rounded-[2rem] bg-white border border-black/5 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
+                  className="w-full pl-16 pr-6 py-5 rounded-[2rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] dark:text-white font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
                 />
               </div>
             </div>
 
             <div className="space-y-3 group/input">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest ml-1">Password</label>
               <div className="relative">
                 <Lock size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0D95F0] transition-colors" />
                 <input
@@ -178,7 +178,7 @@ export default function AdminLoginPage() {
                   required
                   autoComplete="current-password"
                   placeholder="Enter your password"
-                  className="w-full pl-16 pr-14 py-5 rounded-[2rem] bg-white border border-black/5 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
+                  className="w-full pl-16 pr-14 py-5 rounded-[2rem] bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 focus:border-[#0D95F0]/20 focus:ring-8 focus:ring-[#0D95F0]/5 outline-none transition-all text-[#0A1628] dark:text-white font-black text-sm tracking-tight placeholder:text-slate-300 shadow-sm"
                 />
                 <button
                   type="button"

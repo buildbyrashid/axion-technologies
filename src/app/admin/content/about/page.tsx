@@ -194,7 +194,7 @@ export default function AboutPageCMS() {
             </div>
             <SpatialBadge variant="blue">Corporate Portal</SpatialBadge>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0A1628] tracking-tighter">About Page CMS</h1>
+          <h1 className="text-3xl font-extrabold text-[#0A1628] dark:text-white tracking-tighter">About Page CMS</h1>
         </div>
 
         {/* Action / Status Controls Area */}
@@ -212,7 +212,7 @@ export default function AboutPageCMS() {
                   type="button"
                   onClick={() => handleSave('draft')}
                   disabled={savingType !== null}
-                  className="flex items-center justify-center h-12 px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center h-12 px-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {savingType === 'draft' ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                   SAVE DRAFT
@@ -253,7 +253,7 @@ export default function AboutPageCMS() {
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 border border-slate-200/40 rounded-xl shadow-sm text-slate-500">
+                  <div className="flex items-center gap-2 h-12 px-5 bg-slate-100 dark:bg-slate-800 border border-slate-200/40 rounded-xl shadow-sm text-slate-500 dark:text-slate-400 dark:text-slate-300">
                     <Check size={14} className="text-emerald-500" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       SAVED AS DRAFT
@@ -276,7 +276,7 @@ export default function AboutPageCMS() {
       </div>
 
       {/* Tabs list navigation */}
-      <div className="border-b border-black/5 flex items-center gap-2 overflow-x-auto pb-px">
+      <div className="border-b border-black/5 dark:border-white/10 flex items-center gap-2 overflow-x-auto pb-px">
         {[
           { id: 'hero', label: 'Hero Banner', icon: ImageIcon },
           { id: 'who-we-are', label: 'Who We Are Story', icon: BookOpen },
@@ -290,11 +290,11 @@ export default function AboutPageCMS() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-6 py-4 border-b-2 font-bold text-sm tracking-tight transition-all whitespace-nowrap ${
                 isSelected 
-                  ? 'border-[#0D95F0] text-[#0A1628] bg-slate-50' 
-                  : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50/50'
+                  ? 'border-[#0D95F0] text-[#0A1628] dark:text-white bg-slate-50 dark:bg-slate-800' 
+                  : 'border-transparent text-slate-400 dark:text-slate-300 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-50/50 dark:bg-slate-800/50'
               }`}
             >
-              <Icon size={16} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400'} />
+              <Icon size={16} className={isSelected ? 'text-[#0D95F0]' : 'text-slate-400 dark:text-slate-300'} />
               {tab.label}
             </button>
           )
@@ -302,57 +302,57 @@ export default function AboutPageCMS() {
       </div>
 
       {/* Form Area */}
-      <div className="bg-white rounded-[2rem] border border-black/5 p-8 lg:p-12 shadow-sm max-w-[1800px] mx-auto w-full">
+      <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-black/5 dark:border-white/10 p-8 lg:p-12 shadow-sm max-w-[1800px] mx-auto w-full">
         
         {/* Tab 1: Hero banner parameters */}
         {activeTab === 'hero' && (
           <div className="space-y-8">
             <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Hero banner controls</h3>
-              <p className="text-slate-400 text-xs mt-1">Configure primary backgrounds and initial titles displayed on the About Us page.</p>
+              <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Hero banner controls</h3>
+              <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Configure primary backgrounds and initial titles displayed on the About Us page.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Badge Label</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Hero Badge Label</label>
                 <input 
                   type="text" 
                   value={data.hero_badge}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, hero_badge: e.target.value })}
                   placeholder="About Us"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Primary Hero Title</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Primary Hero Title</label>
                 <input 
                   type="text" 
                   value={data.hero_title}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, hero_title: e.target.value })}
                   placeholder="Engineering Technology for Modern Visual Environments"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Hero Subtitle Narrative</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Hero Subtitle Narrative</label>
               <textarea 
                 rows={3}
                 value={data.hero_subtitle}
                 disabled={isSaving}
                 onChange={e => setData({ ...data, hero_subtitle: e.target.value })}
                 placeholder="Write a brief introduction to welcome visitors..."
-                className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
               />
             </div>
 
             {/* Hero Background Image Picker & Preview */}
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Background Image Url / File</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Background Image Url / File</label>
               
               <div className="flex flex-col sm:flex-row gap-3">
                 <input 
@@ -361,10 +361,10 @@ export default function AboutPageCMS() {
                   disabled={isSaving}
                   onChange={e => setData({ ...data, hero_image: e.target.value })}
                   placeholder="https://example.com/image.jpg"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
                 
-                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
                   {uploadingField === 'hero_image' ? (
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
@@ -394,7 +394,7 @@ export default function AboutPageCMS() {
 
               {/* Dynamic image preview pane */}
               {data.hero_image && (
-                <div className="relative rounded-[2rem] border border-black/5 overflow-hidden max-w-xl shadow-inner group bg-slate-50">
+                <div className="relative rounded-[2rem] border border-black/5 dark:border-white/10 overflow-hidden max-w-xl shadow-inner group bg-slate-50 dark:bg-slate-800">
                   <div className="aspect-[21/9] w-full relative">
                     <img 
                       src={data.hero_image} 
@@ -426,80 +426,80 @@ export default function AboutPageCMS() {
         {activeTab === 'who-we-are' && (
           <div className="space-y-8">
             <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Corporate Storytelling</h3>
-              <p className="text-slate-400 text-xs mt-1">Update your team background, badges, narrative text blocks, and secondary visual assets.</p>
+              <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Corporate Storytelling</h3>
+              <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Update your team background, badges, narrative text blocks, and secondary visual assets.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Badge Tagline</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Badge Tagline</label>
                 <input 
                   type="text" 
                   value={data.who_we_are_badge}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, who_we_are_badge: e.target.value })}
                   placeholder="Who We Are"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Headline</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Headline</label>
                 <input 
                   type="text" 
                   value={data.who_we_are_title}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, who_we_are_title: e.target.value })}
                   placeholder="Global Leaders in Visual Engineering"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Narrative Paragraph 1</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Narrative Paragraph 1</label>
                 <textarea 
                   rows={4}
                   value={data.who_we_are_paragraph_1}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, who_we_are_paragraph_1: e.target.value })}
                   placeholder="Explain who you are..."
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Narrative Paragraph 2</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Narrative Paragraph 2</label>
                 <textarea 
                   rows={4}
                   value={data.who_we_are_paragraph_2}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, who_we_are_paragraph_2: e.target.value })}
                   placeholder="Add experience details, partners, or global logistics info..."
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Technical Reach Summary</label>
+                <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Technical Reach Summary</label>
                 <input 
                   type="text" 
                   value={data.technical_reach}
                   disabled={isSaving}
                   onChange={e => setData({ ...data, technical_reach: e.target.value })}
                   placeholder="Hong Kong | Shenzhen | Dubai"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
-                <p className="text-[10px] text-slate-400">Displays inside the white floating highlight box overlaid on the side column image.</p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-300">Displays inside the white floating highlight box overlaid on the side column image.</p>
               </div>
             </div>
 
             {/* Who We Are Story Image */}
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Side Column Visual Graphic Url / File</label>
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Side Column Visual Graphic Url / File</label>
               
               <div className="flex flex-col sm:flex-row gap-3">
                 <input 
@@ -508,10 +508,10 @@ export default function AboutPageCMS() {
                   disabled={isSaving}
                   onChange={e => setData({ ...data, who_we_are_image: e.target.value })}
                   placeholder="https://example.com/who-we-are.jpg"
-                  className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-slate-50/50 text-[#0A1628] text-sm font-semibold outline-none focus:bg-white focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                  className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-slate-50/50 dark:bg-slate-800/50 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:bg-white dark:bg-slate-900 focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                 />
                 
-                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <label className="relative shrink-0 flex items-center justify-center px-6 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all">
                   {uploadingField === 'who_we_are_image' ? (
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
@@ -541,7 +541,7 @@ export default function AboutPageCMS() {
 
               {/* Graphic preview card */}
               {data.who_we_are_image && (
-                <div className="relative rounded-[2rem] border border-black/5 overflow-hidden max-w-xl shadow-inner group bg-slate-50">
+                <div className="relative rounded-[2rem] border border-black/5 dark:border-white/10 overflow-hidden max-w-xl shadow-inner group bg-slate-50 dark:bg-slate-800">
                   <div className="aspect-[4/3] w-full relative">
                     <img 
                       src={data.who_we_are_image} 
@@ -573,82 +573,82 @@ export default function AboutPageCMS() {
         {activeTab === 'core-strengths' && (
           <div className="space-y-8">
             <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-xl font-bold text-[#0A1628] font-sora">Corporate Strategic Strengths</h3>
-              <p className="text-slate-400 text-xs mt-1">Configure titles and descriptions for the Global Operations and Visual Solutions panels.</p>
+              <h3 className="text-xl font-bold text-[#0A1628] dark:text-white font-sora">Corporate Strategic Strengths</h3>
+              <p className="text-slate-400 dark:text-slate-300 text-xs mt-1">Configure titles and descriptions for the Global Operations and Visual Solutions panels.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               
               {/* Operations Column */}
-              <div className="bg-slate-50/50 border border-black/5 rounded-[2rem] p-8 space-y-6">
+              <div className="bg-slate-50/50 dark:bg-slate-800/50 border border-black/5 dark:border-white/10 rounded-[2rem] p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-100 text-[#0D95F0] rounded-2xl flex items-center justify-center">
                     <Building2 size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#0A1628] text-base leading-tight">Global Operations</h4>
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mt-0.5">Operations management</span>
+                    <h4 className="font-bold text-[#0A1628] dark:text-white text-base leading-tight">Global Operations</h4>
+                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block mt-0.5">Operations management</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Header</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Header</label>
                   <input 
                     type="text" 
                     value={data.global_operations_title}
                     disabled={isSaving}
                     onChange={e => setData({ ...data, global_operations_title: e.target.value })}
                     placeholder="Global Operations"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-slate-900 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Operations Narrative Description</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Operations Narrative Description</label>
                   <textarea 
                     rows={6}
                     value={data.global_operations_description}
                     disabled={isSaving}
                     onChange={e => setData({ ...data, global_operations_description: e.target.value })}
                     placeholder="Describe your manufacturing coordinators, logistics hubs, and quality check processes..."
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-slate-900 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
                   />
                 </div>
               </div>
 
               {/* Visual Solutions Column */}
-              <div className="bg-slate-50/50 border border-black/5 rounded-[2rem] p-8 space-y-6">
+              <div className="bg-slate-50/50 dark:bg-slate-800/50 border border-black/5 dark:border-white/10 rounded-[2rem] p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-indigo-100 text-indigo-500 rounded-2xl flex items-center justify-center">
                     <Bookmark size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#0A1628] text-base leading-tight">Visual Solutions</h4>
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mt-0.5">Technology strategy</span>
+                    <h4 className="font-bold text-[#0A1628] dark:text-white text-base leading-tight">Visual Solutions</h4>
+                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block mt-0.5">Technology strategy</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Section Header</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Section Header</label>
                   <input 
                     type="text" 
                     value={data.visual_solutions_title}
                     disabled={isSaving}
                     onChange={e => setData({ ...data, visual_solutions_title: e.target.value })}
                     placeholder="Visual Solutions"
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-slate-900 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Solutions Narrative Description</label>
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-widest block">Solutions Narrative Description</label>
                   <textarea 
                     rows={6}
                     value={data.visual_solutions_description}
                     disabled={isSaving}
                     onChange={e => setData({ ...data, visual_solutions_description: e.target.value })}
                     placeholder="Describe your LED display specs, COB/MIP systems, and custom engineering parameters..."
-                    className="w-full px-6 py-4 rounded-2xl border border-black/5 bg-white text-[#0A1628] text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
+                    className="w-full px-6 py-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-slate-900 text-[#0A1628] dark:text-white text-sm font-semibold outline-none focus:border-[#0D95F0] focus:ring-1 focus:ring-[#0D95F0] transition-all disabled:opacity-50 resize-none leading-relaxed"
                   />
                 </div>
               </div>
@@ -678,11 +678,11 @@ export default function AboutPageCMS() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: "spring", duration: 0.4 }}
-              className="relative bg-white w-full max-w-md rounded-[2rem] border border-black/5 p-8 shadow-2xl z-10 overflow-hidden"
+              className="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[2rem] border border-black/5 dark:border-white/10 p-8 shadow-2xl z-10 overflow-hidden"
             >
               <button 
                 onClick={() => setDeleteTarget(null)}
-                className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-50 transition-all"
+                className="absolute top-6 right-6 p-2 text-slate-400 dark:text-slate-300 hover:text-slate-600 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:bg-slate-800 transition-all"
               >
                 <X size={16} />
               </button>
@@ -692,9 +692,9 @@ export default function AboutPageCMS() {
                   <Trash2 size={28} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-xl font-bold text-[#0A1628] tracking-tight">Confirm clear asset</h4>
-                  <p className="text-slate-400 text-xs px-2 leading-relaxed">
-                    Are you sure you want to remove the path reference for <strong className="text-slate-600 font-semibold">{deleteTarget.label}</strong>? This action will collapse the image preview.
+                  <h4 className="text-xl font-bold text-[#0A1628] dark:text-white tracking-tight">Confirm clear asset</h4>
+                  <p className="text-slate-400 dark:text-slate-300 text-xs px-2 leading-relaxed">
+                    Are you sure you want to remove the path reference for <strong className="text-slate-600 dark:text-slate-300 font-semibold">{deleteTarget.label}</strong>? This action will collapse the image preview.
                   </p>
                 </div>
               </div>
@@ -702,7 +702,7 @@ export default function AboutPageCMS() {
               <div className="flex gap-3 mt-8">
                 <button
                   onClick={() => setDeleteTarget(null)}
-                  className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl transition-all border border-slate-200/40"
+                  className="flex-1 py-4 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:bg-slate-800 text-slate-700 text-xs font-black uppercase tracking-widest rounded-2xl transition-all border border-slate-200/40"
                 >
                   Cancel
                 </button>

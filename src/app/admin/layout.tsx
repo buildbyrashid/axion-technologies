@@ -18,11 +18,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <AdminProvider>
-      <div suppressHydrationWarning className="flex h-screen bg-[#F8FAFC] overflow-hidden relative corporate-sharp-theme">
+      <div suppressHydrationWarning className="flex h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden relative corporate-sharp-theme transition-colors duration-300">
         {/* Spatial Background Architecture */}
         <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-[#0D95F0]/[0.03] rounded-full blur-[140px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-slate-200/[0.2] rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-white rounded-full blur-[160px] opacity-40 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-slate-200/[0.2] dark:bg-slate-800/[0.2] rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-white dark:bg-slate-900 rounded-full blur-[160px] opacity-40 dark:opacity-20 pointer-events-none" />
         
         <AdminSidebar />
         <CommandPalette />

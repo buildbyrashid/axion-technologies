@@ -10,7 +10,7 @@ const statusConfig: Record<Status, { label: string; dot: string; bg: string; tex
   read: { label: 'Read', dot: 'bg-blue-500', bg: 'bg-blue-50', text: 'text-blue-700' },
   replied: { label: 'Replied', dot: 'bg-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-700' },
   closed: { label: 'Closed', dot: 'bg-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-  archived: { label: 'Archived', dot: 'bg-slate-400', bg: 'bg-slate-50', text: 'text-slate-600' },
+  archived: { label: 'Archived', dot: 'bg-slate-400', bg: 'bg-slate-50 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-300' },
 }
 
 interface StatusBadgeProps {

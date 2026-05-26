@@ -139,7 +139,7 @@ export default function MediaUploader({
           'relative border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer group',
           dragOver
             ? 'border-[#0D95F0] bg-[#0D95F0]/5'
-            : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
+            : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 bg-slate-50/50 dark:bg-slate-800/50'
         )}
       >
         <input
@@ -153,15 +153,15 @@ export default function MediaUploader({
           {uploading ? (
             <Loader2 size={32} className="text-[#0D95F0] animate-spin" />
           ) : (
-            <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-[#0D95F0] group-hover:border-[#0D95F0]/30 transition-all shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-300 group-hover:text-[#0D95F0] group-hover:border-[#0D95F0]/30 transition-all shadow-sm">
               <Upload size={22} />
             </div>
           )}
           <div>
-            <p className="text-sm font-bold text-slate-600">
+            <p className="text-sm font-bold text-slate-600 dark:text-slate-300">
               {uploading ? 'Uploading...' : 'Drop files here or click to upload'}
             </p>
-            <p className="text-xs text-slate-400 mt-1">{helperText}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-300 mt-1">{helperText}</p>
           </div>
         </div>
       </div>
@@ -173,8 +173,8 @@ export default function MediaUploader({
             <div
               key={index}
               className={cn(
-                'relative group rounded-xl overflow-hidden border-2 aspect-square bg-slate-100 transition-all',
-                file.is_primary ? 'border-[#0D95F0] ring-2 ring-[#0D95F0]/20' : 'border-transparent hover:border-slate-200'
+                'relative group rounded-xl overflow-hidden border-2 aspect-square bg-slate-100 dark:bg-slate-800 transition-all',
+                file.is_primary ? 'border-[#0D95F0] ring-2 ring-[#0D95F0]/20' : 'border-transparent hover:border-slate-200 dark:border-slate-800'
               )}
             >
               <Image
@@ -194,7 +194,7 @@ export default function MediaUploader({
                       'w-8 h-8 rounded-lg flex items-center justify-center transition-all',
                       file.is_primary
                         ? 'bg-[#0D95F0] text-white'
-                        : 'bg-white/90 text-slate-600 hover:bg-[#0D95F0] hover:text-white'
+                        : 'bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:bg-[#0D95F0] hover:text-white'
                     )}
                     title="Set as cover image"
                   >
@@ -204,7 +204,7 @@ export default function MediaUploader({
                 <button
                   type="button"
                   onClick={() => removeFile(index)}
-                  className="w-8 h-8 rounded-lg bg-white/90 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all"
+                  className="w-8 h-8 rounded-lg bg-white/90 dark:bg-slate-900/90 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all"
                   title="Remove"
                 >
                   <X size={14} />
@@ -224,9 +224,9 @@ export default function MediaUploader({
 
       {/* Empty State */}
       {files.length === 0 && !uploading && (
-        <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+        <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100">
           <ImageIcon size={18} className="text-slate-300" />
-          <span className="text-sm text-slate-400">No files uploaded yet</span>
+          <span className="text-sm text-slate-400 dark:text-slate-300">No files uploaded yet</span>
         </div>
       )}
     </div>
