@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Mail, Globe, MapPin, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 import { useState } from "react";
 import QuoteModal from "@/components/modals/QuoteModal";
@@ -97,8 +98,10 @@ export default function CTASection({ data }: { data?: CTAData | null }) {
                   Request a Consultation
                   <ArrowUpRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-primary hover:border-transparent px-10 h-14 text-base lg:text-lg font-bold transition-all duration-500">
-                  Contact Our Team
+                <Button asChild size="lg" variant="outline" className="border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-primary hover:border-transparent px-10 h-14 text-base lg:text-lg font-bold transition-all duration-500">
+                  <Link href="/contact">
+                    Contact Our Team
+                  </Link>
                 </Button>
               </div>
             </motion.div>
