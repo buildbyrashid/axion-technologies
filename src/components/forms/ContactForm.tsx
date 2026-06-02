@@ -142,7 +142,11 @@ export default function ContactForm() {
             type="tel"
             className="w-full px-4 py-3.5 bg-white border border-slate-200 focus:ring-accent/10 focus:outline-none focus:ring-2 focus:border-accent transition-all text-sm font-medium placeholder:text-slate-300 shadow-sm"
             placeholder="+1 234 567 890"
-            {...register('phone')}
+            {...register('phone', {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+              }
+            })}
           />
         </div>
       </div>

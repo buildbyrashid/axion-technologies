@@ -1142,7 +1142,7 @@ export default function ProductsCard({
           {view.level !== "categories" && (
             <button
               onClick={handleBack}
-              className="flex sm:hidden items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 w-fit rounded-none-none"
+              className="flex sm:hidden items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 w-fit rounded-none-none select-none"
             >
               <ArrowLeft size={16} />
               Back
@@ -1152,7 +1152,7 @@ export default function ProductsCard({
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
               onClick={() => router.push("/products")}
-              className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all rounded-none-none ${
+              className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all rounded-none-none select-none ${
                 view.level === "categories" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
               }`}
             >
@@ -1163,7 +1163,7 @@ export default function ProductsCard({
                 <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
                 <button
                   onClick={() => router.push(productCategories[view.categoryIndex!].href)}
-                  className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all rounded-none-none ${
+                  className={`text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 transition-all rounded-none-none select-none ${
                     view.level === "subcategories" ? "bg-blue-600 text-white shadow-lg" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
                   }`}
                 >
@@ -1175,7 +1175,7 @@ export default function ProductsCard({
               <>
                 <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
                 <button
-                  className="text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 bg-blue-600 text-white shadow-lg rounded-none-none"
+                  className="text-[11px] font-bold uppercase tracking-wider whitespace-nowrap px-3 py-1.5 bg-blue-600 text-white shadow-lg rounded-none-none select-none"
                 >
                   {productCategories[view.categoryIndex!].subcategories[view.subCategoryIndex].name}
                 </button>
@@ -1186,7 +1186,7 @@ export default function ProductsCard({
           {view.level !== "categories" && (
             <button
               onClick={handleBack}
-              className="hidden sm:flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-none-none"
+              className="hidden sm:flex items-center gap-2 text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-4 py-2 rounded-none-none select-none"
             >
               <ArrowLeft size={16} />
               Back
@@ -1219,13 +1219,6 @@ export default function ProductsCard({
                   <h3 className="text-sm font-bold text-white uppercase tracking-tight">
                     {item.name}
                   </h3>
-                </div>
-
-                {/* Level Indicator */}
-                <div className="absolute top-4 right-4">
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 text-[9px] font-bold text-white uppercase rounded-none-none">
-                    {view.level === "categories" ? "Category" : view.level === "subcategories" ? "Sub Category" : "Product"}
-                  </div>
                 </div>
               </div>
 
@@ -1269,7 +1262,7 @@ export default function ProductsCard({
                   {view.level === "products" ? (
                     <Link
                       href={`${productCategories[view.categoryIndex!].href}/${productCategories[view.categoryIndex!].subcategories[view.subCategoryIndex!].name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}/${item.href.split('/').pop()}`}
-                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-all font-bold text-[12px] shadow-lg shadow-blue-200 rounded-none-none"
+                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-blue-600 text-white hover:bg-blue-700 transition-all font-bold text-[12px] shadow-lg shadow-blue-200 rounded-none-none select-none"
                     >
                       Explore Product
                       <ArrowUpRight className="h-4 w-4" />
@@ -1284,7 +1277,7 @@ export default function ProductsCard({
                           router.push(`${productCategories[view.categoryIndex!].href}/${subcatSlug}`);
                         }
                       }}
-                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-white text-blue-600 border-blue-100 hover:bg-blue-50 transition-all font-bold text-[12px] rounded-none-none"
+                      className="inline-flex w-full items-center justify-center px-4 border gap-2 py-3 bg-white text-blue-600 border-blue-100 hover:bg-blue-50 transition-all font-bold text-[12px] rounded-none-none select-none"
                     >
                       View Details
                       <ChevronRight className="h-4 w-4" />

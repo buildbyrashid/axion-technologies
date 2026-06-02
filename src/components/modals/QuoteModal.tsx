@@ -90,9 +90,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
+    let finalValue = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+
+    if (name === "phone" && typeof finalValue === "string") {
+      finalValue = finalValue.replace(/\D/g, "");
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+      [name]: finalValue,
     }));
   };
 
