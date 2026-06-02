@@ -74,13 +74,13 @@ export default function ProductsSection({ data }: { data?: any[] }) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-slate-500 mt-4 max-w-2xl"
+            className="text-slate-500 mt-4 max-w-2xl text-lg"
           >
             Precision-built technology systems designed for performance and reliability in demanding environments.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 auto-rows-[300px] sm:auto-rows-[350px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 auto-rows-[250px] sm:auto-rows-[300px] lg:auto-rows-[210px] xl:auto-rows-[240px] 2xl:auto-rows-[270px]">
           {displayProducts.map((product, index) => {
             const gridClass = index === 0 ? "lg:col-span-2 lg:row-span-2" : "lg:col-span-1 lg:row-span-1";
             return (
@@ -108,7 +108,7 @@ export default function ProductsSection({ data }: { data?: any[] }) {
                 </div>
 
                 {/* Content Overlay */}
-                <div className="relative z-10 mt-auto p-8 w-full">
+                <div className="relative z-10 mt-auto p-6 sm:p-8 w-full">
                   <div className="flex items-end justify-between">
                     <div className="flex-1">
                       <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em] mb-2 block">

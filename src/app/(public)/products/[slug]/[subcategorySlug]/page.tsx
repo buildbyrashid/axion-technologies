@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import HeroCarousel from "@/components/products/HeroCarousel";
 import ProductsCard from "@/components/products/ProductsCard";
 
 interface Props {
@@ -65,8 +64,7 @@ export default async function SubcategoryPage({ params }: Props) {
   const { slug, subcategorySlug } = await params;
 
   return (
-    <div className="bg-[#ffff]">
-      <HeroCarousel />
+    <div className="bg-[#ffff] pt-24 lg:pt-32">
       <ProductsCard initialCategorySlug={slug} initialSubcategorySlug={subcategorySlug} />
     </div>
   );
