@@ -37,26 +37,54 @@ const navLinks = [
 ];
 
 /* ─────────────────────────── TopBar ────────────────────────── */
-function TopBar() {
+function TopBar({ contactInfo }: { contactInfo: any }) {
+  const getWhatsAppUrl = (num: string) => {
+    if (!num) return "";
+    return `https://wa.me/${num.replace(/\D/g, "")}`;
+  };
+
+  const displayWhatsApp = contactInfo.whatsapp_number || contactInfo.phone || "";
+  const whatsAppUrl = getWhatsAppUrl(displayWhatsApp);
+
   return (
     <div className="bg-[#021752] text-white py-2 px-6 sm:px-12 lg:px-20 hidden md:block">
       <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[13px] font-medium">
         <div className="flex items-center space-x-6">
-          <a href="mailto:sales@axiontechnology.com" className="flex items-center hover:text-accent transition-colors">
-            <Mail className="h-3.5 w-3.5 mr-2 text-accent" />
-            Email: sales@axiontechnology.com
-          </a>
-          <a href="https://wa.me/85223456789" className="flex items-center hover:text-accent transition-colors">
-            <FaWhatsapp className="h-3.5 w-3.5 mr-2 text-accent" />
-            Whatsapp: +852 2345 6789
-          </a>
+          {contactInfo.email && (
+            <a href={`mailto:${contactInfo.email}`} className="flex items-center hover:text-accent transition-colors">
+              <Mail className="h-3.5 w-3.5 mr-2 text-accent" />
+              Email: {contactInfo.email}
+            </a>
+          )}
+          {displayWhatsApp && (
+            <a href={whatsAppUrl} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-accent transition-colors">
+              <FaWhatsapp className="h-3.5 w-3.5 mr-2 text-accent" />
+              Whatsapp: {displayWhatsApp}
+            </a>
+          )}
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-4">
-            <FaFacebookF className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
-            <FaTwitter className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
-            <FaLinkedinIn className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
-            <FaInstagram className="h-3.5 w-3.5 hover:text-accent cursor-pointer transition-colors" />
+            {contactInfo.facebook_url && (
+              <a href={contactInfo.facebook_url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <FaFacebookF className="h-3.5 w-3.5" />
+              </a>
+            )}
+            {contactInfo.twitter_url && (
+              <a href={contactInfo.twitter_url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <FaTwitter className="h-3.5 w-3.5" />
+              </a>
+            )}
+            {contactInfo.linkedin_url && (
+              <a href={contactInfo.linkedin_url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <FaLinkedinIn className="h-3.5 w-3.5" />
+              </a>
+            )}
+            {contactInfo.instagram_url && (
+              <a href={contactInfo.instagram_url} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <FaInstagram className="h-3.5 w-3.5" />
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -120,7 +148,17 @@ const backSlideVariants = {
 };
 
 /* ─────────────────────────── Navbar ────────────────────────── */
-export default function Navbar() {
+const defaultContactInfo = {
+  email: "sales@axiontechnology.com",
+  phone: "+852 2345 6789",
+  whatsapp_number: "+852 2345 6789",
+  facebook_url: "",
+  twitter_url: "",
+  linkedin_url: "",
+  instagram_url: "",
+};
+
+export default function Navbar({ contactInfo = defaultContactInfo }: { contactInfo?: any }) {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -197,7 +235,7 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <TopBar />
+              <TopBar contactInfo={contactInfo} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -435,14 +473,18 @@ export default function Navbar() {
                           className="px-6 py-4 space-y-2 border-t"
                           style={{ borderColor: "rgba(255,255,255,0.06)" }}
                         >
-                          <a href="mailto:sales@axiontechnology.com" className="flex items-center gap-3 text-[12px] text-white/40 hover:text-white/70 transition-colors">
-                            <Mail size={13} />
-                            sales@axiontechnology.com
-                          </a>
-                          <a href="https://wa.me/85223456789" className="flex items-center gap-3 text-[12px] text-white/40 hover:text-white/70 transition-colors">
-                            <FaWhatsapp size={13} />
-                            +852 2345 6789
-                          </a>
+                          {contactInfo.email && (
+                            <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-3 text-[12px] text-white/40 hover:text-white/70 transition-colors">
+                              <Mail size={13} />
+                              {contactInfo.email}
+                            </a>
+                          )}
+                          {(contactInfo.whatsapp_number || contactInfo.phone) && (
+                            <a href={`https://wa.me/${(contactInfo.whatsapp_number || contactInfo.phone).replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[12px] text-white/40 hover:text-white/70 transition-colors">
+                              <FaWhatsapp size={13} />
+                              {contactInfo.whatsapp_number || contactInfo.phone}
+                            </a>
+                          )}
                         </div>
                       </div>
                     )}
@@ -590,9 +632,21 @@ export default function Navbar() {
                   Axion Technology
                 </span>
                 <div className="flex items-center gap-4">
-                  <FaLinkedinIn size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
-                  <FaInstagram size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
-                  <FaWhatsapp size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
+                  {contactInfo.linkedin_url && (
+                    <a href={contactInfo.linkedin_url} target="_blank" rel="noopener noreferrer">
+                      <FaLinkedinIn size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
+                    </a>
+                  )}
+                  {contactInfo.instagram_url && (
+                    <a href={contactInfo.instagram_url} target="_blank" rel="noopener noreferrer">
+                      <FaInstagram size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
+                    </a>
+                  )}
+                  {(contactInfo.whatsapp_number || contactInfo.phone) && (
+                    <a href={`https://wa.me/${(contactInfo.whatsapp_number || contactInfo.phone).replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
+                      <FaWhatsapp size={13} style={{ color: "rgba(255,255,255,0.3)" }} className="cursor-pointer hover:text-white transition-colors" />
+                    </a>
+                  )}
                 </div>
               </div>
 
